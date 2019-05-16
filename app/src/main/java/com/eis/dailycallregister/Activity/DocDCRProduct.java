@@ -675,7 +675,7 @@ public class DocDCRProduct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //dialog.dismiss();
-                Toast.makeText(DocDCRProduct.this, "Can not Cancel !", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DocDCRProduct.this, "Answer all questions and submit !", Toast.LENGTH_SHORT).show();
             }
         });
         submitbtn.setOnClickListener(new View.OnClickListener() {

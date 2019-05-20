@@ -11,6 +11,7 @@ import com.eis.dailycallregister.Pojo.DCRGiftListRes;
 import com.eis.dailycallregister.Pojo.DCRProdListRes;
 import com.eis.dailycallregister.Pojo.DefaultResponse;
 import com.eis.dailycallregister.Pojo.DoctorListAWRes;
+import com.eis.dailycallregister.Pojo.EpidermPopUpRes;
 import com.eis.dailycallregister.Pojo.ErrorBooleanResponce;
 import com.eis.dailycallregister.Pojo.FetchExpdtRes;
 import com.eis.dailycallregister.Pojo.GetDcrDateRes;
@@ -308,6 +309,18 @@ public interface Api {
             @Field("dcrmth") String dcrmth,
             @Field("dcryr") String dcryr,
             @Field("cntcd") String cntcd,
+            @Field("DBPrefix") String dbprefix
+    );
+
+    @FormUrlEncoded
+    @POST("get117611771187.php")
+    Call<EpidermPopUpRes> get117611771187(
+            @Field("ecode") String ecode,
+            @Field("netid") String netid,
+            @Field("dcrdate") String dcrdate,
+            @Field("cntcd") String cntcd,
+            @Field("prodid") String prodid,
+            @Field("dcrno") String dcrno,
             @Field("DBPrefix") String dbprefix
     );
 }

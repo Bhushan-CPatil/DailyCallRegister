@@ -13,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatCheckBox;
+import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +31,8 @@ import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,10 +41,12 @@ import com.eis.dailycallregister.Api.RetrofitClient;
 import com.eis.dailycallregister.Others.Global;
 import com.eis.dailycallregister.Others.ViewDialog;
 import com.eis.dailycallregister.Pojo.DCRGiftListRes;
+import com.eis.dailycallregister.Pojo.DCRProdDemoDetItem;
 import com.eis.dailycallregister.Pojo.DCRProdListRes;
 import com.eis.dailycallregister.Pojo.DcrddrlstItem;
 import com.eis.dailycallregister.Pojo.DcrproductlistItem;
 import com.eis.dailycallregister.Pojo.DefaultResponse;
+import com.eis.dailycallregister.Pojo.EpidermPopUpRes;
 import com.eis.dailycallregister.Pojo.GetPopupQuesRes;
 import com.eis.dailycallregister.Pojo.QuestionslistItem;
 import com.eis.dailycallregister.R;
@@ -87,6 +92,7 @@ public class DocDCRProduct extends AppCompatActivity {
     int position;
     public List<DcrproductlistItem> dcrprodlst = new ArrayList<>();
     public List<QuestionslistItem> questionslist = new ArrayList<>();
+    public List<DCRProdDemoDetItem> pop1data = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -388,9 +394,9 @@ public class DocDCRProduct extends AppCompatActivity {
                                 myHolder.rx.setText(model.getRxQTY());
                             }
                             if(model.isTaggedflag() && model.getHsbrandid().contains(model.getGRP()) && model.getDEMO().equalsIgnoreCase("Y") && (model.isSpldrflag() || model.getLastmodifydate().equalsIgnoreCase(Global.dcrdate)) && model.isDateflag()){
-                                popupSelection(model.getPRODID(),cntcd,model.isFlag1176(),model.isFlag1177(),model.isFlag3009(),model.isTaggedflag(),model.isFlag1187(),"popupTag");
+                                popupSelection(model.getPRODID(),cntcd,model.isFlag1176(),model.isFlag1177(),model.isFlag3009(),model.isTaggedflag(),model.isFlag1187(),"popupTag",model.getPNAME());
                             }else{
-                                popupSelection(model.getPRODID(),cntcd,model.isFlag1176(),model.isFlag1177(),model.isFlag3009(),model.isTaggedflag(),model.isFlag1187(),"popup");
+                                popupSelection(model.getPRODID(),cntcd,model.isFlag1176(),model.isFlag1177(),model.isFlag3009(),model.isTaggedflag(),model.isFlag1187(),"popup",model.getPNAME());
                             }
                         }else{
                             model.setDETFLAG("");
@@ -425,7 +431,7 @@ public class DocDCRProduct extends AppCompatActivity {
         );
     }
 
-    private void popupSelection(String prodid, String cntcd, boolean flag1176, boolean flag1177, boolean flag3009, boolean taggedflag, boolean flag1187, String popupType) {
+    private void popupSelection(String prodid, String cntcd, boolean flag1176, boolean flag1177, boolean flag3009, boolean taggedflag, boolean flag1187, String popupType, String pname) {
         if(popupType.equalsIgnoreCase("popupTag")){
             if(Global.dbprefix.equalsIgnoreCase("Aqua-Basale") && prodid.equalsIgnoreCase("1098"))
             {
@@ -435,12 +441,15 @@ public class DocDCRProduct extends AppCompatActivity {
             if(prodid.equalsIgnoreCase("1176") && flag1176)
             {
                 Toast.makeText(DocDCRProduct.this, "show popup 1176", Toast.LENGTH_SHORT).show();
+                getPopup1data(prodid,pname);
             }else if(prodid.equalsIgnoreCase("1177") && flag1177)
             {
                 Toast.makeText(DocDCRProduct.this, "show popup 1177", Toast.LENGTH_SHORT).show();
+                getPopup1data(prodid,pname);
             }else if(prodid.equalsIgnoreCase("1187") && flag1187  && Global.dbprefix.equalsIgnoreCase("Aqua-Basale"))
             {
                 Toast.makeText(DocDCRProduct.this, "show popup 1187", Toast.LENGTH_SHORT).show();
+                getPopup1data(prodid,pname);
             }else if(prodid.equalsIgnoreCase("1180") && flag3009 && taggedflag)
             {
                 Toast.makeText(DocDCRProduct.this, "show popup 3009", Toast.LENGTH_SHORT).show();
@@ -730,7 +739,6 @@ public class DocDCRProduct extends AppCompatActivity {
                         JsonArray myCustomArray = gson.toJsonTree(questionslist).getAsJsonArray();
                         //Toast.makeText(DocDCRProduct.this, myCustomArray.toString(), Toast.LENGTH_SHORT).show();
                         storePopupQuesAnsInDB(myCustomArray.toString());
-
                     }else{
                         Toast.makeText(DocDCRProduct.this, "First answer all sub question !", Toast.LENGTH_SHORT).show();
                     }
@@ -750,7 +758,6 @@ public class DocDCRProduct extends AppCompatActivity {
 
     private void storePopupQuesAnsInDB(String json) {
         progressDialoge.show();
-        //Log.d("drclass//d1d2//cntcd",drclass+"//"+d1d2+"//"+cntcd);
         retrofit2.Call<DefaultResponse> call1 = RetrofitClient
                 .getInstance().getApi().submitPopupQuesAns(Global.ecode,Global.netid, Global.dcrdate, json,Global.dcrdatemonth, Global.dcrdateyear, cntcd,Global.dbprefix);
         call1.enqueue(new Callback<DefaultResponse>() {
@@ -771,6 +778,208 @@ public class DocDCRProduct extends AppCompatActivity {
                 snackbar.show();
             }
         });
+    }
+
+    private void getPopup1data(final String prodid,final String pname) {
+        progressDialoge.show();
+        retrofit2.Call<EpidermPopUpRes> call1 = RetrofitClient
+                .getInstance().getApi().get117611771187(Global.ecode, Global.netid, Global.dcrdate, cntcd, prodid, Global.dcrno,Global.dbprefix);
+        call1.enqueue(new Callback<EpidermPopUpRes>() {
+            @Override
+            public void onResponse(retrofit2.Call<EpidermPopUpRes> call1, Response<EpidermPopUpRes> response) {
+                progressDialoge.dismiss();
+                EpidermPopUpRes res = response.body();
+                pop1data = res.getDCRProdDemoDet();
+                if(prodid.equalsIgnoreCase("1187"))
+                    showPopup1187(prodid,pname);
+                else
+                    showPopupOth(prodid,pname);
+            }
+            @Override
+            public void onFailure(Call<EpidermPopUpRes> call1, Throwable t) {
+                progressDialoge.dismiss();
+                Snackbar snackbar = Snackbar.make(nsv, "Failed to get requested data !", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+    }
+
+    private void showPopupOth(String prodid,String pname) {
+        final Dialog dialog = new Dialog(DocDCRProduct.this);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.croma_popup);
+
+        CardView buttonNo = dialog.findViewById(R.id.cancel);
+        CardView buttonYes = dialog.findViewById(R.id.submit);
+        TextView drname = dialog.findViewById(R.id.drname);
+        TextView drtype = dialog.findViewById(R.id.drtype);
+        TextView chemname = dialog.findViewById(R.id.chemname);
+        RadioGroup rbgrp1 = dialog.findViewById(R.id.rbgrp1);
+        RadioGroup rbgrp2 = dialog.findViewById(R.id.rbgrp2);
+        RadioGroup rbgrp3 = dialog.findViewById(R.id.rbgrp3);
+        RadioButton no1 = dialog.findViewById(R.id.no1);
+        RadioButton no2 = dialog.findViewById(R.id.no2);
+        RadioButton no3 = dialog.findViewById(R.id.no3);
+        EditText edt1 = dialog.findViewById(R.id.odrqty);
+
+        TextView prdname = dialog.findViewById(R.id.prdname);
+        prdname.setText("PRODUCT NAME \n"+pname);
+        drname.setText(pop1data.get(0).getDRNAME());
+        drtype.setText(pop1data.get(0).getTradeDis());
+        chemname.setText("AVAILABLE AT PULSE CHEMIST ?\n"+pop1data.get(0).getChemistname());
+
+        String strpres = "";
+        if(!pop1data.get(0).getPrescriptiondate().equalsIgnoreCase("0000-00-00"))
+            strpres = "Y";
+
+        if(strpres.equalsIgnoreCase("Y")){
+            rbgrp1.check(R.id.yes1);
+            no1.setEnabled(false);
+        }
+
+        if(pop1data.get(0).getMadeAvailableAtChem().equalsIgnoreCase("Y")){
+            rbgrp2.check(R.id.yes2);
+            no2.setEnabled(false);
+        }
+
+        if(!pop1data.get(0).getDdorderqty().equalsIgnoreCase("")){
+            edt1.setText(pop1data.get(0).getDdorderqty());
+            edt1.setEnabled(false);
+        }
+
+        if(pop1data.get(0).getTriopackgiven().equalsIgnoreCase("Y")){
+            rbgrp3.check(R.id.yes3);
+            no3.setEnabled(false);
+        }
+
+        buttonNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        buttonYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo save data
+            }
+        });
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+
+    private void showPopup1187(String prodid, String pname) {
+        final Dialog dialog = new Dialog(DocDCRProduct.this);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.eberderm_popup);
+
+        CardView buttonNo = dialog.findViewById(R.id.cancel);
+        CardView buttonYes = dialog.findViewById(R.id.submit);
+        TextView drname = dialog.findViewById(R.id.drname);
+        TextView drtype = dialog.findViewById(R.id.drtype);
+        TextView chemname = dialog.findViewById(R.id.chemname);
+        RadioGroup rbgrp1 = dialog.findViewById(R.id.rbgrp1);
+        RadioGroup rbgrp2 = dialog.findViewById(R.id.rbgrp2);
+        RadioGroup rbgrp3 = dialog.findViewById(R.id.rbgrp3);
+        RadioGroup rbgrp4 = dialog.findViewById(R.id.rbgrp4);
+        RadioButton no1 = dialog.findViewById(R.id.no1);
+        RadioButton no2 = dialog.findViewById(R.id.no2);
+        RadioButton no3 = dialog.findViewById(R.id.no3);
+        RadioButton no4 = dialog.findViewById(R.id.no4);
+        EditText edt1 = dialog.findViewById(R.id.presval);
+        EditText edt2 = dialog.findViewById(R.id.unitavail);
+        EditText edt3 = dialog.findViewById(R.id.unitsold);
+
+        TextView prdname = dialog.findViewById(R.id.prdname);
+        prdname.setText("PRODUCT NAME \n"+pname);
+        drname.setText(pop1data.get(0).getDRNAME());
+        drtype.setText(pop1data.get(0).getTradeDis());
+        chemname.setText("AVAILABLE AT PULSE CHEMIST ?\n"+pop1data.get(0).getChemistname());
+
+
+        if(pop1data.get(0).getEpidermlaunched().equalsIgnoreCase("Y") && !pop1data.get(0).getLaunchdate().equalsIgnoreCase(Global.dcrdate)){
+            rbgrp1.check(R.id.yes1);
+            no1.setEnabled(false);
+        }else{
+            if(pop1data.get(0).getEpidermlaunched().equalsIgnoreCase("Y")){
+                rbgrp1.check(R.id.yes1);
+            }
+        }
+
+        if(pop1data.get(0).getEpidermsamplegiven().equalsIgnoreCase("Y") && !pop1data.get(0).getEpidermsamplegivedate().equalsIgnoreCase(Global.dcrdate)){
+            rbgrp2.check(R.id.yes2);
+            no2.setEnabled(false);
+        }else{
+            if(pop1data.get(0).getEpidermsamplegiven().equalsIgnoreCase("Y")){
+                rbgrp2.check(R.id.yes2);
+            }
+        }
+
+        if(pop1data.get(0).getEpidermprscReceived().equalsIgnoreCase("Y") && !pop1data.get(0).getEpidermprscReceiveddate().equalsIgnoreCase(Global.dcrdate)){
+            rbgrp3.check(R.id.yes3);
+            no3.setEnabled(false);
+        }else{
+            if(pop1data.get(0).getEpidermprscReceived().equalsIgnoreCase("Y")){
+                rbgrp3.check(R.id.yes3);
+            }
+        }
+
+        if(!pop1data.get(0).getEpidermpresno().equalsIgnoreCase("0") && !pop1data.get(0).getEpidermpresnodate().equalsIgnoreCase(Global.dcrdate)){
+            edt1.setText(pop1data.get(0).getEpidermpresno());
+            edt1.setEnabled(false);
+        }else{
+            edt1.setText(pop1data.get(0).getEpidermpresno());
+        }
+
+        if(pop1data.get(0).getMadeAvailableAtChem().equalsIgnoreCase("Y") && !pop1data.get(0).getAvailabilityDate().equalsIgnoreCase(Global.dcrdate)){
+            rbgrp4.check(R.id.yes4);
+            no4.setEnabled(false);
+        }else{
+            if(pop1data.get(0).getMadeAvailableAtChem().equalsIgnoreCase("Y")){
+                rbgrp4.check(R.id.yes4);
+            }
+        }
+
+        if(!pop1data.get(0).getEpidermnoofunitsavail().equalsIgnoreCase("0") && !pop1data.get(0).getEpidermnoofunitsavaildate().equalsIgnoreCase(Global.dcrdate)){
+            edt2.setText(pop1data.get(0).getEpidermnoofunitsavail());
+            edt2.setEnabled(false);
+        }else{
+            edt2.setText(pop1data.get(0).getEpidermnoofunitsavail());
+        }
+
+        if(!pop1data.get(0).getEpidermnoofunitsoldafterlaunch().equalsIgnoreCase("0") && !pop1data.get(0).getEpidermnoofunitsoldafterlaunchdate().equalsIgnoreCase(Global.dcrdate)){
+            edt3.setText(pop1data.get(0).getEpidermnoofunitsavail());
+            edt3.setEnabled(false);
+        }else{
+            edt3.setText(pop1data.get(0).getEpidermnoofunitsavail());
+        }
+
+        buttonNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        buttonYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo save data
+            }
+        });
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 
     @Override

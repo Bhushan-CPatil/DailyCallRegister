@@ -246,7 +246,7 @@ public interface Api {
             @Field("DBPrefix") String DBPrefix
     );
 
-    @FormUrlEncoded
+    /*@FormUrlEncoded
     @POST("DCRProduct.php")
     Call<DCRProdListRes> DCRProdApi(
             @Field("serial") String serial,
@@ -255,6 +255,22 @@ public interface Api {
             @Field("d1d2") String d1d2,
             @Field("ecode") String ecode,
             @Field("financialyear") String financialyear,
+            @Field("DBPrefix") String DBPrefix
+    );*/
+
+    @FormUrlEncoded
+    @POST("demo.php")
+    Call<DCRProdListRes> DCRProdApi(
+            @Field("serial") String serial,
+            @Field("netid") String netid,
+            @Field("dcrno") String dcrno,
+            @Field("d1d2") String d1d2,
+            @Field("ecode") String ecode,
+            @Field("financialyear") String financialyear,
+            @Field("dcrdate") String dcrdate,
+            @Field("mth") String mth,
+            @Field("yr") String yr,
+            @Field("cntcd") String cntcd,
             @Field("DBPrefix") String DBPrefix
     );
 

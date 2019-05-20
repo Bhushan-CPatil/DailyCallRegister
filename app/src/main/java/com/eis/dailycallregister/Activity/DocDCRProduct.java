@@ -228,7 +228,7 @@ public class DocDCRProduct extends AppCompatActivity {
         progressDialoge.show();
 
         retrofit2.Call<DCRProdListRes> call1 = RetrofitClient
-                .getInstance().getApi().DCRProdApi(serial,Global.netid, Global.dcrno, d1d2,Global.ecode,finyr,Global.dbprefix);
+                .getInstance().getApi().DCRProdApi(serial,Global.netid, Global.dcrno, d1d2,Global.ecode,finyr, Global.dcrdate, Global.dcrdatemonth, Global.dcrdateyear, cntcd,Global.dbprefix);
         call1.enqueue(new Callback<DCRProdListRes>() {
             @Override
             public void onResponse(retrofit2.Call<DCRProdListRes> call1, Response<DCRProdListRes> response) {
@@ -387,6 +387,11 @@ public class DocDCRProduct extends AppCompatActivity {
                                 model.setRxQTY("0");
                                 myHolder.rx.setText(model.getRxQTY());
                             }
+                            if(model.isTaggedflag() && model.getHsbrandid().contains(model.getGRP()) && model.getDEMO().equalsIgnoreCase("Y") && (model.isSpldrflag() || model.getLastmodifydate().equalsIgnoreCase(Global.dcrdate)) && model.isDateflag()){
+                                popupSelection(model.getPRODID(),cntcd,model.isFlag1176(),model.isFlag1177(),model.isFlag3009(),model.isTaggedflag(),model.isFlag1187(),"popupTag");
+                            }else{
+                                popupSelection(model.getPRODID(),cntcd,model.isFlag1176(),model.isFlag1177(),model.isFlag3009(),model.isTaggedflag(),model.isFlag1187(),"popup");
+                            }
                         }else{
                             model.setDETFLAG("");
                             model.setQTY("");
@@ -418,6 +423,29 @@ public class DocDCRProduct extends AppCompatActivity {
             }
         }
         );
+    }
+
+    private void popupSelection(String prodid, String cntcd, boolean flag1176, boolean flag1177, boolean flag3009, boolean taggedflag, boolean flag1187, String popupType) {
+        if(popupType.equalsIgnoreCase("popupTag")){
+            if(Global.dbprefix.equalsIgnoreCase("Aqua-Basale") && prodid.equalsIgnoreCase("1098"))
+            {
+                Toast.makeText(DocDCRProduct.this, "show popupTag", Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            if(prodid.equalsIgnoreCase("1176") && flag1176)
+            {
+                Toast.makeText(DocDCRProduct.this, "show popup 1176", Toast.LENGTH_SHORT).show();
+            }else if(prodid.equalsIgnoreCase("1177") && flag1177)
+            {
+                Toast.makeText(DocDCRProduct.this, "show popup 1177", Toast.LENGTH_SHORT).show();
+            }else if(prodid.equalsIgnoreCase("1187") && flag1187  && Global.dbprefix.equalsIgnoreCase("Aqua-Basale"))
+            {
+                Toast.makeText(DocDCRProduct.this, "show popup 1187", Toast.LENGTH_SHORT).show();
+            }else if(prodid.equalsIgnoreCase("1180") && flag3009 && taggedflag)
+            {
+                Toast.makeText(DocDCRProduct.this, "show popup 3009", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     public class addProductEntry extends AsyncTask<String, String, String> {

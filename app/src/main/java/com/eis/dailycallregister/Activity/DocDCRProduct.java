@@ -1,7 +1,9 @@
 package com.eis.dailycallregister.Activity;
 
+import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -788,6 +790,7 @@ public class DocDCRProduct extends AppCompatActivity {
     }
 
     private void getPopup1data(final String prodid,final String pname) {
+        pop1data.clear();
         progressDialoge.show();
         retrofit2.Call<EpidermPopUpRes> call1 = RetrofitClient
                 .getInstance().getApi().get117611771187(Global.ecode, Global.netid, Global.dcrdate, cntcd, prodid, Global.dcrno,Global.dbprefix);
@@ -797,10 +800,14 @@ public class DocDCRProduct extends AppCompatActivity {
                 progressDialoge.dismiss();
                 EpidermPopUpRes res = response.body();
                 pop1data = res.getDCRProdDemoDet();
-                if(prodid.equalsIgnoreCase("1187"))
-                    showPopup1187(prodid,pname);
-                else
-                    showPopupOth(prodid,pname);
+                if(pop1data.size()>0) {
+                    if (prodid.equalsIgnoreCase("1187"))
+                        showPopup1187(prodid, pname);
+                    else
+                        showPopupOth(prodid, pname);
+                }else{
+                    showNoDocDataAlert();
+                }
             }
             @Override
             public void onFailure(Call<EpidermPopUpRes> call1, Throwable t) {
@@ -809,6 +816,21 @@ public class DocDCRProduct extends AppCompatActivity {
                 snackbar.show();
             }
         });
+    }
+
+    private void showNoDocDataAlert() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setMessage("NO DOCTORS DATA !");
+        builder.setPositiveButton("GO BACK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void showPopupOth(String prodid,String pname) {
@@ -849,6 +871,8 @@ public class DocDCRProduct extends AppCompatActivity {
         if(pop1data.get(0).getMadeAvailableAtChem().equalsIgnoreCase("Y")){
             rbgrp2.check(R.id.yes2);
             no2.setEnabled(false);
+        }else if(pop1data.get(0).getMadeAvailableAtChem().equalsIgnoreCase("N")){
+            rbgrp2.check(R.id.no2);
         }
 
         if(!pop1data.get(0).getDdorderqty().equalsIgnoreCase("")){
@@ -859,6 +883,8 @@ public class DocDCRProduct extends AppCompatActivity {
         if(pop1data.get(0).getTriopackgiven().equalsIgnoreCase("Y")){
             rbgrp3.check(R.id.yes3);
             no3.setEnabled(false);
+        }else if(pop1data.get(0).getTriopackgiven().equalsIgnoreCase("N")){
+            rbgrp3.check(R.id.no3);
         }
 
         buttonNo.setOnClickListener(new View.OnClickListener() {
@@ -997,6 +1023,7 @@ public class DocDCRProduct extends AppCompatActivity {
     }
 
     private void getPopup2data(final String prodid,final String pname) {
+        pop2data.clear();
         progressDialoge.show();
         retrofit2.Call<QseraPopUpRes> call1 = RetrofitClient
                 .getInstance().getApi().get1098(Global.ecode, Global.netid, Global.dcrdate, cntcd, prodid, Global.dcrno,Global.dbprefix);
@@ -1005,8 +1032,12 @@ public class DocDCRProduct extends AppCompatActivity {
             public void onResponse(retrofit2.Call<QseraPopUpRes> call1, Response<QseraPopUpRes> response) {
                 progressDialoge.dismiss();
                 QseraPopUpRes res = response.body();
-                pop2data = res.getDCRGiftSplDrDet();
-                showPopupQSera(prodid,pname);
+                if(pop2data.size()>0) {
+                    pop2data = res.getDCRGiftSplDrDet();
+                    showPopupQSera(prodid, pname);
+                }else{
+                    showNoDocDataAlert();
+                }
             }
             @Override
             public void onFailure(Call<QseraPopUpRes> call1, Throwable t) {
@@ -1034,6 +1065,12 @@ public class DocDCRProduct extends AppCompatActivity {
         EditText edt1 = dialog.findViewById(R.id.rxgen);
         EditText edt2 = dialog.findViewById(R.id.unitsold);
         EditText edt3 = dialog.findViewById(R.id.drfeedbk);
+        EditText ll1 = dialog.findViewById(R.id.ll1);
+        EditText ll2 = dialog.findViewById(R.id.ll2);
+        EditText ll3 = dialog.findViewById(R.id.ll3);
+        EditText v1 = dialog.findViewById(R.id.v1);
+        EditText v2 = dialog.findViewById(R.id.v2);
+        EditText v3 = dialog.findViewById(R.id.v3);
 
         TextView prdname = dialog.findViewById(R.id.prdname);
         prdname.setText("PRODUCT NAME \n"+pname);
@@ -1052,9 +1089,18 @@ public class DocDCRProduct extends AppCompatActivity {
             }
         }
 
-        edt1.setText(pop2data.get(0).getNoQSeraHairSerumRx());
-        edt2.setText(pop2data.get(0).getNoofunitsold());
-        edt3.setText(pop2data.get(0).getDoctorsfeedback());
+        if(prodid.equalsIgnoreCase("2024") || prodid.equalsIgnoreCase("1098")) {
+            edt1.setText(pop2data.get(0).getNoQSeraHairSerumRx());
+            edt2.setText(pop2data.get(0).getNoofunitsold());
+            edt3.setText(pop2data.get(0).getDoctorsfeedback());
+        }else{
+            v1.setVisibility(View.GONE);
+            v2.setVisibility(View.GONE);
+            v3.setVisibility(View.GONE);
+            ll1.setVisibility(View.GONE);
+            ll2.setVisibility(View.GONE);
+            ll3.setVisibility(View.GONE);
+        }
 
         buttonNo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1077,6 +1123,7 @@ public class DocDCRProduct extends AppCompatActivity {
     }
 
     private void getPopup3data(final String prodid, final String pname) {
+        pop3data.clear();
         progressDialoge.show();
         retrofit2.Call<RedicnePopUpRes> call1 = RetrofitClient
                 .getInstance().getApi().get3009(Global.ecode, Global.netid, Global.dcrdate, cntcd, "3009", Global.dcrno,Global.dbprefix);
@@ -1085,8 +1132,12 @@ public class DocDCRProduct extends AppCompatActivity {
             public void onResponse(retrofit2.Call<RedicnePopUpRes> call1, Response<RedicnePopUpRes> response) {
                 progressDialoge.dismiss();
                 RedicnePopUpRes res = response.body();
-                pop3data = res.getDCRRidacneDet();
-                showPopupRedicne(prodid,pname);
+                if(pop3data.size()>0) {
+                    pop3data = res.getDCRRidacneDet();
+                    showPopupRedicne(prodid, pname);
+                }else{
+                    showNoDocDataAlert();
+                }
             }
             @Override
             public void onFailure(Call<RedicnePopUpRes> call1, Throwable t) {

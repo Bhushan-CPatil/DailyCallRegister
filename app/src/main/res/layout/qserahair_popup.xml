@@ -133,11 +133,13 @@
                     <View
                         android:layout_width="fill_parent"
                         android:layout_height="3dp"
+                        android:id="@+id/v1"
                         android:background="@drawable/background"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
+                        android:id="@+id/ll1"
                         android:orientation="horizontal"
                         android:weightSum="2">
                         <TextView
@@ -160,12 +162,14 @@
                     <View
                         android:layout_width="fill_parent"
                         android:layout_height="3dp"
+                        android:id="@+id/v2"
                         android:background="@drawable/background"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
                         android:orientation="horizontal"
+                        android:id="@+id/ll2"
                         android:weightSum="2">
                         <TextView
                             android:layout_width="0dp"
@@ -187,12 +191,14 @@
                     <View
                         android:layout_width="fill_parent"
                         android:layout_height="3dp"
+                        android:id="@+id/v3"
                         android:background="@drawable/background"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
                         android:orientation="horizontal"
+                        android:id="@+id/ll3"
                         android:weightSum="2">
                         <TextView
                             android:layout_width="0dp"

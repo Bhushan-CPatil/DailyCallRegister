@@ -18,6 +18,7 @@ import com.eis.dailycallregister.Pojo.GetDcrDateRes;
 import com.eis.dailycallregister.Pojo.GetPopupQuesRes;
 import com.eis.dailycallregister.Pojo.NonFieldWrkRes;
 import com.eis.dailycallregister.Pojo.QseraPopUpRes;
+import com.eis.dailycallregister.Pojo.RedicnePopUpRes;
 import com.eis.dailycallregister.Pojo.VstCardDrLstRes;
 
 import java.util.ArrayList;
@@ -336,4 +337,18 @@ public interface Api {
             @Field("dcrno") String dcrno,
             @Field("DBPrefix") String dbprefix
     );
+
+    @FormUrlEncoded
+    @POST("get3009.php")
+    Call<RedicnePopUpRes> get3009(
+            @Field("ecode") String ecode,
+            @Field("netid") String netid,
+            @Field("dcrdate") String dcrdate,
+            @Field("cntcd") String cntcd,
+            @Field("prodid") String prodid,
+            @Field("dcrno") String dcrno,
+            @Field("DBPrefix") String dbprefix
+    );
+
+
 }

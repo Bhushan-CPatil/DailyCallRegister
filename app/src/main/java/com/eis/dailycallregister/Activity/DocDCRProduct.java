@@ -44,6 +44,7 @@ import com.eis.dailycallregister.Pojo.DCRGiftListRes;
 import com.eis.dailycallregister.Pojo.DCRGiftSplDrDetItem;
 import com.eis.dailycallregister.Pojo.DCRProdDemoDetItem;
 import com.eis.dailycallregister.Pojo.DCRProdListRes;
+import com.eis.dailycallregister.Pojo.DCRRidacneDetItem;
 import com.eis.dailycallregister.Pojo.DcrddrlstItem;
 import com.eis.dailycallregister.Pojo.DcrproductlistItem;
 import com.eis.dailycallregister.Pojo.DefaultResponse;
@@ -51,6 +52,7 @@ import com.eis.dailycallregister.Pojo.EpidermPopUpRes;
 import com.eis.dailycallregister.Pojo.GetPopupQuesRes;
 import com.eis.dailycallregister.Pojo.QseraPopUpRes;
 import com.eis.dailycallregister.Pojo.QuestionslistItem;
+import com.eis.dailycallregister.Pojo.RedicnePopUpRes;
 import com.eis.dailycallregister.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -96,6 +98,7 @@ public class DocDCRProduct extends AppCompatActivity {
     public List<QuestionslistItem> questionslist = new ArrayList<>();
     public List<DCRProdDemoDetItem> pop1data = new ArrayList<>();
     public List<DCRGiftSplDrDetItem> pop2data = new ArrayList<>();
+    public List<DCRRidacneDetItem> pop3data = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -457,6 +460,7 @@ public class DocDCRProduct extends AppCompatActivity {
             }else if(prodid.equalsIgnoreCase("1180") && flag3009 && taggedflag)
             {
                 Toast.makeText(DocDCRProduct.this, "Please wait....", Toast.LENGTH_LONG).show();
+                getPopup3data(prodid,pname);
             }
         }
     }
@@ -772,7 +776,6 @@ public class DocDCRProduct extends AppCompatActivity {
                 if(!res.isError()){
                     Toast.makeText(DocDCRProduct.this, res.getErrormsg(), Toast.LENGTH_SHORT).show();
                 }
-
             }
 
             @Override
@@ -907,7 +910,6 @@ public class DocDCRProduct extends AppCompatActivity {
         drname.setText(pop1data.get(0).getDRNAME());
         drtype.setText(pop1data.get(0).getTradeDis());
         chemname.setText("AVAILABLE AT PULSE CHEMIST ?\n"+pop1data.get(0).getChemistname());
-
 
         if(pop1data.get(0).getEpidermlaunched().equalsIgnoreCase("Y") && !pop1data.get(0).getLaunchdate().equalsIgnoreCase(Global.dcrdate)){
             rbgrp1.check(R.id.yes1);
@@ -1070,6 +1072,241 @@ public class DocDCRProduct extends AppCompatActivity {
         lp.copyFrom(dialog.getWindow().getAttributes());
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+
+    private void getPopup3data(final String prodid, final String pname) {
+        progressDialoge.show();
+        retrofit2.Call<RedicnePopUpRes> call1 = RetrofitClient
+                .getInstance().getApi().get3009(Global.ecode, Global.netid, Global.dcrdate, cntcd, "3009", Global.dcrno,Global.dbprefix);
+        call1.enqueue(new Callback<RedicnePopUpRes>() {
+            @Override
+            public void onResponse(retrofit2.Call<RedicnePopUpRes> call1, Response<RedicnePopUpRes> response) {
+                progressDialoge.dismiss();
+                RedicnePopUpRes res = response.body();
+                pop3data = res.getDCRRidacneDet();
+                showPopupRedicne(prodid,pname);
+            }
+            @Override
+            public void onFailure(Call<RedicnePopUpRes> call1, Throwable t) {
+                progressDialoge.dismiss();
+                Snackbar snackbar = Snackbar.make(nsv, "Failed to get requested data !", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+    }
+
+    private void showPopupRedicne(String prodid, String pname) {
+        final Dialog dialog = new Dialog(DocDCRProduct.this);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.redicne_popup);
+
+        CardView buttonNo = dialog.findViewById(R.id.cancel);
+        CardView buttonYes = dialog.findViewById(R.id.submit);
+        TextView drname = dialog.findViewById(R.id.drname);
+        TextView drtype = dialog.findViewById(R.id.drtype);
+        RadioGroup rbgrp1 = dialog.findViewById(R.id.rbgrp1);
+        RadioGroup rbgrp2 = dialog.findViewById(R.id.rbgrp2);
+        RadioGroup rbgrp3 = dialog.findViewById(R.id.rbgrp3);
+        RadioGroup rbgrp4 = dialog.findViewById(R.id.rbgrp4);
+        RadioGroup rbgrp5 = dialog.findViewById(R.id.rbgrp5);
+        RadioGroup rbgrp6 = dialog.findViewById(R.id.rbgrp6);
+        RadioGroup rbgrp7 = dialog.findViewById(R.id.rbgrp7);
+        RadioGroup rbgrp8 = dialog.findViewById(R.id.rbgrp8);
+        RadioButton no1 = dialog.findViewById(R.id.no1);
+        RadioButton no2 = dialog.findViewById(R.id.no2);
+        RadioButton no3 = dialog.findViewById(R.id.no3);
+        RadioButton no4 = dialog.findViewById(R.id.no4);
+        RadioButton no5 = dialog.findViewById(R.id.no5);
+        RadioButton no6 = dialog.findViewById(R.id.no6);
+        RadioButton no7 = dialog.findViewById(R.id.no7);
+        RadioButton no8 = dialog.findViewById(R.id.no8);
+        EditText edt1 = dialog.findViewById(R.id.rxgen1);
+        EditText edt2 = dialog.findViewById(R.id.rxgen2);
+        EditText edt3 = dialog.findViewById(R.id.rxgen3);
+        EditText edt4 = dialog.findViewById(R.id.rxgen4);
+        EditText edt5 = dialog.findViewById(R.id.rxgen5);
+        EditText edt6 = dialog.findViewById(R.id.rxgen6);
+        EditText edt7 = dialog.findViewById(R.id.rxgen7);
+        EditText edt8 = dialog.findViewById(R.id.rxgen8);
+
+        TextView prdname = dialog.findViewById(R.id.prdname);
+        prdname.setText("PRODUCT NAME \n"+pname);
+        drname.setText(pop3data.get(0).getDRNAME());
+        drtype.setText(pop3data.get(0).getTradeDis());
+
+        // 1
+        if(pop3data.get(0).getKMACBriefednConsentRcvd().equalsIgnoreCase("Y")){
+            rbgrp1.check(R.id.done1);
+            no1.setEnabled(false);
+        }else{
+            if(pop3data.get(0).getKMACBriefednConsentRcvd().equalsIgnoreCase("Y")){
+                rbgrp1.check(R.id.done1);
+            }else if(pop3data.get(0).getKMACBriefednConsentRcvd().equalsIgnoreCase("N")){
+                rbgrp1.check(R.id.no1);
+            }
+        }
+
+        if(!pop3data.get(0).getNoofRidacneRxWeek1520jul().equalsIgnoreCase("0")){
+            edt1.setText(pop3data.get(0).getNoofRidacneRxWeek1520jul());
+            edt1.setEnabled(false);
+        }else{
+            edt1.setText(pop3data.get(0).getNoofRidacneRxWeek1520jul());
+        }
+        //1 ends here
+        //2
+        if(pop3data.get(0).getKMACUploadMaterailRcvdFromDr().equalsIgnoreCase("Y")){
+            rbgrp2.check(R.id.done2);
+            no2.setEnabled(false);
+        }else{
+            if(pop3data.get(0).getKMACUploadMaterailRcvdFromDr().equalsIgnoreCase("Y")){
+                rbgrp2.check(R.id.done2);
+            }else if(pop3data.get(0).getKMACUploadMaterailRcvdFromDr().equalsIgnoreCase("N")){
+                rbgrp2.check(R.id.no2);
+            }
+        }
+
+        if(!pop3data.get(0).getNoofRidacneRxWeek2431jul().equalsIgnoreCase("0")){
+            edt2.setText(pop3data.get(0).getNoofRidacneRxWeek2431jul());
+            edt2.setEnabled(false);
+        }else{
+            edt2.setText(pop3data.get(0).getNoofRidacneRxWeek2431jul());
+        }
+        //2 ends here
+        //3
+        if(pop3data.get(0).getDrAgreedWiththeKMACUploadedMaterial().equalsIgnoreCase("Y")){
+            rbgrp3.check(R.id.done3);
+            no3.setEnabled(false);
+        }else{
+            if(pop3data.get(0).getDrAgreedWiththeKMACUploadedMaterial().equalsIgnoreCase("Y")){
+                rbgrp3.check(R.id.done3);
+            }else if(pop3data.get(0).getDrAgreedWiththeKMACUploadedMaterial().equalsIgnoreCase("N")){
+                rbgrp3.check(R.id.no3);
+            }
+        }
+
+        if(!pop3data.get(0).getNoofRidacneRxWeek0107aug().equalsIgnoreCase("0")){
+            edt3.setText(pop3data.get(0).getNoofRidacneRxWeek0107aug());
+            edt3.setEnabled(false);
+        }else{
+            edt3.setText(pop3data.get(0).getNoofRidacneRxWeek0107aug());
+        }
+        //3 ends here
+        //4
+        if(pop3data.get(0).getHandedOverKMACInstrumentToTheDr().equalsIgnoreCase("Y")){
+            rbgrp4.check(R.id.done4);
+            no4.setEnabled(false);
+        }else{
+            if(pop3data.get(0).getHandedOverKMACInstrumentToTheDr().equalsIgnoreCase("Y")){
+                rbgrp4.check(R.id.done4);
+            }else if(pop3data.get(0).getHandedOverKMACInstrumentToTheDr().equalsIgnoreCase("N")){
+                rbgrp4.check(R.id.no4);
+            }
+        }
+
+        if(!pop3data.get(0).getNoofRidacneRxWeek0814aug().equalsIgnoreCase("0")){
+            edt4.setText(pop3data.get(0).getNoofRidacneRxWeek0814aug());
+            edt4.setEnabled(false);
+        }else{
+            edt4.setText(pop3data.get(0).getNoofRidacneRxWeek0814aug());
+        }
+        //4 ends here
+        //5
+        if(pop3data.get(0).getKMACRelatedallMaterialPlacedDspatientWaitingarena().equalsIgnoreCase("Y")){
+            rbgrp5.check(R.id.done5);
+            no5.setEnabled(false);
+        }else{
+            if(pop3data.get(0).getKMACRelatedallMaterialPlacedDspatientWaitingarena().equalsIgnoreCase("Y")){
+                rbgrp5.check(R.id.done5);
+            }else if(pop3data.get(0).getKMACRelatedallMaterialPlacedDspatientWaitingarena().equalsIgnoreCase("N")){
+                rbgrp5.check(R.id.no5);
+            }
+        }
+
+        if(!pop3data.get(0).getNoofRidacneRxWeek1622aug().equalsIgnoreCase("0")){
+            edt5.setText(pop3data.get(0).getNoofRidacneRxWeek1622aug());
+            edt5.setEnabled(false);
+        }else{
+            edt5.setText(pop3data.get(0).getNoofRidacneRxWeek1622aug());
+        }
+        //5 ends here
+        //6
+        if(pop3data.get(0).getKMACRunningWellCheckednFdbkUpdatedDr().equalsIgnoreCase("Y")){
+            rbgrp6.check(R.id.done6);
+            no6.setEnabled(false);
+        }else{
+            if(pop3data.get(0).getKMACRunningWellCheckednFdbkUpdatedDr().equalsIgnoreCase("Y")){
+                rbgrp6.check(R.id.done6);
+            }else if(pop3data.get(0).getKMACRunningWellCheckednFdbkUpdatedDr().equalsIgnoreCase("N")){
+                rbgrp6.check(R.id.no6);
+            }
+        }
+
+        if(!pop3data.get(0).getNoofRidacneRxWeek2431aug().equalsIgnoreCase("0")){
+            edt6.setText(pop3data.get(0).getNoofRidacneRxWeek2431aug());
+            edt6.setEnabled(false);
+        }else{
+            edt6.setText(pop3data.get(0).getNoofRidacneRxWeek2431aug());
+        }
+        //6 ends here
+        //7
+        if(pop3data.get(0).getKMACFdbkTakenFromDr().equalsIgnoreCase("Y")){
+            rbgrp7.check(R.id.done7);
+            no7.setEnabled(false);
+        }else{
+            if(pop3data.get(0).getKMACFdbkTakenFromDr().equalsIgnoreCase("Y")){
+                rbgrp7.check(R.id.done7);
+            }else if(pop3data.get(0).getKMACFdbkTakenFromDr().equalsIgnoreCase("N")){
+                rbgrp7.check(R.id.no7);
+            }
+        }
+
+        if(!pop3data.get(0).getNoofRidacneRxWeek0105sep().equalsIgnoreCase("0")){
+            edt7.setText(pop3data.get(0).getNoofRidacneRxWeek0105sep());
+            edt7.setEnabled(false);
+        }else{
+            edt7.setText(pop3data.get(0).getNoofRidacneRxWeek0105sep());
+        }
+        //7 ends here
+        //8
+        if(pop3data.get(0).getSectimeKMACRunningWellcheckednFdbkUpdatedDr().equalsIgnoreCase("Y")){
+            rbgrp8.check(R.id.done8);
+            no8.setEnabled(false);
+        }else{
+            if(pop3data.get(0).getSectimeKMACRunningWellcheckednFdbkUpdatedDr().equalsIgnoreCase("Y")){
+                rbgrp8.check(R.id.done8);
+            }else if(pop3data.get(0).getSectimeKMACRunningWellcheckednFdbkUpdatedDr().equalsIgnoreCase("N")){
+                rbgrp8.check(R.id.no8);
+            }
+        }
+
+        if(!pop3data.get(0).getNoofRidacneRxWeek1630sep().equalsIgnoreCase("0")){
+            edt8.setText(pop3data.get(0).getNoofRidacneRxWeek1630sep());
+            edt8.setEnabled(false);
+        }else{
+            edt8.setText(pop3data.get(0).getNoofRidacneRxWeek1630sep());
+        }
+        //8 ends here
+
+        buttonNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        buttonYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo save data
+            }
+        });
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
         dialog.show();
         dialog.getWindow().setAttributes(lp);
     }

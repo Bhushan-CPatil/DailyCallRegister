@@ -17,6 +17,7 @@ import com.eis.dailycallregister.Pojo.FetchExpdtRes;
 import com.eis.dailycallregister.Pojo.GetDcrDateRes;
 import com.eis.dailycallregister.Pojo.GetPopupQuesRes;
 import com.eis.dailycallregister.Pojo.NonFieldWrkRes;
+import com.eis.dailycallregister.Pojo.QseraPopUpRes;
 import com.eis.dailycallregister.Pojo.VstCardDrLstRes;
 
 import java.util.ArrayList;
@@ -315,6 +316,18 @@ public interface Api {
     @FormUrlEncoded
     @POST("get117611771187.php")
     Call<EpidermPopUpRes> get117611771187(
+            @Field("ecode") String ecode,
+            @Field("netid") String netid,
+            @Field("dcrdate") String dcrdate,
+            @Field("cntcd") String cntcd,
+            @Field("prodid") String prodid,
+            @Field("dcrno") String dcrno,
+            @Field("DBPrefix") String dbprefix
+    );
+
+    @FormUrlEncoded
+    @POST("get1098.php")
+    Call<QseraPopUpRes> get1098(
             @Field("ecode") String ecode,
             @Field("netid") String netid,
             @Field("dcrdate") String dcrdate,

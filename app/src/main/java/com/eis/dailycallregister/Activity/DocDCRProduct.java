@@ -41,6 +41,7 @@ import com.eis.dailycallregister.Api.RetrofitClient;
 import com.eis.dailycallregister.Others.Global;
 import com.eis.dailycallregister.Others.ViewDialog;
 import com.eis.dailycallregister.Pojo.DCRGiftListRes;
+import com.eis.dailycallregister.Pojo.DCRGiftSplDrDetItem;
 import com.eis.dailycallregister.Pojo.DCRProdDemoDetItem;
 import com.eis.dailycallregister.Pojo.DCRProdListRes;
 import com.eis.dailycallregister.Pojo.DcrddrlstItem;
@@ -48,6 +49,7 @@ import com.eis.dailycallregister.Pojo.DcrproductlistItem;
 import com.eis.dailycallregister.Pojo.DefaultResponse;
 import com.eis.dailycallregister.Pojo.EpidermPopUpRes;
 import com.eis.dailycallregister.Pojo.GetPopupQuesRes;
+import com.eis.dailycallregister.Pojo.QseraPopUpRes;
 import com.eis.dailycallregister.Pojo.QuestionslistItem;
 import com.eis.dailycallregister.R;
 import com.google.gson.Gson;
@@ -93,6 +95,7 @@ public class DocDCRProduct extends AppCompatActivity {
     public List<DcrproductlistItem> dcrprodlst = new ArrayList<>();
     public List<QuestionslistItem> questionslist = new ArrayList<>();
     public List<DCRProdDemoDetItem> pop1data = new ArrayList<>();
+    public List<DCRGiftSplDrDetItem> pop2data = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -435,24 +438,25 @@ public class DocDCRProduct extends AppCompatActivity {
         if(popupType.equalsIgnoreCase("popupTag")){
             if(Global.dbprefix.equalsIgnoreCase("Aqua-Basale") && prodid.equalsIgnoreCase("1098"))
             {
-                Toast.makeText(DocDCRProduct.this, "show popupTag", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DocDCRProduct.this, "Please wait....", Toast.LENGTH_LONG).show();
+                getPopup2data(prodid,pname);
             }
         }else{
             if(prodid.equalsIgnoreCase("1176") && flag1176)
             {
-                Toast.makeText(DocDCRProduct.this, "show popup 1176", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DocDCRProduct.this, "Please wait....", Toast.LENGTH_LONG).show();
                 getPopup1data(prodid,pname);
             }else if(prodid.equalsIgnoreCase("1177") && flag1177)
             {
-                Toast.makeText(DocDCRProduct.this, "show popup 1177", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DocDCRProduct.this, "Please wait....", Toast.LENGTH_LONG).show();
                 getPopup1data(prodid,pname);
             }else if(prodid.equalsIgnoreCase("1187") && flag1187  && Global.dbprefix.equalsIgnoreCase("Aqua-Basale"))
             {
-                Toast.makeText(DocDCRProduct.this, "show popup 1187", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DocDCRProduct.this, "Please wait....", Toast.LENGTH_LONG).show();
                 getPopup1data(prodid,pname);
             }else if(prodid.equalsIgnoreCase("1180") && flag3009 && taggedflag)
             {
-                Toast.makeText(DocDCRProduct.this, "show popup 3009", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DocDCRProduct.this, "Please wait....", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -911,6 +915,8 @@ public class DocDCRProduct extends AppCompatActivity {
         }else{
             if(pop1data.get(0).getEpidermlaunched().equalsIgnoreCase("Y")){
                 rbgrp1.check(R.id.yes1);
+            }else if(pop1data.get(0).getEpidermlaunched().equalsIgnoreCase("N")){
+                rbgrp1.check(R.id.no1);
             }
         }
 
@@ -920,6 +926,8 @@ public class DocDCRProduct extends AppCompatActivity {
         }else{
             if(pop1data.get(0).getEpidermsamplegiven().equalsIgnoreCase("Y")){
                 rbgrp2.check(R.id.yes2);
+            }else if(pop1data.get(0).getEpidermsamplegiven().equalsIgnoreCase("N")){
+                rbgrp2.check(R.id.no2);
             }
         }
 
@@ -929,6 +937,8 @@ public class DocDCRProduct extends AppCompatActivity {
         }else{
             if(pop1data.get(0).getEpidermprscReceived().equalsIgnoreCase("Y")){
                 rbgrp3.check(R.id.yes3);
+            }else if(pop1data.get(0).getEpidermprscReceived().equalsIgnoreCase("N")){
+                rbgrp3.check(R.id.no3);
             }
         }
 
@@ -945,6 +955,8 @@ public class DocDCRProduct extends AppCompatActivity {
         }else{
             if(pop1data.get(0).getMadeAvailableAtChem().equalsIgnoreCase("Y")){
                 rbgrp4.check(R.id.yes4);
+            }else if(pop1data.get(0).getMadeAvailableAtChem().equalsIgnoreCase("N")){
+                rbgrp4.check(R.id.no4);
             }
         }
 
@@ -961,6 +973,86 @@ public class DocDCRProduct extends AppCompatActivity {
         }else{
             edt3.setText(pop1data.get(0).getEpidermnoofunitsavail());
         }
+
+        buttonNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        buttonYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo save data
+            }
+        });
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+
+    private void getPopup2data(final String prodid,final String pname) {
+        progressDialoge.show();
+        retrofit2.Call<QseraPopUpRes> call1 = RetrofitClient
+                .getInstance().getApi().get1098(Global.ecode, Global.netid, Global.dcrdate, cntcd, prodid, Global.dcrno,Global.dbprefix);
+        call1.enqueue(new Callback<QseraPopUpRes>() {
+            @Override
+            public void onResponse(retrofit2.Call<QseraPopUpRes> call1, Response<QseraPopUpRes> response) {
+                progressDialoge.dismiss();
+                QseraPopUpRes res = response.body();
+                pop2data = res.getDCRGiftSplDrDet();
+                showPopupQSera(prodid,pname);
+            }
+            @Override
+            public void onFailure(Call<QseraPopUpRes> call1, Throwable t) {
+                progressDialoge.dismiss();
+                Snackbar snackbar = Snackbar.make(nsv, "Failed to get requested data !", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+    }
+
+    private void showPopupQSera(String prodid, String pname) {
+        final Dialog dialog = new Dialog(DocDCRProduct.this);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.qserahair_popup);
+
+        CardView buttonNo = dialog.findViewById(R.id.cancel);
+        CardView buttonYes = dialog.findViewById(R.id.submit);
+        TextView drname = dialog.findViewById(R.id.drname);
+        TextView drtype = dialog.findViewById(R.id.drtype);
+        TextView chemname = dialog.findViewById(R.id.chemname);
+        RadioGroup rbgrp1 = dialog.findViewById(R.id.rbgrp1);
+        RadioButton no1 = dialog.findViewById(R.id.no1);
+        EditText edt1 = dialog.findViewById(R.id.rxgen);
+        EditText edt2 = dialog.findViewById(R.id.unitsold);
+        EditText edt3 = dialog.findViewById(R.id.drfeedbk);
+
+        TextView prdname = dialog.findViewById(R.id.prdname);
+        prdname.setText("PRODUCT NAME \n"+pname);
+        drname.setText(pop2data.get(0).getDRNAME());
+        drtype.setText(pop2data.get(0).getTradeDis());
+        chemname.setText("AVAILABLE AT PULSE CHEMIST ?\n"+pop2data.get(0).getChemistname());
+
+        if(pop2data.get(0).getMadeAvailableAtPulseChem().equalsIgnoreCase("Y") && !pop2data.get(0).getAvailabilityDate().equalsIgnoreCase(Global.dcrdate)){
+            rbgrp1.check(R.id.yes1);
+            no1.setEnabled(false);
+        }else{
+            if(pop2data.get(0).getMadeAvailableAtPulseChem().equalsIgnoreCase("Y")){
+                rbgrp1.check(R.id.yes1);
+            }else if(pop2data.get(0).getMadeAvailableAtPulseChem().equalsIgnoreCase("N")){
+                rbgrp1.check(R.id.no1);
+            }
+        }
+
+        edt1.setText(pop2data.get(0).getNoQSeraHairSerumRx());
+        edt2.setText(pop2data.get(0).getNoofunitsold());
+        edt3.setText(pop2data.get(0).getDoctorsfeedback());
 
         buttonNo.setOnClickListener(new View.OnClickListener() {
             @Override

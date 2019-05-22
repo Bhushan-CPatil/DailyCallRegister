@@ -907,7 +907,7 @@ public class DocDCRProduct extends AppCompatActivity {
                 {
                     AppCompatRadioButton radioButton = dialog.findViewById(rbgrp2.getCheckedRadioButtonId());
                     madeavail = radioButton.getText().toString();
-                    Log.d("madeavail-->",madeavail);
+                    //Log.d("madeavail-->",madeavail);
                 }
                 if (rbgrp3.getCheckedRadioButtonId() != -1)
                 {
@@ -1090,7 +1090,7 @@ public class DocDCRProduct extends AppCompatActivity {
         });
     }
 
-    private void showPopupQSera(String prodid, String pname) {
+    private void showPopupQSera(final String prodid, String pname) {
         final Dialog dialog = new Dialog(DocDCRProduct.this);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -1102,11 +1102,11 @@ public class DocDCRProduct extends AppCompatActivity {
         TextView drname = dialog.findViewById(R.id.drname);
         TextView drtype = dialog.findViewById(R.id.drtype);
         TextView chemname = dialog.findViewById(R.id.chemname);
-        RadioGroup rbgrp1 = dialog.findViewById(R.id.rbgrp1);
+        final RadioGroup rbgrp1 = dialog.findViewById(R.id.rbgrp1);
         RadioButton no1 = dialog.findViewById(R.id.no1);
-        EditText edt1 = dialog.findViewById(R.id.rxgen);
-        EditText edt2 = dialog.findViewById(R.id.unitsold);
-        EditText edt3 = dialog.findViewById(R.id.drfeedbk);
+        final EditText edt1 = dialog.findViewById(R.id.rxgen);
+        final EditText edt2 = dialog.findViewById(R.id.unitsold);
+        final EditText edt3 = dialog.findViewById(R.id.drfeedbk);
         EditText ll1 = dialog.findViewById(R.id.ll1);
         EditText ll2 = dialog.findViewById(R.id.ll2);
         EditText ll3 = dialog.findViewById(R.id.ll3);
@@ -1153,7 +1153,15 @@ public class DocDCRProduct extends AppCompatActivity {
         buttonYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo save data
+                String madeavail="";
+                if (rbgrp1.getCheckedRadioButtonId() != -1)
+                {
+                    AppCompatRadioButton radioButton = dialog.findViewById(rbgrp1.getCheckedRadioButtonId());
+                    madeavail = radioButton.getText().toString();
+                }
+
+                save1098(prodid,madeavail,edt1.getText().toString(),edt2.getText().toString(),edt3.getText().toString());
+                dialog.dismiss();
             }
         });
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
@@ -1162,6 +1170,28 @@ public class DocDCRProduct extends AppCompatActivity {
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialog.show();
         dialog.getWindow().setAttributes(lp);
+    }
+
+    private void save1098(String prodid, String madeavail, String rxgen, String unitsold, String drfeedbk) {
+        progressDialoge.show();
+        retrofit2.Call<DefaultResponse> call1 = RetrofitClient
+                .getInstance().getApi().submit1098(Global.ecode, Global.netid, Global.dcrdate, cntcd, prodid, Global.dcrno, madeavail, rxgen, unitsold, drfeedbk,Global.dbprefix);
+        call1.enqueue(new Callback<DefaultResponse>() {
+            @Override
+            public void onResponse(retrofit2.Call<DefaultResponse> call1, Response<DefaultResponse> response) {
+                progressDialoge.dismiss();
+                DefaultResponse res = response.body();
+                if(!res.isError()){
+                    Toast.makeText(DocDCRProduct.this, res.getErrormsg(), Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<DefaultResponse> call1, Throwable t) {
+                progressDialoge.dismiss();
+                Snackbar snackbar = Snackbar.make(nsv, "Failed to get requested data !", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
     }
 
     private void getPopup3data(final String prodid, final String pname) {

@@ -443,25 +443,25 @@ public class DocDCRProduct extends AppCompatActivity {
         if(popupType.equalsIgnoreCase("popupTag")){
             if(Global.dbprefix.equalsIgnoreCase("Aqua-Basale") && prodid.equalsIgnoreCase("1098"))
             {
-                Toast.makeText(DocDCRProduct.this, "Please wait....", Toast.LENGTH_LONG).show();
+                Toast.makeText(DocDCRProduct.this, "Please wait....", Toast.LENGTH_SHORT).show();
                 getPopup2data(prodid,pname);
             }
         }else{
             if(prodid.equalsIgnoreCase("1176") && flag1176)
             {
-                Toast.makeText(DocDCRProduct.this, "Please wait....", Toast.LENGTH_LONG).show();
+                Toast.makeText(DocDCRProduct.this, "Please wait....", Toast.LENGTH_SHORT).show();
                 getPopup1data(prodid,pname);
             }else if(prodid.equalsIgnoreCase("1177") && flag1177)
             {
-                Toast.makeText(DocDCRProduct.this, "Please wait....", Toast.LENGTH_LONG).show();
+                Toast.makeText(DocDCRProduct.this, "Please wait....", Toast.LENGTH_SHORT).show();
                 getPopup1data(prodid,pname);
             }else if(prodid.equalsIgnoreCase("1187") && flag1187  && Global.dbprefix.equalsIgnoreCase("Aqua-Basale"))
             {
-                Toast.makeText(DocDCRProduct.this, "Please wait....", Toast.LENGTH_LONG).show();
+                Toast.makeText(DocDCRProduct.this, "Please wait....", Toast.LENGTH_SHORT).show();
                 getPopup1data(prodid,pname);
             }else if(prodid.equalsIgnoreCase("1180") && flag3009 && taggedflag)
             {
-                Toast.makeText(DocDCRProduct.this, "Please wait....", Toast.LENGTH_LONG).show();
+                Toast.makeText(DocDCRProduct.this, "Please wait....", Toast.LENGTH_SHORT).show();
                 getPopup3data(prodid,pname);
             }
         }
@@ -833,7 +833,7 @@ public class DocDCRProduct extends AppCompatActivity {
         dialog.show();
     }
 
-    private void showPopupOth(String prodid,String pname) {
+    private void showPopupOth(final String prodid, String pname) {
         final Dialog dialog = new Dialog(DocDCRProduct.this);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -845,13 +845,13 @@ public class DocDCRProduct extends AppCompatActivity {
         TextView drname = dialog.findViewById(R.id.drname);
         TextView drtype = dialog.findViewById(R.id.drtype);
         TextView chemname = dialog.findViewById(R.id.chemname);
-        RadioGroup rbgrp1 = dialog.findViewById(R.id.rbgrp1);
-        RadioGroup rbgrp2 = dialog.findViewById(R.id.rbgrp2);
-        RadioGroup rbgrp3 = dialog.findViewById(R.id.rbgrp3);
+        final RadioGroup rbgrp1 = dialog.findViewById(R.id.rbgrp1);
+        final RadioGroup rbgrp2 = dialog.findViewById(R.id.rbgrp2);
+        final RadioGroup rbgrp3 = dialog.findViewById(R.id.rbgrp3);
         RadioButton no1 = dialog.findViewById(R.id.no1);
         RadioButton no2 = dialog.findViewById(R.id.no2);
         RadioButton no3 = dialog.findViewById(R.id.no3);
-        EditText edt1 = dialog.findViewById(R.id.odrqty);
+        final EditText edt1 = dialog.findViewById(R.id.odrqty);
 
         TextView prdname = dialog.findViewById(R.id.prdname);
         prdname.setText("PRODUCT NAME \n"+pname);
@@ -896,7 +896,27 @@ public class DocDCRProduct extends AppCompatActivity {
         buttonYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo save data
+                String startedpres="",madeavail="",triopack="";
+                if (rbgrp1.getCheckedRadioButtonId() != -1)
+                {
+                    AppCompatRadioButton radioButton = dialog.findViewById(rbgrp1.getCheckedRadioButtonId());
+                    startedpres = radioButton.getText().toString();
+                }
+                //Log.d("rbgrp2-->",Integer.toString(rbgrp2.getCheckedRadioButtonId())+"  id-->"+R.id.yes2);
+                if (rbgrp2.getCheckedRadioButtonId() != -1)
+                {
+                    AppCompatRadioButton radioButton = dialog.findViewById(rbgrp2.getCheckedRadioButtonId());
+                    madeavail = radioButton.getText().toString();
+                    Log.d("madeavail-->",madeavail);
+                }
+                if (rbgrp3.getCheckedRadioButtonId() != -1)
+                {
+                    AppCompatRadioButton radioButton = dialog.findViewById(rbgrp3.getCheckedRadioButtonId());
+                    triopack = radioButton.getText().toString();
+                }
+
+                save11761177(prodid,startedpres,madeavail,triopack,edt1.getText().toString());
+                dialog.dismiss();
             }
         });
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
@@ -905,6 +925,28 @@ public class DocDCRProduct extends AppCompatActivity {
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialog.show();
         dialog.getWindow().setAttributes(lp);
+    }
+
+    private void save11761177(String prodid, String startedpres, String madeavail, String triopack, String odrqty) {
+        progressDialoge.show();
+        retrofit2.Call<DefaultResponse> call1 = RetrofitClient
+                .getInstance().getApi().submit11761177(Global.ecode, Global.netid, Global.dcrdate, cntcd, prodid, Global.dcrno, startedpres, madeavail, odrqty, triopack,Global.dbprefix);
+        call1.enqueue(new Callback<DefaultResponse>() {
+            @Override
+            public void onResponse(retrofit2.Call<DefaultResponse> call1, Response<DefaultResponse> response) {
+                progressDialoge.dismiss();
+                DefaultResponse res = response.body();
+                if(!res.isError()){
+                    Toast.makeText(DocDCRProduct.this, res.getErrormsg(), Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<DefaultResponse> call1, Throwable t) {
+                progressDialoge.dismiss();
+                Snackbar snackbar = Snackbar.make(nsv, "Failed to get requested data !", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
     }
 
     private void showPopup1187(String prodid, String pname) {

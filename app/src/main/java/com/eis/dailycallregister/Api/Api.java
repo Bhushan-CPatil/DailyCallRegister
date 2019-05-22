@@ -350,5 +350,21 @@ public interface Api {
             @Field("DBPrefix") String dbprefix
     );
 
+    @FormUrlEncoded
+    @POST("submit11761177.php")
+    Call<DefaultResponse> submit11761177(
+            @Field("ecode") String ecode,
+            @Field("netid") String netid,
+            @Field("dcrdate") String dcrdate,
+            @Field("cntcd") String cntcd,
+            @Field("prodid") String prodid,
+            @Field("dcrno") String dcrno,
+            @Field("startpresc") String startpresc,
+            @Field("madeavail") String madeavail,
+            @Field("ddorderqty") String ddorderqty,
+            @Field("triopackgiven") String triopackgiven,
+            @Field("DBPrefix") String dbprefix
+    );
+
 
 }

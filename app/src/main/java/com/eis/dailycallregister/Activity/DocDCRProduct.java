@@ -949,7 +949,7 @@ public class DocDCRProduct extends AppCompatActivity {
         });
     }
 
-    private void showPopup1187(String prodid, String pname) {
+    private void showPopup1187(final String prodid, String pname) {
         final Dialog dialog = new Dialog(DocDCRProduct.this);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -961,17 +961,17 @@ public class DocDCRProduct extends AppCompatActivity {
         TextView drname = dialog.findViewById(R.id.drname);
         TextView drtype = dialog.findViewById(R.id.drtype);
         TextView chemname = dialog.findViewById(R.id.chemname);
-        RadioGroup rbgrp1 = dialog.findViewById(R.id.rbgrp1);
-        RadioGroup rbgrp2 = dialog.findViewById(R.id.rbgrp2);
-        RadioGroup rbgrp3 = dialog.findViewById(R.id.rbgrp3);
-        RadioGroup rbgrp4 = dialog.findViewById(R.id.rbgrp4);
+        final RadioGroup rbgrp1 = dialog.findViewById(R.id.rbgrp1);
+        final RadioGroup rbgrp2 = dialog.findViewById(R.id.rbgrp2);
+        final RadioGroup rbgrp3 = dialog.findViewById(R.id.rbgrp3);
+        final RadioGroup rbgrp4 = dialog.findViewById(R.id.rbgrp4);
         RadioButton no1 = dialog.findViewById(R.id.no1);
         RadioButton no2 = dialog.findViewById(R.id.no2);
         RadioButton no3 = dialog.findViewById(R.id.no3);
         RadioButton no4 = dialog.findViewById(R.id.no4);
-        EditText edt1 = dialog.findViewById(R.id.presval);
-        EditText edt2 = dialog.findViewById(R.id.unitavail);
-        EditText edt3 = dialog.findViewById(R.id.unitsold);
+        final EditText edt1 = dialog.findViewById(R.id.presval);
+        final EditText edt2 = dialog.findViewById(R.id.unitavail);
+        final EditText edt3 = dialog.findViewById(R.id.unitsold);
 
         TextView prdname = dialog.findViewById(R.id.prdname);
         prdname.setText("PRODUCT NAME \n"+pname);
@@ -1038,10 +1038,10 @@ public class DocDCRProduct extends AppCompatActivity {
         }
 
         if(!pop1data.get(0).getEpidermnoofunitsoldafterlaunch().equalsIgnoreCase("0") && !pop1data.get(0).getEpidermnoofunitsoldafterlaunchdate().equalsIgnoreCase(Global.dcrdate)){
-            edt3.setText(pop1data.get(0).getEpidermnoofunitsavail());
+            edt3.setText(pop1data.get(0).getEpidermnoofunitsoldafterlaunch());
             edt3.setEnabled(false);
         }else{
-            edt3.setText(pop1data.get(0).getEpidermnoofunitsavail());
+            edt3.setText(pop1data.get(0).getEpidermnoofunitsoldafterlaunch());
         }
 
         buttonNo.setOnClickListener(new View.OnClickListener() {
@@ -1054,6 +1054,30 @@ public class DocDCRProduct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //todo save data
+                String launched="",madeavail="",samplegiven="",prescreceived="";
+                if (rbgrp1.getCheckedRadioButtonId() != -1)
+                {
+                    AppCompatRadioButton radioButton = dialog.findViewById(rbgrp1.getCheckedRadioButtonId());
+                    launched = radioButton.getText().toString();
+                }
+                if (rbgrp2.getCheckedRadioButtonId() != -1)
+                {
+                    AppCompatRadioButton radioButton = dialog.findViewById(rbgrp2.getCheckedRadioButtonId());
+                    samplegiven = radioButton.getText().toString();
+                }
+                if (rbgrp3.getCheckedRadioButtonId() != -1)
+                {
+                    AppCompatRadioButton radioButton = dialog.findViewById(rbgrp3.getCheckedRadioButtonId());
+                    prescreceived = radioButton.getText().toString();
+                }
+                if (rbgrp4.getCheckedRadioButtonId() != -1)
+                {
+                    AppCompatRadioButton radioButton = dialog.findViewById(rbgrp4.getCheckedRadioButtonId());
+                    madeavail = radioButton.getText().toString();
+                }
+
+                save1187(prodid,launched,samplegiven,prescreceived,madeavail,edt1.getText().toString(),edt2.getText().toString(),edt3.getText().toString());
+                dialog.dismiss();
             }
         });
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
@@ -1062,6 +1086,28 @@ public class DocDCRProduct extends AppCompatActivity {
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialog.show();
         dialog.getWindow().setAttributes(lp);
+    }
+
+    private void save1187(String prodid, String launched, String samplegiven, String prescreceived, String madeavail, String presno, String unitavail, String unitsold) {
+        progressDialoge.show();
+        retrofit2.Call<DefaultResponse> call1 = RetrofitClient
+                .getInstance().getApi().submit1187(Global.ecode, Global.netid, Global.dcrdate, cntcd, prodid, Global.dcrno, launched, samplegiven, prescreceived, presno, madeavail, unitavail, unitsold,Global.dbprefix);
+        call1.enqueue(new Callback<DefaultResponse>() {
+            @Override
+            public void onResponse(retrofit2.Call<DefaultResponse> call1, Response<DefaultResponse> response) {
+                progressDialoge.dismiss();
+                DefaultResponse res = response.body();
+                if(!res.isError()){
+                    Toast.makeText(DocDCRProduct.this, res.getErrormsg(), Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<DefaultResponse> call1, Throwable t) {
+                progressDialoge.dismiss();
+                Snackbar snackbar = Snackbar.make(nsv, "Failed to get requested data !", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
     }
 
     private void getPopup2data(final String prodid,final String pname) {
@@ -1074,8 +1120,8 @@ public class DocDCRProduct extends AppCompatActivity {
             public void onResponse(retrofit2.Call<QseraPopUpRes> call1, Response<QseraPopUpRes> response) {
                 progressDialoge.dismiss();
                 QseraPopUpRes res = response.body();
+                pop2data = res.getDCRGiftSplDrDet();
                 if(pop2data.size()>0) {
-                    pop2data = res.getDCRGiftSplDrDet();
                     showPopupQSera(prodid, pname);
                 }else{
                     showNoDocDataAlert();
@@ -1107,12 +1153,12 @@ public class DocDCRProduct extends AppCompatActivity {
         final EditText edt1 = dialog.findViewById(R.id.rxgen);
         final EditText edt2 = dialog.findViewById(R.id.unitsold);
         final EditText edt3 = dialog.findViewById(R.id.drfeedbk);
-        EditText ll1 = dialog.findViewById(R.id.ll1);
-        EditText ll2 = dialog.findViewById(R.id.ll2);
-        EditText ll3 = dialog.findViewById(R.id.ll3);
-        EditText v1 = dialog.findViewById(R.id.v1);
-        EditText v2 = dialog.findViewById(R.id.v2);
-        EditText v3 = dialog.findViewById(R.id.v3);
+        LinearLayout ll1 = dialog.findViewById(R.id.ll1);
+        LinearLayout ll2 = dialog.findViewById(R.id.ll2);
+        LinearLayout ll3 = dialog.findViewById(R.id.ll3);
+        View v1 = dialog.findViewById(R.id.v1);
+        View v2 = dialog.findViewById(R.id.v2);
+        View v3 = dialog.findViewById(R.id.v3);
 
         TextView prdname = dialog.findViewById(R.id.prdname);
         prdname.setText("PRODUCT NAME \n"+pname);
@@ -1204,8 +1250,8 @@ public class DocDCRProduct extends AppCompatActivity {
             public void onResponse(retrofit2.Call<RedicnePopUpRes> call1, Response<RedicnePopUpRes> response) {
                 progressDialoge.dismiss();
                 RedicnePopUpRes res = response.body();
+                pop3data = res.getDCRRidacneDet();
                 if(pop3data.size()>0) {
-                    pop3data = res.getDCRRidacneDet();
                     showPopupRedicne(prodid, pname);
                 }else{
                     showNoDocDataAlert();
@@ -1220,7 +1266,7 @@ public class DocDCRProduct extends AppCompatActivity {
         });
     }
 
-    private void showPopupRedicne(String prodid, String pname) {
+    private void showPopupRedicne(final String prodid, String pname) {
         final Dialog dialog = new Dialog(DocDCRProduct.this);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -1231,14 +1277,14 @@ public class DocDCRProduct extends AppCompatActivity {
         CardView buttonYes = dialog.findViewById(R.id.submit);
         TextView drname = dialog.findViewById(R.id.drname);
         TextView drtype = dialog.findViewById(R.id.drtype);
-        RadioGroup rbgrp1 = dialog.findViewById(R.id.rbgrp1);
-        RadioGroup rbgrp2 = dialog.findViewById(R.id.rbgrp2);
-        RadioGroup rbgrp3 = dialog.findViewById(R.id.rbgrp3);
-        RadioGroup rbgrp4 = dialog.findViewById(R.id.rbgrp4);
-        RadioGroup rbgrp5 = dialog.findViewById(R.id.rbgrp5);
-        RadioGroup rbgrp6 = dialog.findViewById(R.id.rbgrp6);
-        RadioGroup rbgrp7 = dialog.findViewById(R.id.rbgrp7);
-        RadioGroup rbgrp8 = dialog.findViewById(R.id.rbgrp8);
+        final RadioGroup rbgrp1 = dialog.findViewById(R.id.rbgrp1);
+        final RadioGroup rbgrp2 = dialog.findViewById(R.id.rbgrp2);
+        final RadioGroup rbgrp3 = dialog.findViewById(R.id.rbgrp3);
+        final RadioGroup rbgrp4 = dialog.findViewById(R.id.rbgrp4);
+        final RadioGroup rbgrp5 = dialog.findViewById(R.id.rbgrp5);
+        final RadioGroup rbgrp6 = dialog.findViewById(R.id.rbgrp6);
+        final RadioGroup rbgrp7 = dialog.findViewById(R.id.rbgrp7);
+        final RadioGroup rbgrp8 = dialog.findViewById(R.id.rbgrp8);
         RadioButton no1 = dialog.findViewById(R.id.no1);
         RadioButton no2 = dialog.findViewById(R.id.no2);
         RadioButton no3 = dialog.findViewById(R.id.no3);
@@ -1247,14 +1293,14 @@ public class DocDCRProduct extends AppCompatActivity {
         RadioButton no6 = dialog.findViewById(R.id.no6);
         RadioButton no7 = dialog.findViewById(R.id.no7);
         RadioButton no8 = dialog.findViewById(R.id.no8);
-        EditText edt1 = dialog.findViewById(R.id.rxgen1);
-        EditText edt2 = dialog.findViewById(R.id.rxgen2);
-        EditText edt3 = dialog.findViewById(R.id.rxgen3);
-        EditText edt4 = dialog.findViewById(R.id.rxgen4);
-        EditText edt5 = dialog.findViewById(R.id.rxgen5);
-        EditText edt6 = dialog.findViewById(R.id.rxgen6);
-        EditText edt7 = dialog.findViewById(R.id.rxgen7);
-        EditText edt8 = dialog.findViewById(R.id.rxgen8);
+        final EditText edt1 = dialog.findViewById(R.id.rxgen1);
+        final EditText edt2 = dialog.findViewById(R.id.rxgen2);
+        final EditText edt3 = dialog.findViewById(R.id.rxgen3);
+        final EditText edt4 = dialog.findViewById(R.id.rxgen4);
+        final EditText edt5 = dialog.findViewById(R.id.rxgen5);
+        final EditText edt6 = dialog.findViewById(R.id.rxgen6);
+        final EditText edt7 = dialog.findViewById(R.id.rxgen7);
+        final EditText edt8 = dialog.findViewById(R.id.rxgen8);
 
         TextView prdname = dialog.findViewById(R.id.prdname);
         prdname.setText("PRODUCT NAME \n"+pname);
@@ -1424,6 +1470,86 @@ public class DocDCRProduct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //todo save data
+                String KMACBriefednConsentRcvd="",KMACUploadMaterailRcvdFromDr="",DrAgreedWiththeKMACUploadedMaterial="",HandedOverKMACInstrumentToTheDr="";
+                String KMACRelatedallMaterialPlacedDspatientWaitingarena="",KMACRunningWellCheckednFdbkUpdatedDr="",KMACFdbkTakenFromDr="",sectimeKMACRunningWellcheckednFdbkUpdatedDr="";
+                if (rbgrp1.getCheckedRadioButtonId() != -1)
+                {
+                    AppCompatRadioButton radioButton = dialog.findViewById(rbgrp1.getCheckedRadioButtonId());
+                    String txt = radioButton.getText().toString();
+                    if(txt.equalsIgnoreCase("DONE"))
+                        KMACBriefednConsentRcvd = "Y";
+                    else if(txt.equalsIgnoreCase("Could Not Do"))
+                        KMACBriefednConsentRcvd = "N";
+                }
+                if (rbgrp2.getCheckedRadioButtonId() != -1)
+                {
+                    AppCompatRadioButton radioButton = dialog.findViewById(rbgrp2.getCheckedRadioButtonId());
+                    String txt = radioButton.getText().toString();
+                    if(txt.equalsIgnoreCase("DONE"))
+                        KMACUploadMaterailRcvdFromDr = "Y";
+                    else if(txt.equalsIgnoreCase("Could Not Do"))
+                        KMACUploadMaterailRcvdFromDr = "N";
+                }
+                if (rbgrp3.getCheckedRadioButtonId() != -1)
+                {
+                    AppCompatRadioButton radioButton = dialog.findViewById(rbgrp3.getCheckedRadioButtonId());
+                    String txt = radioButton.getText().toString();
+                    if(txt.equalsIgnoreCase("DONE"))
+                        DrAgreedWiththeKMACUploadedMaterial = "Y";
+                    else if(txt.equalsIgnoreCase("Could Not Do"))
+                        DrAgreedWiththeKMACUploadedMaterial = "N";
+                }
+                if (rbgrp4.getCheckedRadioButtonId() != -1)
+                {
+                    AppCompatRadioButton radioButton = dialog.findViewById(rbgrp4.getCheckedRadioButtonId());
+                    String txt = radioButton.getText().toString();
+                    if(txt.equalsIgnoreCase("DONE"))
+                        HandedOverKMACInstrumentToTheDr = "Y";
+                    else if(txt.equalsIgnoreCase("Could Not Do"))
+                        HandedOverKMACInstrumentToTheDr = "N";
+                }
+                if (rbgrp5.getCheckedRadioButtonId() != -1)
+                {
+                    AppCompatRadioButton radioButton = dialog.findViewById(rbgrp5.getCheckedRadioButtonId());
+                    String txt = radioButton.getText().toString();
+                    if(txt.equalsIgnoreCase("DONE"))
+                        KMACRelatedallMaterialPlacedDspatientWaitingarena = "Y";
+                    else if(txt.equalsIgnoreCase("Could Not Do"))
+                        KMACRelatedallMaterialPlacedDspatientWaitingarena = "N";
+                }
+                if (rbgrp6.getCheckedRadioButtonId() != -1)
+                {
+                    AppCompatRadioButton radioButton = dialog.findViewById(rbgrp6.getCheckedRadioButtonId());
+                    String txt = radioButton.getText().toString();
+                    if(txt.equalsIgnoreCase("DONE"))
+                        KMACRunningWellCheckednFdbkUpdatedDr = "Y";
+                    else if(txt.equalsIgnoreCase("Could Not Do"))
+                        KMACRunningWellCheckednFdbkUpdatedDr = "N";
+                }
+                if (rbgrp7.getCheckedRadioButtonId() != -1)
+                {
+                    AppCompatRadioButton radioButton = dialog.findViewById(rbgrp7.getCheckedRadioButtonId());
+                    String txt = radioButton.getText().toString();
+                    if(txt.equalsIgnoreCase("DONE"))
+                        KMACFdbkTakenFromDr = "Y";
+                    else if(txt.equalsIgnoreCase("Could Not Do"))
+                        KMACFdbkTakenFromDr = "N";
+                }
+                if (rbgrp8.getCheckedRadioButtonId() != -1)
+                {
+                    AppCompatRadioButton radioButton = dialog.findViewById(rbgrp8.getCheckedRadioButtonId());
+                    String txt = radioButton.getText().toString();
+                    if(txt.equalsIgnoreCase("DONE"))
+                        sectimeKMACRunningWellcheckednFdbkUpdatedDr = "Y";
+                    else if(txt.equalsIgnoreCase("Could Not Do"))
+                        sectimeKMACRunningWellcheckednFdbkUpdatedDr = "N";
+                }
+
+                save3009(prodid, KMACBriefednConsentRcvd,edt1.getText().toString(), KMACUploadMaterailRcvdFromDr,edt2.getText().toString(),
+                        DrAgreedWiththeKMACUploadedMaterial,edt3.getText().toString(), HandedOverKMACInstrumentToTheDr,edt4.getText().toString(),
+                        KMACRelatedallMaterialPlacedDspatientWaitingarena,edt5.getText().toString(), KMACRunningWellCheckednFdbkUpdatedDr,edt6.getText().toString(),
+                        KMACFdbkTakenFromDr,edt7.getText().toString(), sectimeKMACRunningWellcheckednFdbkUpdatedDr,edt8.getText().toString());
+                dialog.dismiss();
             }
         });
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
@@ -1432,6 +1558,34 @@ public class DocDCRProduct extends AppCompatActivity {
         lp.height = WindowManager.LayoutParams.MATCH_PARENT;
         dialog.show();
         dialog.getWindow().setAttributes(lp);
+    }
+
+    private void save3009(String prodid, String kmacBriefednConsentRcvd, String rx, String kmacUploadMaterailRcvdFromDr, String rx1,
+                          String drAgreedWiththeKMACUploadedMaterial, String rx2, String handedOverKMACInstrumentToTheDr, String rx3,
+                          String kmacRelatedallMaterialPlacedDspatientWaitingarena, String rx4, String kmacRunningWellCheckednFdbkUpdatedDr,
+                          String rx5, String kmacFdbkTakenFromDr, String rx6, String sectimeKMACRunningWellcheckednFdbkUpdatedDr, String rx7) {
+        progressDialoge.show();
+        retrofit2.Call<DefaultResponse> call1 = RetrofitClient
+                .getInstance().getApi().submit3009(Global.ecode, Global.netid, Global.dcrdate, cntcd, prodid, Global.dcrno,kmacBriefednConsentRcvd, rx,
+                        kmacUploadMaterailRcvdFromDr,  rx1, drAgreedWiththeKMACUploadedMaterial, rx2, handedOverKMACInstrumentToTheDr, rx3,
+                        kmacRelatedallMaterialPlacedDspatientWaitingarena, rx4, kmacRunningWellCheckednFdbkUpdatedDr,
+                        rx5, kmacFdbkTakenFromDr, rx6, sectimeKMACRunningWellcheckednFdbkUpdatedDr, rx7,Global.dbprefix);
+        call1.enqueue(new Callback<DefaultResponse>() {
+            @Override
+            public void onResponse(retrofit2.Call<DefaultResponse> call1, Response<DefaultResponse> response) {
+                progressDialoge.dismiss();
+                DefaultResponse res = response.body();
+                if(!res.isError()){
+                    Toast.makeText(DocDCRProduct.this, res.getErrormsg(), Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<DefaultResponse> call1, Throwable t) {
+                progressDialoge.dismiss();
+                Snackbar snackbar = Snackbar.make(nsv, "Failed to get requested data !", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
     }
 
     @Override

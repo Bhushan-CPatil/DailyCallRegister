@@ -382,5 +382,52 @@ public interface Api {
             @Field("DBPrefix") String dbprefix
     );
 
+    @FormUrlEncoded
+    @POST("submit1187.php")
+    Call<DefaultResponse> submit1187(
+            @Field("ecode") String ecode,
+            @Field("netid") String netid,
+            @Field("dcrdate") String dcrdate,
+            @Field("cntcd") String cntcd,
+            @Field("prodid") String prodid,
+            @Field("dcrno") String dcrno,
+            @Field("epidermlaunched") String epidermlaunched,
+            @Field("epidermsamplegiven") String epidermsamplegiven,
+            @Field("epidermprscReceived") String epidermprscReceived,
+            @Field("epidermpresno") String epidermpresno,
+            @Field("madeavail") String madeavail,
+            @Field("epidermnoofunitsavail") String epidermnoofunitsavail,
+            @Field("epidermnoofunitsoldafterlaunch") String epidermnoofunitsoldafterlaunch,
+            @Field("DBPrefix") String dbprefix
+    );
+
+    @FormUrlEncoded
+    @POST("submit3009.php")
+    Call<DefaultResponse> submit3009(
+            @Field("ecode") String ecode,
+            @Field("netid") String netid,
+            @Field("dcrdate") String dcrdate,
+            @Field("cntcd") String cntcd,
+            @Field("prodid") String prodid,
+            @Field("dcrno") String dcrno,
+            @Field("KMACBriefednConsentRcvd") String KMACBriefednConsentRcvd,
+            @Field("NoofRidacneRxWeek1520jul") String NoofRidacneRxWeek1520jul,
+            @Field("KMACUploadMaterailRcvdFromDr") String KMACUploadMaterailRcvdFromDr,
+            @Field("NoofRidacneRxWeek2431jul") String NoofRidacneRxWeek2431jul,
+            @Field("DrAgreedWiththeKMACUploadedMaterial") String DrAgreedWiththeKMACUploadedMaterial,
+            @Field("NoofRidacneRxWeek0107aug") String NoofRidacneRxWeek0107aug,
+            @Field("HandedOverKMACInstrumentToTheDr") String HandedOverKMACInstrumentToTheDr,
+            @Field("NoofRidacneRxWeek0814aug") String NoofRidacneRxWeek0814aug,
+            @Field("KMACRelatedallMaterialPlacedDspatientWaitingarena") String KMACRelatedallMaterialPlacedDspatientWaitingarena,
+            @Field("NoofRidacneRxWeek1622aug") String NoofRidacneRxWeek1622aug,
+            @Field("KMACRunningWellCheckednFdbkUpdatedDr") String KMACRunningWellCheckednFdbkUpdatedDr,
+            @Field("NoofRidacneRxWeek2431aug") String NoofRidacneRxWeek2431aug,
+            @Field("KMACFdbkTakenFromDr") String KMACFdbkTakenFromDr,
+            @Field("NoofRidacneRxWeek0105sep") String NoofRidacneRxWeek0105sep,
+            @Field("sectimeKMACRunningWellcheckednFdbkUpdatedDr") String sectimeKMACRunningWellcheckednFdbkUpdatedDr,
+            @Field("NoofRidacneRxWeek1630sep") String NoofRidacneRxWeek1630sep,
+            @Field("DBPrefix") String dbprefix
+    );
+
 
 }

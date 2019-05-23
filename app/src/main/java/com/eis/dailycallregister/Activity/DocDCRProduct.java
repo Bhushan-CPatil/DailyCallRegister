@@ -87,6 +87,7 @@ public class DocDCRProduct extends AppCompatActivity {
 
     public static final int CONNECTION_TIMEOUT = 60000;
     public static final int READ_TIMEOUT = 90000;
+    String qgen="",spflag="",pflag="";
     ViewDialog progressDialoge;
     MaterialButton submitbtn,cancelbtn;
     ConstraintLayout nsv;
@@ -183,7 +184,7 @@ public class DocDCRProduct extends AppCompatActivity {
                                 }
                                 //Toast.makeText(DocDCRProduct.this, myCustomArray.toString(), Toast.LENGTH_LONG).show();
                                 new DocDCRProduct.addProductEntry().execute(Global.ecode,Global.netid,serialwp,Global.dcrno,finyr,d1d2,field,
-                                        myCustomArray.toString(),"",Global.dbprefix,cntcd,Global.dcrdate,compcall,"X","");
+                                        myCustomArray.toString(),qgen,Global.dbprefix,cntcd,Global.dcrdate,compcall,spflag,pflag);
                             }
                         });
                 builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -1566,7 +1567,7 @@ public class DocDCRProduct extends AppCompatActivity {
                           String rx5, String kmacFdbkTakenFromDr, String rx6, String sectimeKMACRunningWellcheckednFdbkUpdatedDr, String rx7) {
         progressDialoge.show();
         retrofit2.Call<DefaultResponse> call1 = RetrofitClient
-                .getInstance().getApi().submit3009(Global.ecode, Global.netid, Global.dcrdate, cntcd, prodid, Global.dcrno,kmacBriefednConsentRcvd, rx,
+                .getInstance().getApi().submit3009(Global.ecode, Global.netid, Global.dcrdate, cntcd, "3009", Global.dcrno,kmacBriefednConsentRcvd, rx,
                         kmacUploadMaterailRcvdFromDr,  rx1, drAgreedWiththeKMACUploadedMaterial, rx2, handedOverKMACInstrumentToTheDr, rx3,
                         kmacRelatedallMaterialPlacedDspatientWaitingarena, rx4, kmacRunningWellCheckednFdbkUpdatedDr,
                         rx5, kmacFdbkTakenFromDr, rx6, sectimeKMACRunningWellcheckednFdbkUpdatedDr, rx7,Global.dbprefix);

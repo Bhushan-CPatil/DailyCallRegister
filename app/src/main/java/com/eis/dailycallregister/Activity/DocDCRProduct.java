@@ -87,7 +87,8 @@ public class DocDCRProduct extends AppCompatActivity {
 
     public static final int CONNECTION_TIMEOUT = 60000;
     public static final int READ_TIMEOUT = 90000;
-    String qgen="",spflag="",pflag="";
+    String qgen="",spflag="",pflag="",label="";
+    boolean showDropdownAlert = false;
     ViewDialog progressDialoge;
     MaterialButton submitbtn,cancelbtn;
     ConstraintLayout nsv;
@@ -164,38 +165,47 @@ public class DocDCRProduct extends AppCompatActivity {
             public void onClick(View v) {
                 //onBackPressed();
                 productnameslist.clearFocus();
-                AlertDialog.Builder builder = new AlertDialog.Builder(DocDCRProduct.this);
-                builder.setCancelable(true);
-                builder.setTitle("SUBMIT ?");
-                builder.setMessage("Are you sure want to submit ?");
-                builder.setPositiveButton("Yes",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Gson gson = new GsonBuilder().create();
-                                JsonArray myCustomArray = gson.toJsonTree(dcrprodlst).getAsJsonArray();
-                                String text = spn.getSelectedItem().toString();
-                                String compcall = "N";
-                                if(text.equalsIgnoreCase("YES")){
-                                    compcall = "Y";
-                                    iscompcall = "Y";
-                                }else{
-                                    iscompcall = "N";
+                if(showDropdownAlert){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(DocDCRProduct.this);
+                    builder.setCancelable(true);
+                    builder.setTitle(Html.fromHtml("<font color='#FF5555'>"+label+"</font>"));
+                    //builder.setMessage("\nNote : If answer is already given then the answer is marked with RED colour.\nIf you don't want to change answer click on CANCEL button.");
+                    builder.setMessage(Html.fromHtml("<b>NOTE :</b> If answer is already given then the answer is marked with <b>RED</b> colour.<br>If you don't want to change the answer click on <b>CANCEL</b> button."));
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    qgen = "Y";
+                                    submitentry();
                                 }
-                                //Toast.makeText(DocDCRProduct.this, myCustomArray.toString(), Toast.LENGTH_LONG).show();
-                                new DocDCRProduct.addProductEntry().execute(Global.ecode,Global.netid,serialwp,Global.dcrno,finyr,d1d2,field,
-                                        myCustomArray.toString(),qgen,Global.dbprefix,cntcd,Global.dcrdate,compcall,spflag,pflag);
+                            });
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            qgen = "N";
+                            submitentry();
+                        }
+                    });
+                    builder.setNeutralButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            submitentry();
+                        }
+                    });
+                    final AlertDialog dialog = builder.create();
+                    dialog.setOnShowListener( new DialogInterface.OnShowListener() {
+                        @Override
+                        public void onShow(DialogInterface arg0) {
+                            if(qgen.equalsIgnoreCase("N")) {
+                                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.textcolorred));
+                            }else if(qgen.equalsIgnoreCase("Y")) {
+                                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.textcolorred));
                             }
-                        });
-                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //do nothing
-                    }
-                });
-
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                        }
+                    });
+                    dialog.show();
+                }else{
+                    submitentry();
+                }
 
 
                 //Toast.makeText(DocDCRGift.this, myCustomArray.toString(), Toast.LENGTH_LONG).show();
@@ -239,6 +249,41 @@ public class DocDCRProduct extends AppCompatActivity {
 
     }
 
+    public void submitentry(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(DocDCRProduct.this);
+        builder.setCancelable(true);
+        builder.setTitle("SUBMIT ?");
+        builder.setMessage("Are you sure want to submit ?");
+        builder.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Gson gson = new GsonBuilder().create();
+                        JsonArray myCustomArray = gson.toJsonTree(dcrprodlst).getAsJsonArray();
+                        String text = spn.getSelectedItem().toString();
+                        String compcall = "N";
+                        if(text.equalsIgnoreCase("YES")){
+                            compcall = "Y";
+                            iscompcall = "Y";
+                        }else{
+                            iscompcall = "N";
+                        }
+                        //Toast.makeText(DocDCRProduct.this, myCustomArray.toString(), Toast.LENGTH_LONG).show();
+                        new DocDCRProduct.addProductEntry().execute(Global.ecode,Global.netid,serialwp,Global.dcrno,finyr,d1d2,field,
+                                myCustomArray.toString(),qgen,Global.dbprefix,cntcd,Global.dcrdate,compcall,spflag,pflag);
+                    }
+                });
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //do nothing
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     private void apicall1() {
         progressDialoge.show();
 
@@ -249,6 +294,13 @@ public class DocDCRProduct extends AppCompatActivity {
             public void onResponse(retrofit2.Call<DCRProdListRes> call1, Response<DCRProdListRes> response) {
                 DCRProdListRes res = response.body();
                 //progressDialoge.dismiss();
+                if(!res.getDropprodid().equalsIgnoreCase("") && !res.getLabel().equalsIgnoreCase("") && !res.getDropspldrflag().equalsIgnoreCase("")) {
+                    showDropdownAlert = true;
+                    qgen = res.getDropgenQ();
+                    spflag = res.getDropspldrflag();
+                    pflag = res.getDropprodid();
+                    label = res.getLabel();
+                }
                 dcrprodlst = res.getDcrproductlist();
                 productnameslist.setVisibility(View.VISIBLE);
                 productnameslist.getAdapter().notifyDataSetChanged();

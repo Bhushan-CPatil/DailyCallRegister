@@ -154,9 +154,9 @@ public class DCREntry extends Fragment {
                                 Global.dcrdatestatus = true;
                                 dcrdate.setText("DCR DATE : "+Global.dcrdateday+"-"+Global.dcrdatemonth+"-"+Global.dcrdateyear);
                                 arrayList.remove(spinnerHolDates.getSelectedItem().toString().trim());
+                                Global.dcrno = null;
 
-
-                                    Snackbar.make(sv,"DCR date changed successfully.",Snackbar.LENGTH_LONG).show();
+                                        Snackbar.make(sv,"DCR date changed successfully.",Snackbar.LENGTH_LONG).show();
                                     m2.setVisibility(View.GONE);
 
 

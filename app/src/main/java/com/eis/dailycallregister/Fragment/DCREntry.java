@@ -15,6 +15,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Scroller;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +35,7 @@ import com.eis.dailycallregister.Activity.ChemistData;
 import com.eis.dailycallregister.Activity.DoctorsData;
 import com.eis.dailycallregister.Activity.ExpenseData;
 import com.eis.dailycallregister.Activity.HomeActivity;
+import com.eis.dailycallregister.Activity.LoginScreen;
 import com.eis.dailycallregister.Activity.NonFieldWork;
 import com.eis.dailycallregister.Api.RetrofitClient;
 import com.eis.dailycallregister.Others.Global;
@@ -331,7 +334,7 @@ public class DCREntry extends Fragment {
             @Override
             public void onResponse(Call<DefaultResponse> call1, Response<DefaultResponse> response) {
                 DefaultResponse res = response.body();
-                progressDialoge.dismiss();
+                //progressDialoge.dismiss();
                 //Log.d("progress 5-->",ecode);
                 if (res.isError()) {
                     arrayList =new ArrayList<>();
@@ -350,6 +353,48 @@ public class DCREntry extends Fragment {
                     spinnerHolDates.setAdapter(adapter);
 
                     m2.setVisibility(View.VISIBLE);
+                }
+
+                checkPendingStockandSalesEntry();
+            }
+
+            @Override
+            public void onFailure(Call<DefaultResponse> call1, Throwable t) {
+                progressDialoge.dismiss();
+                Snackbar snackbar = Snackbar.make(sv, "Failed to fetch data !", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("Re-try", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getdcrdate();
+                            }
+                        });
+                snackbar.show();
+            }
+        });
+    }
+
+    private void checkPendingStockandSalesEntry() {
+        String d1d2="";
+        if(Global.hname.contains("(A)")){
+            d1d2 = "A";
+        }else if(Global.hname.contains("(B)")){
+            d1d2 = "B";
+        }else if(Global.hname.contains("(C)")){
+            d1d2 = "C";
+        }else if(Global.hname.contains("(D)")){
+            d1d2 = "D";
+        }
+        Call<DefaultResponse> call1 = RetrofitClient
+                .getInstance().getApi().checkSalesEntryNotFilled(Global.netid,d1d2,Global.dbprefix);
+        call1.enqueue(new Callback<DefaultResponse>() {
+            @Override
+            public void onResponse(Call<DefaultResponse> call1, Response<DefaultResponse> response) {
+                DefaultResponse res = response.body();
+                progressDialoge.dismiss();
+                //Log.d("progress 5-->",ecode);
+                if (!res.isError()) {
+                    Log.d("error msg-->",res.getErrormsg());
+                    salesEntryRemainingAlert(res.getErrormsg());
                 }
             }
 
@@ -424,6 +469,22 @@ public class DCREntry extends Fragment {
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialog.show();
         dialog.getWindow().setAttributes(lp);
+    }
+
+    public void salesEntryRemainingAlert(String response){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(true);
+        builder.setTitle("Alert");
+        builder.setMessage(response);
+        builder.setPositiveButton("OK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 }

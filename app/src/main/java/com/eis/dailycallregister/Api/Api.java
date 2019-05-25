@@ -238,6 +238,14 @@ public interface Api {
     );
 
     @FormUrlEncoded
+    @POST("checkSalesEntryNotFilled.php")
+    Call<DefaultResponse> checkSalesEntryNotFilled(
+            @Field("netid") String netid,
+            @Field("d1d2") String d1d2,
+            @Field("DBPrefix") String dbprefix
+    );
+
+    @FormUrlEncoded
     @POST("DCRGift.php")
     Call<DCRGiftListRes> DCRGiftApi(
             @Field("serial") String serial,

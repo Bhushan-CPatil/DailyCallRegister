@@ -907,8 +907,22 @@ public class ChemistData extends AppCompatActivity {
             try {
                 JSONObject jobj = new JSONObject(result);
 
-                if(!jobj.getBoolean("error") && jobj.getString("errormsg").equalsIgnoreCase("deleted")) {
+                /*if(!jobj.getBoolean("error") && jobj.getString("errormsg").equalsIgnoreCase("deleted")) {
                     Toast.makeText(ChemistData.this,"Chemist deleted successfully",Toast.LENGTH_LONG).show();
+                    apicall3();
+                }*/
+                if(!jobj.getBoolean("error") && jobj.getString("errormsg").equalsIgnoreCase("Y")) {
+                    Toast.makeText(ChemistData.this,"Chemist deleted successfully",Toast.LENGTH_LONG).show();
+                    dcrdlst.clear();
+                    selchaw.clear();
+                    chemistlist.getAdapter().notifyDataSetChanged();
+                    Global.dcrno = null;
+                    //recreate();
+                }else if(!jobj.getBoolean("error") && jobj.getString("errormsg").equalsIgnoreCase("N")) {
+                    Toast.makeText(ChemistData.this,"Chemist deleted successfully",Toast.LENGTH_LONG).show();
+                    dcrdlst.clear();
+                    selchaw.clear();
+                    chemistlist.getAdapter().notifyDataSetChanged();
                     apicall3();
                 }
 

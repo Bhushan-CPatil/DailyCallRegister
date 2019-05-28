@@ -48,9 +48,12 @@ public interface Api {
 
     //to check weather user is resigned or not
     @FormUrlEncoded
-    @POST("checkstatus")
-    Call<ErrorBooleanResponce> islogincontinue(
-            @Field("ecode") String ecode,
+    @POST("changeDCRDate.php")
+    Call<DefaultResponse> changeDCRDate(
+            @Field("empcode") String empcode,
+            @Field("netid") String netid,
+            @Field("newdcrdate") String newdcrdate,
+            @Field("dcrno") String dcrno,
             @Field("DBPrefix") String DBPrefix
     );
 

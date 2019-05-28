@@ -146,19 +146,53 @@ public class DCREntry extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //it stores selected dcrdate in global variables
-                                String[] detsplt = spinnerHolDates.getSelectedItem().toString().trim().split("-");
-                                Global.dcrdate = detsplt[2]+"-"+detsplt[1]+"-"+detsplt[0];
-                                Global.dcrdateday = detsplt[0];
-                                Global.dcrdatemonth = detsplt[1];
-                                Global.dcrdateyear = detsplt[2];
-                                Global.dcrdatestatus = true;
-                                dcrdate.setText("DCR DATE : "+Global.dcrdateday+"-"+Global.dcrdatemonth+"-"+Global.dcrdateyear);
-                                arrayList.remove(spinnerHolDates.getSelectedItem().toString().trim());
-                                Global.dcrno = null;
+                                if(Global.dcrno == null) {
+                                    String[] detsplt = spinnerHolDates.getSelectedItem().toString().trim().split("-");
+                                    Global.dcrdate = detsplt[2] + "-" + detsplt[1] + "-" + detsplt[0];
+                                    Global.dcrdateday = detsplt[0];
+                                    Global.dcrdatemonth = detsplt[1];
+                                    Global.dcrdateyear = detsplt[2];
+                                    Global.dcrdatestatus = true;
+                                    dcrdate.setText("DCR DATE : " + Global.dcrdateday + "-" + Global.dcrdatemonth + "-" + Global.dcrdateyear);
+                                    arrayList.remove(spinnerHolDates.getSelectedItem().toString().trim());
+                                    Global.dcrno = null;
 
-                                        Snackbar.make(sv,"DCR date changed successfully.",Snackbar.LENGTH_LONG).show();
+                                    Snackbar.make(sv, "DCR date changed successfully.", Snackbar.LENGTH_LONG).show();
                                     m2.setVisibility(View.GONE);
+                                }else{
+                                    Snackbar.make(sv, "Please wait.....", Snackbar.LENGTH_LONG).show();
+                                    final String[] detsplt = spinnerHolDates.getSelectedItem().toString().trim().split("-");
+                                    final String newdcrdate = detsplt[2] + "-" + detsplt[1] + "-" + detsplt[0];
+                                    progressDialoge.show();
+                                    Call<DefaultResponse> call1 = RetrofitClient
+                                            .getInstance().getApi().changeDCRDate(Global.ecode,Global.netid, newdcrdate,Global.dcrno,Global.dbprefix);
+                                    call1.enqueue(new Callback<DefaultResponse>() {
+                                        @Override
+                                        public void onResponse(Call<DefaultResponse> call1, Response<DefaultResponse> response) {
+                                            DefaultResponse res = response.body();
+                                            progressDialoge.dismiss();
+                                            if (!res.isError()) {
+                                                Global.dcrdateday = detsplt[0];
+                                                Global.dcrdatemonth = detsplt[1];
+                                                Global.dcrdateyear = detsplt[2];
+                                                Global.dcrdatestatus = true;
+                                                dcrdate.setText("DCR DATE : " + Global.dcrdateday + "-" + Global.dcrdatemonth + "-" + Global.dcrdateyear);
+                                                arrayList.remove(spinnerHolDates.getSelectedItem().toString().trim());
+                                                m2.setVisibility(View.GONE);
+                                                Snackbar.make(sv, res.getErrormsg(), Snackbar.LENGTH_LONG).show();
+                                            }else{
+                                                Snackbar.make(sv, res.getErrormsg(), Snackbar.LENGTH_LONG).show();
+                                            }
+                                        }
 
+                                        @Override
+                                        public void onFailure(Call<DefaultResponse> call1, Throwable t) {
+                                            progressDialoge.dismiss();
+                                            Snackbar snackbar = Snackbar.make(sv, "Failed to update dcrdate !", Snackbar.LENGTH_LONG);
+                                            snackbar.show();
+                                        }
+                                    });
+                                }
 
                             }
                         });
@@ -351,8 +385,11 @@ public class DCREntry extends Fragment {
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),  android.R.layout.simple_spinner_item, arrayList);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinnerHolDates.setAdapter(adapter);
-
-                    m2.setVisibility(View.VISIBLE);
+                    //if(Global.dcrno == null) {
+                        m2.setVisibility(View.VISIBLE);
+                    /*}else{
+                        m2.setVisibility(View.GONE);
+                    }*/
                 }
 
                 checkPendingStockandSalesEntry();

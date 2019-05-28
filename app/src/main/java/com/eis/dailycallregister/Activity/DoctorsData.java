@@ -989,8 +989,18 @@ public class DoctorsData extends AppCompatActivity {
             try {
                 JSONObject jobj = new JSONObject(result);
 
-                if(!jobj.getBoolean("error") && jobj.getString("errormsg").equalsIgnoreCase("deleted")) {
+                if(!jobj.getBoolean("error") && jobj.getString("errormsg").equalsIgnoreCase("Y")) {
                     Toast.makeText(DoctorsData.this,"Doctor deleted successfully",Toast.LENGTH_LONG).show();
+                    dcrdlst.clear();
+                    seldraw.clear();
+                    doctorslist.getAdapter().notifyDataSetChanged();
+                    Global.dcrno = null;
+                    //recreate();
+                }else if(!jobj.getBoolean("error") && jobj.getString("errormsg").equalsIgnoreCase("N")) {
+                    Toast.makeText(DoctorsData.this,"Doctor deleted successfully",Toast.LENGTH_LONG).show();
+                    dcrdlst.clear();
+                    seldraw.clear();
+                    doctorslist.getAdapter().notifyDataSetChanged();
                     apicall3();
                 }
 

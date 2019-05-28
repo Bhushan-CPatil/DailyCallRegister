@@ -90,6 +90,8 @@ public interface Api {
     @POST("dcrblockcheck.php")
     Call<DefaultResponse> DCRBlockCheck(
             @Field("empcode") String ecode,
+            @Field("netid") String netid,
+            @Field("dcrdate") String dcrdate,
             @Field("DBPrefix") String DBPrefix
     );
 

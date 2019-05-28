@@ -291,7 +291,7 @@ public class DCREntry extends Fragment {
 
     public void checkblock(){
         Call<DefaultResponse> call1 = RetrofitClient
-                .getInstance().getApi().DCRBlockCheck(Global.ecode,Global.dbprefix);
+                .getInstance().getApi().DCRBlockCheck(Global.ecode,Global.netid,Global.dcrdate,Global.dbprefix);
         call1.enqueue(new Callback<DefaultResponse>() {
             @Override
             public void onResponse(Call<DefaultResponse> call1, Response<DefaultResponse> response) {

@@ -14,4 +14,6 @@
     <color name="transparentblacktint">#B3000000</color>
     <color name="transparentcolor">#00000000</color>
     <color name="textcolorred">#FF5555</color>
+    <color name="charcoal">#FF394249</color>
+    <color name="medium_jungle_green">#FF273238</color>
 </resources>

@@ -453,14 +453,19 @@
                         android:textStyle="bold"
                         />
                 </LinearLayout>
-                <com.cleveroad.adaptivetablelayout.AdaptiveTableLayout
-                    android:id="@+id/tableLayout"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:cellMargin="1dp"
-                    app:dragAndDropEnabled="true"
-                    app:fixedHeaders="true"
-                    app:solidRowHeaders="true"/>
+                    android:layout_height="wrap_content"
+                    android:background="@color/textcolordarkgray">
+                    <com.cleveroad.adaptivetablelayout.AdaptiveTableLayout
+                        android:id="@+id/tableLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:cellMargin="1dp"
+                        app:dragAndDropEnabled="true"
+                        app:fixedHeaders="true"
+                        app:solidRowHeaders="true"/>
+                </LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
         <android.support.v7.widget.CardView
@@ -502,14 +507,19 @@
                         android:textStyle="bold"
                         />
                 </LinearLayout>
-                <com.cleveroad.adaptivetablelayout.AdaptiveTableLayout
-                    android:id="@+id/tableLayout2"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:cellMargin="1dp"
-                    app:dragAndDropEnabled="true"
-                    app:fixedHeaders="true"
-                    app:solidRowHeaders="true"/>
+                    android:layout_height="wrap_content"
+                    android:background="@color/textcolordarkgray">
+                    <com.cleveroad.adaptivetablelayout.AdaptiveTableLayout
+                        android:id="@+id/tableLayout2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:cellMargin="1dp"
+                        app:dragAndDropEnabled="true"
+                        app:fixedHeaders="true"
+                        app:solidRowHeaders="true"/>
+                </LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
     </LinearLayout>

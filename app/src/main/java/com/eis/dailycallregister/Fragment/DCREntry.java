@@ -31,6 +31,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.eis.dailycallregister.Activity.CheckDCRSummary;
 import com.eis.dailycallregister.Activity.ChemistData;
 import com.eis.dailycallregister.Activity.DoctorsData;
 import com.eis.dailycallregister.Activity.ExpenseData;
@@ -62,7 +63,7 @@ public class DCREntry extends Fragment {
     LinearLayout l1,l2,l3;
     TextView dcrdate;
     Spinner spinnerHolDates;
-    MaterialButton submitdcrdate;
+    MaterialButton submitdcrdate,condcrent;
     List<String> arrayList;
 
     @Override
@@ -90,6 +91,7 @@ public class DCREntry extends Fragment {
         dcrdate = view.findViewById(R.id.dcrdate);
         spinnerHolDates = view.findViewById(R.id.holdate);
         submitdcrdate = view.findViewById(R.id.submitdcrdate);
+        condcrent = view.findViewById(R.id.condcrent);
         m1.setVisibility(View.GONE);
         m2.setVisibility(View.GONE);
         m3.setVisibility(View.GONE);
@@ -207,6 +209,39 @@ public class DCREntry extends Fragment {
                 dialog.show();
             }
         });
+
+        condcrent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setCancelable(true);
+                builder.setTitle("CONFIRM DCR ?");
+                builder.setMessage("Are you sure want to confirm DCR ?");
+                builder.setPositiveButton("Yes",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //it stores selected dcrdate in global variables
+                                if(Global.dcrno == null) {
+                                    Snackbar.make(sv, "First fill the DCR", Snackbar.LENGTH_LONG).show();
+                                }else{
+                                   Intent intent = new Intent(getActivity(), CheckDCRSummary.class);
+                                   startActivity(intent);
+                                }
+                            }
+                        });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //do nothing
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
         return view;
     }
 

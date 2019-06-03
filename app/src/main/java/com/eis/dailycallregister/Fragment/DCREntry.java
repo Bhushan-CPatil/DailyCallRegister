@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +16,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,6 +46,8 @@ import com.eis.dailycallregister.Others.Global;
 import com.eis.dailycallregister.Others.ViewDialog;
 import com.eis.dailycallregister.Pojo.DefaultResponse;
 import com.eis.dailycallregister.Pojo.GetDcrDateRes;
+import com.eis.dailycallregister.Pojo.SampleAndGiftReceiptItem;
+import com.eis.dailycallregister.Pojo.SampleAndGiftReceiptRes;
 import com.eis.dailycallregister.R;
 
 import java.util.ArrayList;
@@ -65,6 +70,8 @@ public class DCREntry extends Fragment {
     Spinner spinnerHolDates;
     MaterialButton submitdcrdate,condcrent;
     List<String> arrayList;
+    List<SampleAndGiftReceiptItem> samplegift = new ArrayList<>();
+    public int mn=0;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -226,7 +233,8 @@ public class DCREntry extends Fragment {
                                     Snackbar.make(sv, "First fill the DCR", Snackbar.LENGTH_LONG).show();
                                 }else{
                                    Intent intent = new Intent(getActivity(), CheckDCRSummary.class);
-                                   startActivity(intent);
+                                    Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
+                                    startActivity(intent,bndlanimation);
                                 }
                             }
                         });
@@ -511,7 +519,7 @@ public class DCREntry extends Fragment {
         dialog.getWindow().setAttributes(lp);
     }
 
-    public static void dialogYesNoTypeQuestion(final Context context , String result) {
+    public void dialogYesNoTypeQuestion(final Context context , String result) {
         final Dialog dialog = new Dialog(context);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -531,7 +539,8 @@ public class DCREntry extends Fragment {
             @Override
             public void onClick(View v) {
                 Global.SampleGiftRecOrNot = "Y";
-                Toast.makeText(context,"Ans "+Global.SampleGiftRecOrNot,Toast.LENGTH_LONG);
+                //Toast.makeText(context,"Ans "+Global.SampleGiftRecOrNot,Toast.LENGTH_LONG);
+                fetchSampleGiftForm();
                 dialog.dismiss();
             }
         });
@@ -539,6 +548,172 @@ public class DCREntry extends Fragment {
         lp.copyFrom(dialog.getWindow().getAttributes());
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+
+    private void fetchSampleGiftForm() {
+        progressDialoge.show();
+        Call<SampleAndGiftReceiptRes> call1 = RetrofitClient
+                .getInstance().getApi().SampleAndGiftReceipt(Global.ecode,Global.dbprefix);
+        call1.enqueue(new Callback<SampleAndGiftReceiptRes>() {
+            @Override
+            public void onResponse(Call<SampleAndGiftReceiptRes> call1, Response<SampleAndGiftReceiptRes> response) {
+                SampleAndGiftReceiptRes res = response.body();
+                progressDialoge.dismiss();
+                samplegift = res.getSampleAndGiftReceipt();
+                if(samplegift.size()>0){
+                    showSampleAndGiftPopup(getActivity());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SampleAndGiftReceiptRes> call1, Throwable t) {
+                progressDialoge.dismiss();
+                Snackbar snackbar = Snackbar.make(sv, "Failed to fetch data !", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("Re-try", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                fetchSampleGiftForm();
+                            }
+                        });
+                snackbar.show();
+            }
+        });
+    }
+
+    private void showSampleAndGiftPopup(final Context context) {
+        final Dialog dialog = new Dialog(context);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.sample_and_gift_form);
+        CardView buttonNo = dialog.findViewById(R.id.cancel);
+        CardView buttonYes = dialog.findViewById(R.id.submit);
+        RecyclerView recyclerView = dialog.findViewById(R.id.rectable);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setAdapter(new RecyclerView.Adapter() {
+            @NonNull
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                View view= LayoutInflater.from(context).inflate(R.layout.table_list_item, viewGroup,false);
+                Holder holder=new Holder(view);
+                return holder;
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                final Holder rowViewHolder= (Holder) viewHolder;
+                int rowPos = rowViewHolder.getAdapterPosition();
+
+                if (rowPos == 0) {
+
+                    // Header Cells. Main Headings appear here
+                    rowViewHolder.srno.setBackgroundResource(R.drawable.tableheadbg);
+                    rowViewHolder.srno.setTextColor(Color.parseColor("#FFFFFF"));
+                    rowViewHolder.pname.setBackgroundResource(R.drawable.tableheadbg);
+                    rowViewHolder.pname.setTextColor(Color.parseColor("#FFFFFF"));
+                    rowViewHolder.itype.setBackgroundResource(R.drawable.tableheadbg);
+                    rowViewHolder.itype.setTextColor(Color.parseColor("#FFFFFF"));
+                    rowViewHolder.idate.setBackgroundResource(R.drawable.tableheadbg);
+                    rowViewHolder.idate.setTextColor(Color.parseColor("#FFFFFF"));
+                    rowViewHolder.cname.setBackgroundResource(R.drawable.tableheadbg);
+                    rowViewHolder.cname.setTextColor(Color.parseColor("#FFFFFF"));
+                    rowViewHolder.docketno.setBackgroundResource(R.drawable.tableheadbg);
+                    rowViewHolder.docketno.setTextColor(Color.parseColor("#FFFFFF"));
+                    rowViewHolder.dispatchqty.setBackgroundResource(R.drawable.tableheadbg);
+                    rowViewHolder.dispatchqty.setTextColor(Color.parseColor("#FFFFFF"));
+                    rowViewHolder.recqtydr.setBackgroundResource(R.drawable.tableheadbg);
+                    rowViewHolder.recqtydr.setTextColor(Color.parseColor("#FFFFFF"));
+                    rowViewHolder.recqtyself.setBackgroundResource(R.drawable.tableheadbg);
+                    rowViewHolder.recqtyself.setTextColor(Color.parseColor("#FFFFFF"));
+                    rowViewHolder.total.setBackgroundResource(R.drawable.tableheadbg);
+                    rowViewHolder.total.setTextColor(Color.parseColor("#FFFFFF"));
+                    rowViewHolder.recqtySE.setBackgroundResource(R.drawable.tableheadbg);
+                    rowViewHolder.recqtySE.setTextColor(Color.parseColor("#FFFFFF"));
+                    rowViewHolder.recdate.setBackgroundResource(R.drawable.tableheadbg);
+                    rowViewHolder.recdate.setTextColor(Color.parseColor("#FFFFFF"));
+                } else {
+
+                    SampleAndGiftReceiptItem modal = samplegift.get(rowPos-1);
+
+                    rowViewHolder.srno.setBackgroundResource(R.drawable.tableitembg);
+                    rowViewHolder.pname.setBackgroundResource(R.drawable.tableitembg);
+                    rowViewHolder.itype.setBackgroundResource(R.drawable.tableitembg);
+                    rowViewHolder.idate.setBackgroundResource(R.drawable.tableitembg);
+                    rowViewHolder.cname.setBackgroundResource(R.drawable.tableitembg);
+                    rowViewHolder.docketno.setBackgroundResource(R.drawable.tableitembg);
+                    rowViewHolder.dispatchqty.setBackgroundResource(R.drawable.tableitembg);
+                    rowViewHolder.recqtydr.setBackgroundResource(R.drawable.tableitembg);
+                    rowViewHolder.recqtyself.setBackgroundResource(R.drawable.tableitembg);
+                    rowViewHolder.total.setBackgroundResource(R.drawable.tableitembg);
+                    rowViewHolder.recqtySE.setBackgroundResource(R.drawable.tableitembg);
+                    rowViewHolder.recdate.setBackgroundResource(R.drawable.tableitembg);
+
+                    rowViewHolder.srno.setText(""+rowPos);
+                    rowViewHolder.pname.setText(modal.getPNAME());
+                    rowViewHolder.itype.setText(modal.getPtype().equals("1") ? "Sample" : "Gift");
+                    rowViewHolder.idate.setText(modal.getLrdatedocdate());
+                    rowViewHolder.cname.setText(modal.getTcname());
+                    rowViewHolder.docketno.setText(modal.getLrnodocno());
+                    rowViewHolder.dispatchqty.setText(modal.getDispatchQty());
+                    rowViewHolder.recqtydr.setText("");
+                    rowViewHolder.recqtyself.setText("");
+                    rowViewHolder.total.setText("");
+                    rowViewHolder.recqtySE.setText("");
+                    rowViewHolder.recdate.setText("");
+                }
+            }
+
+            @Override
+            public int getItemCount() {
+                return samplegift.size()+1;
+            }
+            class Holder extends RecyclerView.ViewHolder {
+                public TextView srno,pname,itype,idate,cname,docketno,dispatchqty,recqtydr,recqtyself,total,recqtySE,recdate;
+
+                public Holder(@NonNull View itemView) {
+                    super(itemView);
+                    srno = itemView.findViewById(R.id.txtsrno);
+                    pname = itemView.findViewById(R.id.txtpname);
+                    itype = itemView.findViewById(R.id.txtit);
+                    idate = itemView.findViewById(R.id.txtdd);
+                    cname = itemView.findViewById(R.id.txtcname);
+                    docketno = itemView.findViewById(R.id.txtdno);
+                    dispatchqty = itemView.findViewById(R.id.txtdqty);
+                    recqtydr = itemView.findViewById(R.id.txtrqtyd);
+                    recqtyself = itemView.findViewById(R.id.txtrqtys);
+                    total = itemView.findViewById(R.id.txttqty);
+                    recqtySE = itemView.findViewById(R.id.txtrqtyse);
+                    recdate = itemView.findViewById(R.id.txtrqtydate);
+                }
+            } }
+        );
+
+        recyclerView.getAdapter().notifyDataSetChanged();
+        /*TableViewAdapter adapter = new TableViewAdapter(samplegift);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        recyclerView.setAdapter(adapter);*/
+        buttonNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        buttonYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+            }
+        });
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
         dialog.show();
         dialog.getWindow().setAttributes(lp);
     }

@@ -19,6 +19,7 @@ import com.eis.dailycallregister.Pojo.GetPopupQuesRes;
 import com.eis.dailycallregister.Pojo.NonFieldWrkRes;
 import com.eis.dailycallregister.Pojo.QseraPopUpRes;
 import com.eis.dailycallregister.Pojo.RedicnePopUpRes;
+import com.eis.dailycallregister.Pojo.SampleAndGiftReceiptRes;
 import com.eis.dailycallregister.Pojo.VstCardDrLstRes;
 
 import java.util.ArrayList;
@@ -146,6 +147,13 @@ public interface Api {
     @POST("getdcrddoc.php")
     Call<DCRDDocListRes> getDCRDDrs(
             @Field("dcrno") String dcrno,
+            @Field("DBPrefix") String DBPrefix
+    );
+
+    @FormUrlEncoded
+    @POST("SampleAndGiftReceipt.php")
+    Call<SampleAndGiftReceiptRes> SampleAndGiftReceipt(
+            @Field("empcode") String empcode,
             @Field("DBPrefix") String DBPrefix
     );
 

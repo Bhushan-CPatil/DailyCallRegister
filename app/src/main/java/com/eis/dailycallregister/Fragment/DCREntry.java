@@ -864,6 +864,10 @@ public class DCREntry extends Fragment {
         buttonNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                intent.putExtra("openfrag","home");
+                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_right_in,R.anim.trans_right_out).toBundle();
+                startActivity(intent,bndlanimation);
                 dialog.dismiss();
             }
         });

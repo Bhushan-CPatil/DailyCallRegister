@@ -1,6 +1,7 @@
 package com.eis.dailycallregister.Fragment;
 
 import android.app.ActivityOptions;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,6 +16,7 @@ import android.support.design.card.MaterialCardView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,8 +27,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Scroller;
@@ -49,9 +53,16 @@ import com.eis.dailycallregister.Pojo.GetDcrDateRes;
 import com.eis.dailycallregister.Pojo.SampleAndGiftReceiptItem;
 import com.eis.dailycallregister.Pojo.SampleAndGiftReceiptRes;
 import com.eis.dailycallregister.R;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -590,7 +601,7 @@ public class DCREntry extends Fragment {
         dialog.setContentView(R.layout.sample_and_gift_form);
         CardView buttonNo = dialog.findViewById(R.id.cancel);
         CardView buttonYes = dialog.findViewById(R.id.submit);
-        RecyclerView recyclerView = dialog.findViewById(R.id.rectable);
+        final RecyclerView recyclerView = dialog.findViewById(R.id.rectable);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(new RecyclerView.Adapter() {
             @NonNull
@@ -604,7 +615,7 @@ public class DCREntry extends Fragment {
             @Override
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
                 final Holder rowViewHolder= (Holder) viewHolder;
-                int rowPos = rowViewHolder.getAdapterPosition();
+                /*int rowPos = rowViewHolder.getAdapterPosition();
 
                 if (rowPos == 0) {
 
@@ -662,19 +673,172 @@ public class DCREntry extends Fragment {
                     rowViewHolder.total.setText("");
                     rowViewHolder.recqtySE.setText("");
                     rowViewHolder.recdate.setText("");
+                }*/
+                final SampleAndGiftReceiptItem model = samplegift.get(i);
+
+                /*rowViewHolder.srno.setBackgroundResource(R.drawable.tableitembg);
+                rowViewHolder.pname.setBackgroundResource(R.drawable.tableitembg);
+                rowViewHolder.itype.setBackgroundResource(R.drawable.tableitembg);
+                rowViewHolder.idate.setBackgroundResource(R.drawable.tableitembg);
+                rowViewHolder.cname.setBackgroundResource(R.drawable.tableitembg);
+                rowViewHolder.docketno.setBackgroundResource(R.drawable.tableitembg);
+                rowViewHolder.dispatchqty.setBackgroundResource(R.drawable.tableitembg);
+                rowViewHolder.recqtydr.setBackgroundResource(R.drawable.tableitembg);
+                rowViewHolder.recqtyself.setBackgroundResource(R.drawable.tableitembg);
+                rowViewHolder.total.setBackgroundResource(R.drawable.tableitembg);
+                rowViewHolder.recqtySE.setBackgroundResource(R.drawable.tableitembg);
+                rowViewHolder.recdate.setBackgroundResource(R.drawable.tableitembg);*/
+
+                //rowViewHolder.srno.setText(""+(i+1));
+                rowViewHolder.pname.setText(model.getPNAME());
+                rowViewHolder.itype.setText(model.getPtype().equals("1") ? "Sample" : "Gift");
+                rowViewHolder.idate.setText(model.getLrdatedocdate());
+                rowViewHolder.cname.setText(model.getTcname());
+                rowViewHolder.docketno.setText(model.getLrnodocno());
+                rowViewHolder.dispatchqty.setText(model.getDispatchQty());
+                rowViewHolder.recqtydr.setText(model.getRecQtyD());
+                rowViewHolder.recqtyself.setText(model.getRecQtyS());
+                rowViewHolder.total.setText(model.getTRecQty());
+                rowViewHolder.recqtySE.setText(model.getRecQtySE());
+                if(model.getRecQtyDate().equalsIgnoreCase("")) {
+                    rowViewHolder.recdate.setText("Enter date here");
+                }else{
+                    rowViewHolder.recdate.setText(model.getRecQtyDate());
                 }
+                rowViewHolder.recqtydr.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View view, boolean hasFocus) {
+                        if (!hasFocus) {
+
+                            int D = Integer.parseInt(rowViewHolder.recqtydr.getText().toString().equalsIgnoreCase("") ? "0" : rowViewHolder.recqtydr.getText().toString());
+                            int S = Integer.parseInt(rowViewHolder.recqtyself.getText().toString().equalsIgnoreCase("") ? "0" : rowViewHolder.recqtyself.getText().toString());
+                            int T = D + S;
+                            int M = Integer.parseInt(rowViewHolder.dispatchqty.getText().toString().equalsIgnoreCase("") ? "0" : rowViewHolder.dispatchqty.getText().toString());
+                            int TM = T - M;
+                            Log.d("D/S",D+"/"+S);
+                            if(S == 0){
+                                model.setRecQtyS("");
+                            }else{
+                                model.setRecQtyS(Integer.toString(S));
+                            }
+                            if(D == 0){
+                                model.setRecQtyD("");
+                            }else{
+                                model.setRecQtyD(Integer.toString(D));
+                            }
+                            String curdate="";
+                            if(T == 0){
+                                model.setTRecQty("");
+                                model.setRecQtySE("");
+                                model.setRecQtyDate(curdate);
+                            }else {
+                                model.setTRecQty(Integer.toString(T));
+                                model.setRecQtySE(Integer.toString(TM));
+                                curdate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+                                model.setRecQtyDate(curdate);
+                            }
+                            Log.d("MD/MS",model.getRecQtyD()+"/"+model.getRecQtyS());
+                            rowViewHolder.recqtydr.setText(model.getRecQtyD());
+                            rowViewHolder.recqtyself.setText(model.getRecQtyS());
+                            rowViewHolder.total.setText(model.getTRecQty());
+                            rowViewHolder.recqtySE.setText(model.getRecQtySE());
+                            rowViewHolder.recdate.setText(model.getRecQtyDate());
+
+
+                            InputMethodManager imm =  (InputMethodManager) getActivity().getSystemService(context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(sv.getWindowToken(), 0);
+                            recyclerView.getAdapter().notifyDataSetChanged();
+                        }
+                    }
+                });
+
+                rowViewHolder.recqtyself.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View view, boolean hasFocus) {
+                        if (!hasFocus) {
+
+                            int D = Integer.parseInt(rowViewHolder.recqtydr.getText().toString().equalsIgnoreCase("") ? "0" : rowViewHolder.recqtydr.getText().toString());
+                            int S = Integer.parseInt(rowViewHolder.recqtyself.getText().toString().equalsIgnoreCase("") ? "0" : rowViewHolder.recqtyself.getText().toString());
+                            int T = D + S;
+                            int M = Integer.parseInt(rowViewHolder.dispatchqty.getText().toString().equalsIgnoreCase("") ? "0" : rowViewHolder.dispatchqty.getText().toString());
+                            int TM = T - M;
+                            Log.d("D/S",D+"/"+S);
+                            if(S == 0){
+                                model.setRecQtyS("");
+                            }else{
+                                model.setRecQtyS(Integer.toString(S));
+                            }
+                            if(D == 0){
+                                model.setRecQtyD("");
+                            }else{
+                                model.setRecQtyD(Integer.toString(D));
+                            }
+                            String curdate="";
+                            if(T == 0){
+                                model.setTRecQty("");
+                                model.setRecQtySE("");
+                                model.setRecQtyDate(curdate);
+                            }else {
+                                model.setTRecQty(Integer.toString(T));
+                                model.setRecQtySE(Integer.toString(TM));
+                                curdate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+                                model.setRecQtyDate(curdate);
+                            }
+                            Log.d("MD/MS",model.getRecQtyD()+"/"+model.getRecQtyS());
+                            rowViewHolder.recqtydr.setText(model.getRecQtyD());
+                            rowViewHolder.recqtyself.setText(model.getRecQtyS());
+                            rowViewHolder.total.setText(model.getTRecQty());
+                            rowViewHolder.recqtySE.setText(model.getRecQtySE());
+                            rowViewHolder.recdate.setText(model.getRecQtyDate());
+
+
+                            InputMethodManager imm =  (InputMethodManager) getActivity().getSystemService(context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(sv.getWindowToken(), 0);
+                            //recyclerView.getAdapter().notifyDataSetChanged();
+                        }
+                    }
+                });
+
+                rowViewHolder.recdate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(!model.getRecQtyDate().equalsIgnoreCase("") && !model.getRecQtyDate().equalsIgnoreCase("Enter date here")){
+                            final Calendar c = Calendar.getInstance();
+                            int mYear = c.get(Calendar.YEAR); // current year
+                            int mMonth = c.get(Calendar.MONTH); // current month
+                            int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+                            // date picker dialog
+                            DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                                    new DatePickerDialog.OnDateSetListener() {
+
+                                        @Override
+                                        public void onDateSet(DatePicker view, int year,
+                                                              int monthOfYear, int dayOfMonth) {
+                                            // set day of month , month and year value in the edit text
+                                            //date.setText(String.format("%02d", dayOfMonth) + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + year);
+                                            model.setRecQtyDate(String.format("%02d", dayOfMonth) + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + year);
+                                            rowViewHolder.recdate.setText(String.format("%02d", dayOfMonth) + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + year);
+
+                                        }
+                                    }, mYear, mMonth, mDay);
+                            datePickerDialog.show();
+                            recyclerView.getAdapter().notifyDataSetChanged();
+                        }
+                    }
+                });
             }
 
             @Override
             public int getItemCount() {
-                return samplegift.size()+1;
+                return samplegift.size();
             }
             class Holder extends RecyclerView.ViewHolder {
-                public TextView srno,pname,itype,idate,cname,docketno,dispatchqty,recqtydr,recqtyself,total,recqtySE,recdate;
+                public TextView srno,pname,itype,idate,cname,docketno,dispatchqty,total,recqtySE,recdate;
+                public AppCompatEditText recqtydr,recqtyself;
 
                 public Holder(@NonNull View itemView) {
                     super(itemView);
-                    srno = itemView.findViewById(R.id.txtsrno);
+                    //srno = itemView.findViewById(R.id.txtsrno);
                     pname = itemView.findViewById(R.id.txtpname);
                     itype = itemView.findViewById(R.id.txtit);
                     idate = itemView.findViewById(R.id.txtdd);
@@ -706,8 +870,11 @@ public class DCREntry extends Fragment {
         buttonYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                dialog.dismiss();
+                recyclerView.clearFocus();
+                Gson gson = new GsonBuilder().create();
+                JsonArray myCustomArray = gson.toJsonTree(samplegift).getAsJsonArray();
+                Toast.makeText(getActivity(), myCustomArray.toString(), Toast.LENGTH_LONG).show();
+                //dialog.dismiss();
             }
         });
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();

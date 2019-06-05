@@ -715,7 +715,7 @@ public class DCREntry extends Fragment {
                             int T = D + S;
                             int M = Integer.parseInt(rowViewHolder.dispatchqty.getText().toString().equalsIgnoreCase("") ? "0" : rowViewHolder.dispatchqty.getText().toString());
                             int TM = T - M;
-                            Log.d("D/S",D+"/"+S);
+                            //Log.d("D/S",D+"/"+S);
                             if(S == 0){
                                 model.setRecQtyS("");
                             }else{
@@ -734,10 +734,10 @@ public class DCREntry extends Fragment {
                             }else {
                                 model.setTRecQty(Integer.toString(T));
                                 model.setRecQtySE(Integer.toString(TM));
-                                curdate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+                                curdate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
                                 model.setRecQtyDate(curdate);
                             }
-                            Log.d("MD/MS",model.getRecQtyD()+"/"+model.getRecQtyS());
+                            //Log.d("MD/MS",model.getRecQtyD()+"/"+model.getRecQtyS());
                             rowViewHolder.recqtydr.setText(model.getRecQtyD());
                             rowViewHolder.recqtyself.setText(model.getRecQtyS());
                             rowViewHolder.total.setText(model.getTRecQty());
@@ -762,7 +762,7 @@ public class DCREntry extends Fragment {
                             int T = D + S;
                             int M = Integer.parseInt(rowViewHolder.dispatchqty.getText().toString().equalsIgnoreCase("") ? "0" : rowViewHolder.dispatchqty.getText().toString());
                             int TM = T - M;
-                            Log.d("D/S",D+"/"+S);
+                            //Log.d("D/S",D+"/"+S);
                             if(S == 0){
                                 model.setRecQtyS("");
                             }else{
@@ -781,10 +781,10 @@ public class DCREntry extends Fragment {
                             }else {
                                 model.setTRecQty(Integer.toString(T));
                                 model.setRecQtySE(Integer.toString(TM));
-                                curdate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+                                curdate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
                                 model.setRecQtyDate(curdate);
                             }
-                            Log.d("MD/MS",model.getRecQtyD()+"/"+model.getRecQtyS());
+                            //Log.d("MD/MS",model.getRecQtyD()+"/"+model.getRecQtyS());
                             rowViewHolder.recqtydr.setText(model.getRecQtyD());
                             rowViewHolder.recqtyself.setText(model.getRecQtyS());
                             rowViewHolder.total.setText(model.getTRecQty());
@@ -816,8 +816,8 @@ public class DCREntry extends Fragment {
                                                               int monthOfYear, int dayOfMonth) {
                                             // set day of month , month and year value in the edit text
                                             //date.setText(String.format("%02d", dayOfMonth) + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + year);
-                                            model.setRecQtyDate(String.format("%02d", dayOfMonth) + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + year);
-                                            rowViewHolder.recdate.setText(String.format("%02d", dayOfMonth) + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + year);
+                                            model.setRecQtyDate(year + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + String.format("%02d", dayOfMonth));
+                                            rowViewHolder.recdate.setText(year + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + String.format("%02d", dayOfMonth));
 
                                         }
                                     }, mYear, mMonth, mDay);
@@ -877,8 +877,9 @@ public class DCREntry extends Fragment {
                 recyclerView.clearFocus();
                 Gson gson = new GsonBuilder().create();
                 JsonArray myCustomArray = gson.toJsonTree(samplegift).getAsJsonArray();
-                Toast.makeText(getActivity(), myCustomArray.toString(), Toast.LENGTH_LONG).show();
-                //dialog.dismiss();
+                //Toast.makeText(getActivity(), myCustomArray.toString(), Toast.LENGTH_LONG).show();
+                updateSampleGift(myCustomArray.toString());
+                dialog.dismiss();
             }
         });
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
@@ -887,6 +888,37 @@ public class DCREntry extends Fragment {
         lp.height = WindowManager.LayoutParams.MATCH_PARENT;
         dialog.show();
         dialog.getWindow().setAttributes(lp);
+    }
+
+    private void updateSampleGift(final String myCustomArray) {
+        String finyr = Global.getFinancialYr(Global.dcrdatemonth,Global.dcrdateyear);
+        progressDialoge.show();
+        Call<DefaultResponse> call = RetrofitClient.getInstance().getApi().UpdateSampleGiftAcceptance(Global.ecode,Global.netid,finyr,myCustomArray,Global.dbprefix);
+        call.enqueue(new Callback<DefaultResponse>() {
+            @Override
+            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+
+                DefaultResponse dres = response.body();
+                progressDialoge.dismiss();
+                if(!dres.isError()){
+                    Toast.makeText(getActivity(), dres.getErrormsg(),Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(getActivity(), dres.getErrormsg(),Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DefaultResponse> call, Throwable t) {
+                progressDialoge.dismiss();
+                Snackbar.make(sv , "Falied to update data !", Snackbar.LENGTH_LONG)
+                        .setAction("Re try", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                updateSampleGift(myCustomArray);
+                            }
+                        }).show();
+            }
+        });
     }
 
     public void salesEntryRemainingAlert(String response){

@@ -288,6 +288,7 @@
                     android:layout_margin="10dp"
                     android:hint="Remarks"
                     android:id="@+id/remark"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,.+-*/ "
                     android:textColorHint="@color/textcolorblack"
                     android:textColor="@color/textcolorblack"
                     android:textSize="16sp" />

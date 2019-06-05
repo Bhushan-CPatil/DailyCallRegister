@@ -336,6 +336,16 @@ public interface Api {
     );
 
     @FormUrlEncoded
+    @POST("UpdateSampleGiftAcceptance.php")
+    Call<DefaultResponse> UpdateSampleGiftAcceptance(
+            @Field("ecode") String ecode,
+            @Field("netid") String netid,
+            @Field("financialyear") String financialyear,
+            @Field("jsonarray") String jsonstr,
+            @Field("DBPrefix") String dbprefix
+    );
+
+    @FormUrlEncoded
     @POST("get117611771187.php")
     Call<EpidermPopUpRes> get117611771187(
             @Field("ecode") String ecode,

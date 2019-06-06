@@ -46,362 +46,6 @@ import retrofit2.Response;
 public class CheckDCRSummary extends AppCompatActivity {
 
     ViewDialog progressDialoge;
-    public String[][] arr = {
-            {"DR/ST NAME", "CODE", "VST TIME","TOWN", "WORK WITH NAME", "POB","PRODUCT/QTY", "GIFT/QTY", "PRODUCT/RX/RXQTY"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"},
-
-            {"10", "20", "M/S BIJOY MEDICAL","SCH-17 JORHAT", "20", "0","NVLBAR125/0\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/0\n" +
-                    "HYSY/5\n" +
-                    "NVL LOTN60/1", "NLCN/1", "NVLBAR125/4\n" +
-                    "AF-TER L20/3\n" +
-                    "AF-TER TAB/6\n" +
-                    "HYSY/6\n" +
-                    "NVL LOTN60/2"}
-    };
-
     TextView viewprod,dsvl,dnsvl,csvl,cnsvl,npob,tpob,texp,ded,remark;
     List<ExpensedetSummaryItem> expsum = new ArrayList<>();
     List<ProductSummaryItem> prodsum = new ArrayList<>();
@@ -528,23 +172,23 @@ public class CheckDCRSummary extends AppCompatActivity {
                 mTableAdapter.setOnItemClickListener(new OnItemClickListener() {
                     @Override
                     public void onItemClick(int row, int column) {
-                        dialogCloseType(CheckDCRSummary.this, arr[row][column]);
+                        dialogCloseType(CheckDCRSummary.this, arrprodsum[row][column]);
                     }
 
                     @Override
                     public void onRowHeaderClick(int row) {
 
-                        dialogCloseType(CheckDCRSummary.this, arr[row][0]);
+                        dialogCloseType(CheckDCRSummary.this, arrprodsum[row][0]);
                     }
 
                     @Override
                     public void onColumnHeaderClick(int column) {
-                        dialogCloseType(CheckDCRSummary.this, arr[0][column]);
+                        dialogCloseType(CheckDCRSummary.this, arrprodsum[0][column]);
                     }
 
                     @Override
                     public void onLeftTopHeaderClick() {
-                        dialogCloseType(CheckDCRSummary.this, arr[0][0]);
+                        dialogCloseType(CheckDCRSummary.this, arrprodsum[0][0]);
                     }
                 });
                 mTableAdapter.setOnItemLongClickListener(new OnItemLongClickListener() {
@@ -585,22 +229,22 @@ public class CheckDCRSummary extends AppCompatActivity {
                 mTableAdapter2.setOnItemClickListener(new OnItemClickListener() {
                     @Override
                     public void onItemClick(int row, int column) {
-                        dialogCloseType(CheckDCRSummary.this, arr[row][column]);
+                        dialogCloseType(CheckDCRSummary.this, arrgiftsum[row][column]);
                     }
 
                     @Override
                     public void onRowHeaderClick(int row) {
-                        dialogCloseType(CheckDCRSummary.this, arr[row][0]);
+                        dialogCloseType(CheckDCRSummary.this, arrgiftsum[row][0]);
                     }
 
                     @Override
                     public void onColumnHeaderClick(int column) {
-                        dialogCloseType(CheckDCRSummary.this, arr[0][column]);
+                        dialogCloseType(CheckDCRSummary.this, arrgiftsum[0][column]);
                     }
 
                     @Override
                     public void onLeftTopHeaderClick() {
-                        dialogCloseType(CheckDCRSummary.this, arr[0][0]);
+                        dialogCloseType(CheckDCRSummary.this, arrgiftsum[0][0]);
                     }
                 });
                 mTableAdapter2.setOnItemLongClickListener(new OnItemLongClickListener() {

@@ -46,13 +46,13 @@ import retrofit2.Response;
 public class CheckDCRSummary extends AppCompatActivity {
 
     ViewDialog progressDialoge;
-    TextView viewprod,dsvl,dnsvl,csvl,cnsvl,npob,tpob,texp,ded,remark;
+    TextView viewprod, dsvl, dnsvl, csvl, cnsvl, npob, tpob, texp, ded, remark;
     List<ExpensedetSummaryItem> expsum = new ArrayList<>();
     List<ProductSummaryItem> prodsum = new ArrayList<>();
     List<GiftSummaryItem> giftsum = new ArrayList<>();
     List<ProdgiftdetSummaryItem> pgdetsum = new ArrayList<>();
     RelativeLayout rtl;
-    AdaptiveTableLayout mTableLayout,mTableLayout2;
+    AdaptiveTableLayout mTableLayout, mTableLayout2;
     String[][] prodgiftdetsum;
     String[][] arrgiftsum;
     String[][] arrprodsum;
@@ -65,7 +65,7 @@ public class CheckDCRSummary extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_black);
         setContentView(R.layout.activity_check_dcrsummary);
-        progressDialoge=new ViewDialog(CheckDCRSummary.this);
+        progressDialoge = new ViewDialog(CheckDCRSummary.this);
         dsvl = findViewById(R.id.dsvl);
         dnsvl = findViewById(R.id.dnsvl);
         csvl = findViewById(R.id.csvl);
@@ -80,14 +80,14 @@ public class CheckDCRSummary extends AppCompatActivity {
         viewprod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                detailedTablePopup(CheckDCRSummary.this,"DETAILS",prodgiftdetsum);
+                detailedTablePopup(CheckDCRSummary.this, "DETAILS", prodgiftdetsum);
             }
         });
         TextView viewgift = findViewById(R.id.viewgift);
         viewgift.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                detailedTablePopup(CheckDCRSummary.this,"DETAILS",prodgiftdetsum);
+                detailedTablePopup(CheckDCRSummary.this, "DETAILS", prodgiftdetsum);
             }
         });
 
@@ -108,7 +108,7 @@ public class CheckDCRSummary extends AppCompatActivity {
 
     private void callApi1() {
         progressDialoge.show();
-        Call<GetDCRSummaryMainRes> call = RetrofitClient.getInstance().getApi().getDCRSummary(Global.ecode,Global.netid,"",Global.dcrno,Global.dbprefix);
+        Call<GetDCRSummaryMainRes> call = RetrofitClient.getInstance().getApi().getDCRSummary(Global.ecode, Global.netid, "", Global.dcrno, Global.dbprefix);
         call.enqueue(new Callback<GetDCRSummaryMainRes>() {
             @Override
             public void onResponse(Call<GetDCRSummaryMainRes> call, Response<GetDCRSummaryMainRes> response) {
@@ -128,7 +128,7 @@ public class CheckDCRSummary extends AppCompatActivity {
                 pgdetsum = res.getProdgiftdetSummary();
 
                 prodgiftdetsum = new String[pgdetsum.size()][10];
-                for(int i=0;i < pgdetsum.size();i++){
+                for (int i = 0; i < pgdetsum.size(); i++) {
                     ProdgiftdetSummaryItem temp = pgdetsum.get(i);
                     prodgiftdetsum[i][0] = temp.getDRSTNAME();
                     prodgiftdetsum[i][1] = temp.getDRCD();
@@ -142,30 +142,30 @@ public class CheckDCRSummary extends AppCompatActivity {
                     prodgiftdetsum[i][9] = temp.getPRODRQTY();
                 }
 
-                arrgiftsum = new String[giftsum.size()+1][3];
-                for(int i=0;i < giftsum.size();i++){
+                arrgiftsum = new String[giftsum.size() + 1][3];
+                for (int i = 0; i < giftsum.size(); i++) {
                     GiftSummaryItem temp = giftsum.get(i);
-                    if(i==0){
+                    if (i == 0) {
                         arrgiftsum[i][0] = "PRODUCT NAME";
                         arrgiftsum[i][1] = "COUNT";
                         arrgiftsum[i][2] = "QTY";
                     }
-                    arrgiftsum[i+1][0] = temp.getABV();
-                    arrgiftsum[i+1][1] = temp.getCOUNT();
-                    arrgiftsum[i+1][2] = temp.getQTY();
+                    arrgiftsum[i + 1][0] = temp.getABV();
+                    arrgiftsum[i + 1][1] = temp.getCOUNT();
+                    arrgiftsum[i + 1][2] = temp.getQTY();
                 }
 
-                arrprodsum = new String[prodsum.size()+1][3];
-                for(int i=0;i < prodsum.size();i++){
+                arrprodsum = new String[prodsum.size() + 1][3];
+                for (int i = 0; i < prodsum.size(); i++) {
                     ProductSummaryItem temp = prodsum.get(i);
-                    if(i==0){
+                    if (i == 0) {
                         arrprodsum[i][0] = "PRODUCT NAME";
                         arrprodsum[i][1] = "COUNT";
                         arrprodsum[i][2] = "QTY";
                     }
-                    arrprodsum[i+1][0] = temp.getABV();
-                    arrprodsum[i+1][1] = temp.getCOUNT();
-                    arrprodsum[i+1][2] = temp.getQTY();
+                    arrprodsum[i + 1][0] = temp.getABV();
+                    arrprodsum[i + 1][1] = temp.getCOUNT();
+                    arrprodsum[i + 1][2] = temp.getQTY();
                 }
 
                 LinkedAdaptiveTableAdapter mTableAdapter = new SampleLinkedTableAdapter(CheckDCRSummary.this, arrprodsum);
@@ -277,7 +277,7 @@ public class CheckDCRSummary extends AppCompatActivity {
             @Override
             public void onFailure(Call<GetDCRSummaryMainRes> call, Throwable t) {
                 progressDialoge.dismiss();
-                Snackbar.make(rtl, "Failed to fetch data !",Snackbar.LENGTH_INDEFINITE)
+                Snackbar.make(rtl, "Failed to fetch data !", Snackbar.LENGTH_INDEFINITE)
                         .setAction("Re try", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -288,7 +288,7 @@ public class CheckDCRSummary extends AppCompatActivity {
         });
     }
 
-    public void dialogCloseType(final Context context, String stringmsg){
+    public void dialogCloseType(final Context context, String stringmsg) {
         final Dialog dialog = new Dialog(context);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -312,9 +312,9 @@ public class CheckDCRSummary extends AppCompatActivity {
         dialog.getWindow().setAttributes(lp);
     }
 
-    public void detailedTablePopup(final Context context, String stringmsg, String[][] aary){
+    public void detailedTablePopup(final Context context, String stringmsg, String[][] aary) {
         final String[][] dataarray;
-        dataarray =new String[aary.length][];
+        dataarray = new String[aary.length][];
         for (int i = 0; i < dataarray.length; ++i) {
             dataarray[i] = new String[aary[i].length];
             for (int j = 0; j < dataarray[i].length; ++j) {
@@ -386,12 +386,13 @@ public class CheckDCRSummary extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 break;
-        } return true;
+        }
+        return true;
     }
 
     @Override
     public void onBackPressed() {
         finish();
-        CheckDCRSummary.this.overridePendingTransition(R.anim.trans_right_in,R.anim.trans_right_out);
+        CheckDCRSummary.this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }
 }

@@ -1,12 +1,15 @@
 package com.eis.dailycallregister.Activity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.design.button.MaterialButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -20,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cleveroad.adaptivetablelayout.AdaptiveTableLayout;
 import com.cleveroad.adaptivetablelayout.LinkedAdaptiveTableAdapter;
@@ -46,7 +50,7 @@ import retrofit2.Response;
 public class CheckDCRSummary extends AppCompatActivity {
 
     ViewDialog progressDialoge;
-    TextView viewprod, dsvl, dnsvl, csvl, cnsvl, npob, tpob, texp, ded, remark;
+    TextView viewprod, viewgift, viewexp, dsvl, dnsvl, csvl, cnsvl, npob, tpob, texp, ded, remark;
     List<ExpensedetSummaryItem> expsum = new ArrayList<>();
     List<ProductSummaryItem> prodsum = new ArrayList<>();
     List<GiftSummaryItem> giftsum = new ArrayList<>();
@@ -56,7 +60,9 @@ public class CheckDCRSummary extends AppCompatActivity {
     String[][] prodgiftdetsum;
     String[][] arrgiftsum;
     String[][] arrprodsum;
+    String[][] arrexpsum;
     ScrollView parentScroll;
+    CardView prodcard,giftcard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,18 +82,49 @@ public class CheckDCRSummary extends AppCompatActivity {
         ded = findViewById(R.id.ded);
         remark = findViewById(R.id.remark);
         viewprod = findViewById(R.id.viewprod);
+        viewgift = findViewById(R.id.viewgift);
+        viewexp = findViewById(R.id.viewexp);
+        prodcard = findViewById(R.id.prodsummcard);
+        giftcard = findViewById(R.id.giftsummcard);
         rtl = findViewById(R.id.rtl);
+
         viewprod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(pgdetsum.size()>1)
                 detailedTablePopup(CheckDCRSummary.this, "DETAILS", prodgiftdetsum);
             }
         });
-        TextView viewgift = findViewById(R.id.viewgift);
+
         viewgift.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(pgdetsum.size()>1)
                 detailedTablePopup(CheckDCRSummary.this, "DETAILS", prodgiftdetsum);
+            }
+        });
+
+        viewexp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(expsum.size()>0) {
+                    detailedTablePopup(CheckDCRSummary.this, "DETAILS", arrexpsum);
+                }else{
+                    //Toast.makeText(CheckDCRSummary.this, "Expense not filled", Toast.LENGTH_LONG).show();
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(CheckDCRSummary.this);
+                    builder.setCancelable(true);
+                    builder.setTitle("Alert !");
+                    builder.setMessage("Expenses not entered !");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
             }
         });
 
@@ -168,109 +205,133 @@ public class CheckDCRSummary extends AppCompatActivity {
                     arrprodsum[i + 1][2] = temp.getQTY();
                 }
 
-                LinkedAdaptiveTableAdapter mTableAdapter = new SampleLinkedTableAdapter(CheckDCRSummary.this, arrprodsum);
-                mTableAdapter.setOnItemClickListener(new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(int row, int column) {
-                        dialogCloseType(CheckDCRSummary.this, arrprodsum[row][column]);
+                if(!res.getTotexp().equalsIgnoreCase("")) {
+                    arrexpsum = new String[expsum.size() + 2][2];
+                    double amt = 0.00;
+                    for (int i = 0; i < expsum.size(); i++) {
+                        ExpensedetSummaryItem temp = expsum.get(i);
+                        if (i == 0) {
+                            arrexpsum[i][0] = "EXP.DESC";
+                            arrexpsum[i][1] = "AMOUNT";
+                        }
+                        arrexpsum[i + 1][0] = temp.getEDESC();
+                        arrexpsum[i + 1][1] = temp.getAMOUNT();
+                        amt += Double.parseDouble(temp.getAMOUNT());
+
+                        if (i == expsum.size() - 1) {
+                            arrexpsum[i + 2][0] = "TOTAL";
+                            arrexpsum[i + 2][1] = Double.toString(amt);
+                        }
                     }
+                }
 
-                    @Override
-                    public void onRowHeaderClick(int row) {
+                if(prodsum.size()>0) {
+                    prodcard.setVisibility(View.VISIBLE);
+                    LinkedAdaptiveTableAdapter mTableAdapter = new SampleLinkedTableAdapter(CheckDCRSummary.this, arrprodsum);
+                    mTableAdapter.setOnItemClickListener(new OnItemClickListener() {
+                        @Override
+                        public void onItemClick(int row, int column) {
+                            dialogCloseType(CheckDCRSummary.this, arrprodsum[row][column]);
+                        }
 
-                        dialogCloseType(CheckDCRSummary.this, arrprodsum[row][0]);
-                    }
+                        @Override
+                        public void onRowHeaderClick(int row) {
 
-                    @Override
-                    public void onColumnHeaderClick(int column) {
-                        dialogCloseType(CheckDCRSummary.this, arrprodsum[0][column]);
-                    }
+                            dialogCloseType(CheckDCRSummary.this, arrprodsum[row][0]);
+                        }
 
-                    @Override
-                    public void onLeftTopHeaderClick() {
-                        dialogCloseType(CheckDCRSummary.this, arrprodsum[0][0]);
-                    }
-                });
-                mTableAdapter.setOnItemLongClickListener(new OnItemLongClickListener() {
-                    @Override
-                    public void onItemLongClick(int row, int column) {
+                        @Override
+                        public void onColumnHeaderClick(int column) {
+                            dialogCloseType(CheckDCRSummary.this, arrprodsum[0][column]);
+                        }
 
-                    }
+                        @Override
+                        public void onLeftTopHeaderClick() {
+                            dialogCloseType(CheckDCRSummary.this, arrprodsum[0][0]);
+                        }
+                    });
+                    mTableAdapter.setOnItemLongClickListener(new OnItemLongClickListener() {
+                        @Override
+                        public void onItemLongClick(int row, int column) {
 
-                    @Override
-                    public void onLeftTopHeaderLongClick() {
+                        }
 
-                    }
-                });
-                mTableLayout.setAdapter(mTableAdapter);
-                mTableAdapter.notifyDataSetChanged();
-                parentScroll.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public void onLeftTopHeaderLongClick() {
 
-                    public boolean onTouch(View v, MotionEvent event) {
-                        Log.v("PARENT", "PARENT TOUCH");
-                        findViewById(R.id.tableLayout).getParent()
-                                .requestDisallowInterceptTouchEvent(false);
-                        return false;
-                    }
-                });
-                mTableLayout.setOnTouchListener(new View.OnTouchListener() {
+                        }
+                    });
+                    mTableLayout.setAdapter(mTableAdapter);
+                    mTableAdapter.notifyDataSetChanged();
+                    parentScroll.setOnTouchListener(new View.OnTouchListener() {
 
-                    public boolean onTouch(View v, MotionEvent event) {
-                        Log.v("CHILD", "CHILD TOUCH");
-                        // Disallow the touch request for parent scroll on touch of
-                        // child view
-                        v.getParent().requestDisallowInterceptTouchEvent(true);
-                        return false;
-                    }
-                });
+                        public boolean onTouch(View v, MotionEvent event) {
+                            Log.v("PARENT", "PARENT TOUCH");
+                            findViewById(R.id.tableLayout).getParent()
+                                    .requestDisallowInterceptTouchEvent(false);
+                            return false;
+                        }
+                    });
+                    mTableLayout.setOnTouchListener(new View.OnTouchListener() {
+
+                        public boolean onTouch(View v, MotionEvent event) {
+                            Log.v("CHILD", "CHILD TOUCH");
+                            // Disallow the touch request for parent scroll on touch of
+                            // child view
+                            v.getParent().requestDisallowInterceptTouchEvent(true);
+                            return false;
+                        }
+                    });
+                }
                 //2nd table
+                if(giftsum.size()>0) {
+                    giftcard.setVisibility(View.VISIBLE);
+                    LinkedAdaptiveTableAdapter mTableAdapter2 = new SampleLinkedTableAdapter(CheckDCRSummary.this, arrgiftsum);
+                    mTableAdapter2.setOnItemClickListener(new OnItemClickListener() {
+                        @Override
+                        public void onItemClick(int row, int column) {
+                            dialogCloseType(CheckDCRSummary.this, arrgiftsum[row][column]);
+                        }
 
-                LinkedAdaptiveTableAdapter mTableAdapter2 = new SampleLinkedTableAdapter(CheckDCRSummary.this, arrgiftsum);
-                mTableAdapter2.setOnItemClickListener(new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(int row, int column) {
-                        dialogCloseType(CheckDCRSummary.this, arrgiftsum[row][column]);
-                    }
+                        @Override
+                        public void onRowHeaderClick(int row) {
+                            dialogCloseType(CheckDCRSummary.this, arrgiftsum[row][0]);
+                        }
 
-                    @Override
-                    public void onRowHeaderClick(int row) {
-                        dialogCloseType(CheckDCRSummary.this, arrgiftsum[row][0]);
-                    }
+                        @Override
+                        public void onColumnHeaderClick(int column) {
+                            dialogCloseType(CheckDCRSummary.this, arrgiftsum[0][column]);
+                        }
 
-                    @Override
-                    public void onColumnHeaderClick(int column) {
-                        dialogCloseType(CheckDCRSummary.this, arrgiftsum[0][column]);
-                    }
+                        @Override
+                        public void onLeftTopHeaderClick() {
+                            dialogCloseType(CheckDCRSummary.this, arrgiftsum[0][0]);
+                        }
+                    });
+                    mTableAdapter2.setOnItemLongClickListener(new OnItemLongClickListener() {
+                        @Override
+                        public void onItemLongClick(int row, int column) {
 
-                    @Override
-                    public void onLeftTopHeaderClick() {
-                        dialogCloseType(CheckDCRSummary.this, arrgiftsum[0][0]);
-                    }
-                });
-                mTableAdapter2.setOnItemLongClickListener(new OnItemLongClickListener() {
-                    @Override
-                    public void onItemLongClick(int row, int column) {
+                        }
 
-                    }
+                        @Override
+                        public void onLeftTopHeaderLongClick() {
 
-                    @Override
-                    public void onLeftTopHeaderLongClick() {
+                        }
+                    });
+                    mTableLayout2.setAdapter(mTableAdapter2);
+                    mTableAdapter2.notifyDataSetChanged();
+                    mTableLayout2.setOnTouchListener(new View.OnTouchListener() {
 
-                    }
-                });
-                mTableLayout2.setAdapter(mTableAdapter2);
-                mTableAdapter2.notifyDataSetChanged();
-                mTableLayout2.setOnTouchListener(new View.OnTouchListener() {
-
-                    public boolean onTouch(View v, MotionEvent event) {
-                        Log.v("CHILD", "CHILD TOUCH");
-                        // Disallow the touch request for parent scroll on touch of
-                        // child view
-                        v.getParent().requestDisallowInterceptTouchEvent(true);
-                        return false;
-                    }
-                });
-
+                        public boolean onTouch(View v, MotionEvent event) {
+                            Log.v("CHILD", "CHILD TOUCH");
+                            // Disallow the touch request for parent scroll on touch of
+                            // child view
+                            v.getParent().requestDisallowInterceptTouchEvent(true);
+                            return false;
+                        }
+                    });
+                }
                 progressDialoge.dismiss();
             }
 

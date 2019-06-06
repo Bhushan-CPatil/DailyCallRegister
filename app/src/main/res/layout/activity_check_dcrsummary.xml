@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.CheckDCRSummary"
+    android:id="@+id/rtl"
     >
 <ScrollView
     android:layout_width="match_parent"
@@ -102,8 +103,7 @@
                         android:background="@drawable/tableitembg"
                         android:padding="4dp"
                         android:textColor="@color/textcolordarkgray"
-                        android:gravity="center"
-                        android:text="6"/>
+                        android:gravity="center"/>
                     <TextView
                         android:id="@+id/dnsvl"
                         android:layout_width="0dp"
@@ -112,8 +112,7 @@
                         android:background="@drawable/tableitembg"
                         android:padding="4dp"
                         android:gravity="center"
-                        android:textColor="@color/textcolordarkgray"
-                        android:text="0"/>
+                        android:textColor="@color/textcolordarkgray"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -137,8 +136,7 @@
                         android:background="@drawable/tableitembg"
                         android:padding="4dp"
                         android:textColor="@color/textcolordarkgray"
-                        android:gravity="center"
-                        android:text="2"/>
+                        android:gravity="center"/>
                     <TextView
                         android:id="@+id/cnsvl"
                         android:layout_width="0dp"
@@ -147,8 +145,7 @@
                         android:background="@drawable/tableitembg"
                         android:padding="4dp"
                         android:gravity="center"
-                        android:textColor="@color/textcolordarkgray"
-                        android:text="0"/>
+                        android:textColor="@color/textcolordarkgray"/>
                 </LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
@@ -227,8 +224,7 @@
                         android:background="@drawable/tableitembg"
                         android:padding="4dp"
                         android:textColor="@color/textcolordarkgray"
-                        android:gravity="center"
-                        android:text="6"/>
+                        android:gravity="center"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -252,8 +248,7 @@
                         android:background="@drawable/tableitembg"
                         android:padding="4dp"
                         android:textColor="@color/textcolordarkgray"
-                        android:gravity="center"
-                        android:text="35"/>
+                        android:gravity="center"/>
                 </LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
@@ -346,8 +341,7 @@
                         android:background="@drawable/tableitembg"
                         android:padding="4dp"
                         android:textColor="@color/textcolordarkgray"
-                        android:gravity="center"
-                        android:text="820.00"/>
+                        android:gravity="center"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -371,8 +365,7 @@
                         android:background="@drawable/tableitembg"
                         android:padding="4dp"
                         android:textColor="@color/textcolordarkgray"
-                        android:gravity="center"
-                        android:text="0.00"/>
+                        android:gravity="center"/>
                 </LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
@@ -401,6 +394,7 @@
                         android:padding="4dp"
                         android:text="REMARK"/>
                     <TextView
+                        android:id="@+id/remark"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="7"
@@ -408,7 +402,6 @@
                         android:padding="4dp"
                         android:textColor="@color/textcolordarkgray"
                         android:gravity="center"
-                        android:text="NO COMMENTS"
                         android:singleLine="true"
                         android:ellipsize="end"/>
                 </LinearLayout>

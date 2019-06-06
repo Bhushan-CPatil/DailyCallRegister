@@ -14,6 +14,7 @@ import com.eis.dailycallregister.Pojo.DoctorListAWRes;
 import com.eis.dailycallregister.Pojo.EpidermPopUpRes;
 import com.eis.dailycallregister.Pojo.ErrorBooleanResponce;
 import com.eis.dailycallregister.Pojo.FetchExpdtRes;
+import com.eis.dailycallregister.Pojo.GetDCRSummaryMainRes;
 import com.eis.dailycallregister.Pojo.GetDcrDateRes;
 import com.eis.dailycallregister.Pojo.GetPopupQuesRes;
 import com.eis.dailycallregister.Pojo.NonFieldWrkRes;
@@ -460,5 +461,13 @@ public interface Api {
             @Field("DBPrefix") String dbprefix
     );
 
-
+    @FormUrlEncoded
+    @POST("checkDCRSummary.php")
+    Call<GetDCRSummaryMainRes> getDCRSummary(
+            @Field("ecode") String ecode,
+            @Field("netid") String netid,
+            @Field("remark") String remark,
+            @Field("dcrno") String dcrno,
+            @Field("DBPrefix") String dbprefix
+    );
 }

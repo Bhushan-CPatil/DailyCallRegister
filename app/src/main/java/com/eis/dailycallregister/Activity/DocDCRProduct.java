@@ -87,15 +87,15 @@ public class DocDCRProduct extends AppCompatActivity {
 
     public static final int CONNECTION_TIMEOUT = 60000;
     public static final int READ_TIMEOUT = 90000;
-    String qgen="",spflag="",pflag="",label="";
+    String qgen = "", spflag = "", pflag = "", label = "";
     boolean showDropdownAlert = false;
     ViewDialog progressDialoge;
-    MaterialButton submitbtn,cancelbtn;
+    MaterialButton submitbtn, cancelbtn;
     ConstraintLayout nsv;
     TextView docname;
     //NestedScrollView nsv;
     RecyclerView productnameslist;
-    public String serial,serialwp,d1d2,iscompcall,finyr,field,cntcd,drclass;
+    public String serial, serialwp, d1d2, iscompcall, finyr, field, cntcd, drclass;
     Spinner spn;
     int position;
     public List<DcrproductlistItem> dcrprodlst = new ArrayList<>();
@@ -111,27 +111,27 @@ public class DocDCRProduct extends AppCompatActivity {
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#00E0C6'>Product Entry</font>"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_black);
-        String[] arraySpinner = new String[] {
+        String[] arraySpinner = new String[]{
                 "NO", "YES"
         };
-        finyr = Global.getFinancialYr(Global.dcrdatemonth,Global.dcrdateyear);
+        finyr = Global.getFinancialYr(Global.dcrdatemonth, Global.dcrdateyear);
         iscompcall = getIntent().getStringExtra("compcall");
         drclass = getIntent().getStringExtra("drclass");
         position = Integer.parseInt(getIntent().getStringExtra("position"));
         field = Global.getFieldName(Integer.parseInt(Global.dcrdatemonth));
 
-        progressDialoge=new ViewDialog(DocDCRProduct.this);
+        progressDialoge = new ViewDialog(DocDCRProduct.this);
 
         serial = getIntent().getStringExtra("serial");
         serialwp = getIntent().getStringExtra("oserial");
         cntcd = getIntent().getStringExtra("cntcd");
-        if(Global.hname.contains("(A)")){
+        if (Global.hname.contains("(A)")) {
             d1d2 = "A";
-        }else if(Global.hname.contains("(B)")){
+        } else if (Global.hname.contains("(B)")) {
             d1d2 = "B";
-        }else if(Global.hname.contains("(C)")){
+        } else if (Global.hname.contains("(C)")) {
             d1d2 = "C";
-        }else if(Global.hname.contains("(D)")){
+        } else if (Global.hname.contains("(D)")) {
             d1d2 = "D";
         }
 
@@ -146,9 +146,9 @@ public class DocDCRProduct extends AppCompatActivity {
                 android.R.layout.simple_spinner_item, arraySpinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spn.setAdapter(adapter);
-        if(iscompcall.equalsIgnoreCase("Y")){
+        if (iscompcall.equalsIgnoreCase("Y")) {
             spn.setSelection(1);
-        }else{
+        } else {
             spn.setSelection(0);
         }
         setProductAdapter();
@@ -165,19 +165,19 @@ public class DocDCRProduct extends AppCompatActivity {
             public void onClick(View v) {
                 //onBackPressed();
                 productnameslist.clearFocus();
-                if(showDropdownAlert){
+                if (showDropdownAlert) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(DocDCRProduct.this);
                     builder.setCancelable(true);
-                    builder.setTitle(Html.fromHtml("<font color='#FF5555'>"+label+"</font>"));
+                    builder.setTitle(Html.fromHtml("<font color='#FF5555'>" + label + "</font>"));
                     //builder.setMessage("\nNote : If answer is already given then the answer is marked with RED colour.\nIf you don't want to change answer click on CANCEL button.");
                     builder.setMessage(Html.fromHtml("<b>NOTE :</b> If answer is already given then the answer is marked with <b>RED</b> colour.<br>If you don't want to change the answer click on <b>CANCEL</b> button."));
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    qgen = "Y";
-                                    submitentry();
-                                }
-                            });
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            qgen = "Y";
+                            submitentry();
+                        }
+                    });
                     builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -192,18 +192,18 @@ public class DocDCRProduct extends AppCompatActivity {
                         }
                     });
                     final AlertDialog dialog = builder.create();
-                    dialog.setOnShowListener( new DialogInterface.OnShowListener() {
+                    dialog.setOnShowListener(new DialogInterface.OnShowListener() {
                         @Override
                         public void onShow(DialogInterface arg0) {
-                            if(qgen.equalsIgnoreCase("N")) {
+                            if (qgen.equalsIgnoreCase("N")) {
                                 dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.textcolorred));
-                            }else if(qgen.equalsIgnoreCase("Y")) {
+                            } else if (qgen.equalsIgnoreCase("Y")) {
                                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.textcolorred));
                             }
                         }
                     });
                     dialog.show();
-                }else{
+                } else {
                     submitentry();
                 }
 
@@ -249,7 +249,7 @@ public class DocDCRProduct extends AppCompatActivity {
 
     }
 
-    public void submitentry(){
+    public void submitentry() {
         AlertDialog.Builder builder = new AlertDialog.Builder(DocDCRProduct.this);
         builder.setCancelable(true);
         builder.setTitle("SUBMIT ?");
@@ -262,15 +262,15 @@ public class DocDCRProduct extends AppCompatActivity {
                         JsonArray myCustomArray = gson.toJsonTree(dcrprodlst).getAsJsonArray();
                         String text = spn.getSelectedItem().toString();
                         String compcall = "N";
-                        if(text.equalsIgnoreCase("YES")){
+                        if (text.equalsIgnoreCase("YES")) {
                             compcall = "Y";
                             iscompcall = "Y";
-                        }else{
+                        } else {
                             iscompcall = "N";
                         }
                         //Toast.makeText(DocDCRProduct.this, myCustomArray.toString(), Toast.LENGTH_LONG).show();
-                        new DocDCRProduct.addProductEntry().execute(Global.ecode,Global.netid,serialwp,Global.dcrno,finyr,d1d2,field,
-                                myCustomArray.toString(),qgen,Global.dbprefix,cntcd,Global.dcrdate,compcall,spflag,pflag);
+                        new DocDCRProduct.addProductEntry().execute(Global.ecode, Global.netid, serialwp, Global.dcrno, finyr, d1d2, field,
+                                myCustomArray.toString(), qgen, Global.dbprefix, cntcd, Global.dcrdate, compcall, spflag, pflag);
                     }
                 });
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -288,13 +288,13 @@ public class DocDCRProduct extends AppCompatActivity {
         progressDialoge.show();
 
         retrofit2.Call<DCRProdListRes> call1 = RetrofitClient
-                .getInstance().getApi().DCRProdApi(serial,Global.netid, Global.dcrno, d1d2,Global.ecode,finyr, Global.dcrdate, Global.dcrdatemonth, Global.dcrdateyear, cntcd,Global.dbprefix);
+                .getInstance().getApi().DCRProdApi(serial, Global.netid, Global.dcrno, d1d2, Global.ecode, finyr, Global.dcrdate, Global.dcrdatemonth, Global.dcrdateyear, cntcd, Global.dbprefix);
         call1.enqueue(new Callback<DCRProdListRes>() {
             @Override
             public void onResponse(retrofit2.Call<DCRProdListRes> call1, Response<DCRProdListRes> response) {
                 DCRProdListRes res = response.body();
                 //progressDialoge.dismiss();
-                if(!res.getDropprodid().equalsIgnoreCase("") && !res.getLabel().equalsIgnoreCase("") && !res.getDropspldrflag().equalsIgnoreCase("")) {
+                if (!res.getDropprodid().equalsIgnoreCase("") && !res.getLabel().equalsIgnoreCase("") && !res.getDropspldrflag().equalsIgnoreCase("")) {
                     showDropdownAlert = true;
                     qgen = res.getDropgenQ();
                     spflag = res.getDropspldrflag();
@@ -327,13 +327,13 @@ public class DocDCRProduct extends AppCompatActivity {
         //Log.d("drclass//d1d2//cntcd",drclass+"//"+d1d2+"//"+cntcd);
         questionslist.clear();
         retrofit2.Call<GetPopupQuesRes> call1 = RetrofitClient
-                .getInstance().getApi().yesNoQuestionPopup(Global.ecode,Global.netid, drclass, d1d2, Global.dcrdatemonth, Global.dcrdateyear, cntcd,Global.dbprefix);
+                .getInstance().getApi().yesNoQuestionPopup(Global.ecode, Global.netid, drclass, d1d2, Global.dcrdatemonth, Global.dcrdateyear, cntcd, Global.dbprefix);
         call1.enqueue(new Callback<GetPopupQuesRes>() {
             @Override
             public void onResponse(retrofit2.Call<GetPopupQuesRes> call1, Response<GetPopupQuesRes> response) {
                 progressDialoge.dismiss();
                 GetPopupQuesRes res = response.body();
-                if(!res.isError()){
+                if (!res.isError()) {
                     questionslist = res.getQuestionslist();
                     showQuesPopup();
                     //Toast.makeText(DocDCRProduct.this, "questions present", Toast.LENGTH_LONG).show();
@@ -361,161 +361,157 @@ public class DocDCRProduct extends AppCompatActivity {
         productnameslist.setNestedScrollingEnabled(false);
         productnameslist.setLayoutManager(new LinearLayoutManager(DocDCRProduct.this));
         productnameslist.setAdapter(new RecyclerView.Adapter() {
-            @NonNull
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                View view= LayoutInflater.from(DocDCRProduct.this).inflate(R.layout.doc_product_adapter, viewGroup,false);
-                Holder holder=new Holder(view);
-                return holder;
-            }
+                                        @NonNull
+                                        @Override
+                                        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                                            View view = LayoutInflater.from(DocDCRProduct.this).inflate(R.layout.doc_product_adapter, viewGroup, false);
+                                            Holder holder = new Holder(view);
+                                            return holder;
+                                        }
 
-            @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
-                final Holder myHolder= (Holder) viewHolder;
-                final DcrproductlistItem model = dcrprodlst.get(i);
-                myHolder.prodname.setText(model.getPNAME());
-                if(!model.getQTY().equalsIgnoreCase("")){
-                    myHolder.qty.setText(model.getQTY());
-                }else{
-                    myHolder.qty.setText("");
-                }
+                                        @Override
+                                        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
+                                            final Holder myHolder = (Holder) viewHolder;
+                                            final DcrproductlistItem model = dcrprodlst.get(i);
+                                            myHolder.prodname.setText(model.getPNAME());
+                                            if (!model.getQTY().equalsIgnoreCase("")) {
+                                                myHolder.qty.setText(model.getQTY());
+                                            } else {
+                                                myHolder.qty.setText("");
+                                            }
 
-                if(model.getDETFLAG().equalsIgnoreCase("Y")){
-                    myHolder.detailing.setChecked(true);
-                }else {
-                    myHolder.detailing.setChecked(false);
-                }
+                                            if (model.getDETFLAG().equalsIgnoreCase("Y")) {
+                                                myHolder.detailing.setChecked(true);
+                                            } else {
+                                                myHolder.detailing.setChecked(false);
+                                            }
 
-                if(!model.getRxQTY().equalsIgnoreCase("")){
-                    myHolder.rx.setText(model.getRxQTY());
-                }else{
-                    myHolder.rx.setText("");
-                }
-                myHolder.bal.setText("Bal : "+model.getBAL());
-                myHolder.qty.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View view, boolean hasFocus) {
-                        if (!hasFocus) {
+                                            if (!model.getRxQTY().equalsIgnoreCase("")) {
+                                                myHolder.rx.setText(model.getRxQTY());
+                                            } else {
+                                                myHolder.rx.setText("");
+                                            }
+                                            myHolder.bal.setText("Bal : " + model.getBAL());
+                                            myHolder.qty.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                                                @Override
+                                                public void onFocusChange(View view, boolean hasFocus) {
+                                                    if (!hasFocus) {
 
-                            if(myHolder.qty.getText().toString().equalsIgnoreCase("")){
-                                model.setQTY("");
-                                model.setDETFLAG("");
-                                myHolder.detailing.setChecked(false);
-                            }else{
-                                if(Integer.parseInt(myHolder.qty.getText().toString())>=0){
-                                    model.setQTY(Integer.toString(Integer.parseInt(myHolder.qty.getText().toString())));
-                                    model.setDETFLAG("Y");
-                                    myHolder.detailing.setChecked(true);
-                                }
-                            }
-                            //Toast.makeText(DocDCRGift.this, "Focus Lose", Toast.LENGTH_SHORT).show();
-                            InputMethodManager imm =  (InputMethodManager) getSystemService(DocDCRProduct.this.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(nsv.getWindowToken(), 0);
-                        }
+                                                        if (myHolder.qty.getText().toString().equalsIgnoreCase("")) {
+                                                            model.setQTY("");
+                                                            model.setDETFLAG("");
+                                                            myHolder.detailing.setChecked(false);
+                                                        } else {
+                                                            if (Integer.parseInt(myHolder.qty.getText().toString()) >= 0) {
+                                                                model.setQTY(Integer.toString(Integer.parseInt(myHolder.qty.getText().toString())));
+                                                                model.setDETFLAG("Y");
+                                                                myHolder.detailing.setChecked(true);
+                                                            }
+                                                        }
+                                                        //Toast.makeText(DocDCRGift.this, "Focus Lose", Toast.LENGTH_SHORT).show();
+                                                        InputMethodManager imm = (InputMethodManager) getSystemService(DocDCRProduct.this.INPUT_METHOD_SERVICE);
+                                                        imm.hideSoftInputFromWindow(nsv.getWindowToken(), 0);
+                                                    }
 
-                    }
-                });
-                myHolder.rx.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View view, boolean hasFocus) {
-                        if (!hasFocus) {
+                                                }
+                                            });
+                                            myHolder.rx.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                                                @Override
+                                                public void onFocusChange(View view, boolean hasFocus) {
+                                                    if (!hasFocus) {
 
-                            if(myHolder.detailing.isChecked() && myHolder.rx.getText().toString().equalsIgnoreCase("")){
-                                model.setRxQTY("");
-                                model.setQTY("");
-                                model.setDETFLAG("");
-                                myHolder.detailing.setChecked(false);
-                            }else{
-                                if(!myHolder.rx.getText().toString().equalsIgnoreCase("") && Integer.parseInt(myHolder.rx.getText().toString())>=0) {
-                                    model.setRxQTY(Integer.toString(Integer.parseInt(myHolder.rx.getText().toString())));
-                                }else if(myHolder.rx.getText().toString().equalsIgnoreCase("")){
-                                    model.setRxQTY("");
-                                }
-                            }
-                            //Toast.makeText(DocDCRGift.this, "Focus Lose", Toast.LENGTH_SHORT).show();
-                            InputMethodManager imm =  (InputMethodManager) getSystemService(DocDCRProduct.this.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(nsv.getWindowToken(), 0);
-                        }
+                                                        if (myHolder.detailing.isChecked() && myHolder.rx.getText().toString().equalsIgnoreCase("")) {
+                                                            model.setRxQTY("");
+                                                            model.setQTY("");
+                                                            model.setDETFLAG("");
+                                                            myHolder.detailing.setChecked(false);
+                                                        } else {
+                                                            if (!myHolder.rx.getText().toString().equalsIgnoreCase("") && Integer.parseInt(myHolder.rx.getText().toString()) >= 0) {
+                                                                model.setRxQTY(Integer.toString(Integer.parseInt(myHolder.rx.getText().toString())));
+                                                            } else if (myHolder.rx.getText().toString().equalsIgnoreCase("")) {
+                                                                model.setRxQTY("");
+                                                            }
+                                                        }
+                                                        //Toast.makeText(DocDCRGift.this, "Focus Lose", Toast.LENGTH_SHORT).show();
+                                                        InputMethodManager imm = (InputMethodManager) getSystemService(DocDCRProduct.this.INPUT_METHOD_SERVICE);
+                                                        imm.hideSoftInputFromWindow(nsv.getWindowToken(), 0);
+                                                    }
 
-                    }
-                });
+                                                }
+                                            });
 
-                myHolder.detailing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if(isChecked){
-                            model.setDETFLAG("Y");
-                            if(myHolder.qty.getText().toString().equalsIgnoreCase("")){
-                                model.setQTY("0");
-                                myHolder.qty.setText(model.getQTY());
-                            }
+                                            myHolder.detailing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                                @Override
+                                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                                    if (isChecked) {
+                                                        model.setDETFLAG("Y");
+                                                        if (myHolder.qty.getText().toString().equalsIgnoreCase("")) {
+                                                            model.setQTY("0");
+                                                            myHolder.qty.setText(model.getQTY());
+                                                        }
 
-                            if(myHolder.rx.getText().toString().equalsIgnoreCase("")){
-                                model.setRxQTY("0");
-                                myHolder.rx.setText(model.getRxQTY());
-                            }
-                            if(model.isTaggedflag() && model.getHsbrandid().contains(model.getGRP()) && model.getDEMO().equalsIgnoreCase("Y") && (model.isSpldrflag() || model.getLastmodifydate().equalsIgnoreCase(Global.dcrdate)) && model.isDateflag()){
-                                popupSelection(model.getPRODID(),cntcd,model.isFlag1176(),model.isFlag1177(),model.isFlag3009(),model.isTaggedflag(),model.isFlag1187(),"popupTag",model.getPNAME());
-                            }else{
-                                popupSelection(model.getPRODID(),cntcd,model.isFlag1176(),model.isFlag1177(),model.isFlag3009(),model.isTaggedflag(),model.isFlag1187(),"popup",model.getPNAME());
-                            }
-                        }else{
-                            model.setDETFLAG("");
-                            model.setQTY("");
-                            myHolder.qty.setText(model.getQTY());
+                                                        if (myHolder.rx.getText().toString().equalsIgnoreCase("")) {
+                                                            model.setRxQTY("0");
+                                                            myHolder.rx.setText(model.getRxQTY());
+                                                        }
+                                                        if (model.isTaggedflag() && model.getHsbrandid().contains(model.getGRP()) && model.getDEMO().equalsIgnoreCase("Y") && (model.isSpldrflag() || model.getLastmodifydate().equalsIgnoreCase(Global.dcrdate)) && model.isDateflag()) {
+                                                            popupSelection(model.getPRODID(), cntcd, model.isFlag1176(), model.isFlag1177(), model.isFlag3009(), model.isTaggedflag(), model.isFlag1187(), "popupTag", model.getPNAME());
+                                                        } else {
+                                                            popupSelection(model.getPRODID(), cntcd, model.isFlag1176(), model.isFlag1177(), model.isFlag3009(), model.isTaggedflag(), model.isFlag1187(), "popup", model.getPNAME());
+                                                        }
+                                                    } else {
+                                                        model.setDETFLAG("");
+                                                        model.setQTY("");
+                                                        myHolder.qty.setText(model.getQTY());
 
-                        }
-                    }
-                });
+                                                    }
+                                                }
+                                            });
 
-            }
+                                        }
 
-            @Override
-            public int getItemCount() {
-                return dcrprodlst.size();
-            }
-            class Holder extends RecyclerView.ViewHolder {
-                TextView prodname,bal;
-                EditText qty,rx;
-                AppCompatCheckBox detailing;
+                                        @Override
+                                        public int getItemCount() {
+                                            return dcrprodlst.size();
+                                        }
 
-                public Holder(@NonNull View itemView) {
-                    super(itemView);
-                    prodname = itemView.findViewById(R.id.productname);
-                    bal = itemView.findViewById(R.id.bal);
-                    qty = itemView.findViewById(R.id.qty);
-                    rx = itemView.findViewById(R.id.rxqty);
-                    detailing = itemView.findViewById(R.id.detailing);
-                }
-            }
-        }
+                                        class Holder extends RecyclerView.ViewHolder {
+                                            TextView prodname, bal;
+                                            EditText qty, rx;
+                                            AppCompatCheckBox detailing;
+
+                                            public Holder(@NonNull View itemView) {
+                                                super(itemView);
+                                                prodname = itemView.findViewById(R.id.productname);
+                                                bal = itemView.findViewById(R.id.bal);
+                                                qty = itemView.findViewById(R.id.qty);
+                                                rx = itemView.findViewById(R.id.rxqty);
+                                                detailing = itemView.findViewById(R.id.detailing);
+                                            }
+                                        }
+                                    }
         );
     }
 
     private void popupSelection(String prodid, String cntcd, boolean flag1176, boolean flag1177, boolean flag3009, boolean taggedflag, boolean flag1187, String popupType, String pname) {
-        if(popupType.equalsIgnoreCase("popupTag")){
-            if(Global.dbprefix.equalsIgnoreCase("Aqua-Basale") && prodid.equalsIgnoreCase("1098"))
-            {
+        if (popupType.equalsIgnoreCase("popupTag")) {
+            if (Global.dbprefix.equalsIgnoreCase("Aqua-Basale") && prodid.equalsIgnoreCase("1098")) {
                 Toast.makeText(DocDCRProduct.this, "Please wait....", Toast.LENGTH_SHORT).show();
-                getPopup2data(prodid,pname);
+                getPopup2data(prodid, pname);
             }
-        }else{
-            if(prodid.equalsIgnoreCase("1176") && flag1176)
-            {
+        } else {
+            if (prodid.equalsIgnoreCase("1176") && flag1176) {
                 Toast.makeText(DocDCRProduct.this, "Please wait....", Toast.LENGTH_SHORT).show();
-                getPopup1data(prodid,pname);
-            }else if(prodid.equalsIgnoreCase("1177") && flag1177)
-            {
+                getPopup1data(prodid, pname);
+            } else if (prodid.equalsIgnoreCase("1177") && flag1177) {
                 Toast.makeText(DocDCRProduct.this, "Please wait....", Toast.LENGTH_SHORT).show();
-                getPopup1data(prodid,pname);
-            }else if(prodid.equalsIgnoreCase("1187") && flag1187  && Global.dbprefix.equalsIgnoreCase("Aqua-Basale"))
-            {
+                getPopup1data(prodid, pname);
+            } else if (prodid.equalsIgnoreCase("1187") && flag1187 && Global.dbprefix.equalsIgnoreCase("Aqua-Basale")) {
                 Toast.makeText(DocDCRProduct.this, "Please wait....", Toast.LENGTH_SHORT).show();
-                getPopup1data(prodid,pname);
-            }else if(prodid.equalsIgnoreCase("1180") && flag3009 && taggedflag)
-            {
+                getPopup1data(prodid, pname);
+            } else if (prodid.equalsIgnoreCase("1180") && flag3009 && taggedflag) {
                 Toast.makeText(DocDCRProduct.this, "Please wait....", Toast.LENGTH_SHORT).show();
-                getPopup3data(prodid,pname);
+                getPopup3data(prodid, pname);
             }
         }
     }
@@ -531,12 +527,13 @@ public class DocDCRProduct extends AppCompatActivity {
             progressDialoge.show();
 
         }
+
         @Override
         protected String doInBackground(String... params) {
             try {
 
                 // Enter URL address where your php file resides
-                url = new URL(RetrofitClient.BASE_URL+"addDcrProductEntry.php");
+                url = new URL(RetrofitClient.BASE_URL + "addDcrProductEntry.php");
 
             } catch (MalformedURLException e) {
 
@@ -545,7 +542,7 @@ public class DocDCRProduct extends AppCompatActivity {
             }
             try {
                 // Setup HttpURLConnection class to send and receive data from php and mysql
-                conn = (HttpURLConnection)url.openConnection();
+                conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(READ_TIMEOUT);
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
                 conn.setRequestMethod("POST");
@@ -555,21 +552,21 @@ public class DocDCRProduct extends AppCompatActivity {
                 conn.setDoOutput(true);
                 // Append parameters to URL
                 Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("ecode",params[0])
-                        .appendQueryParameter("netid",params[1])
-                        .appendQueryParameter("serial",params[2])
-                        .appendQueryParameter("dcrno",params[3])
-                        .appendQueryParameter("financialyear",params[4])
-                        .appendQueryParameter("d1d2",params[5])
-                        .appendQueryParameter("field",params[6])
-                        .appendQueryParameter("jsonarray",params[7])
-                        .appendQueryParameter("qgen",params[8])
-                        .appendQueryParameter("DBPrefix",params[9])
-                        .appendQueryParameter("cntcd",params[10])
-                        .appendQueryParameter("dcrdate",params[11])
-                        .appendQueryParameter("COMPLETECALL",params[12])
-                        .appendQueryParameter("spflag",params[13])
-                        .appendQueryParameter("pflag",params[14]);
+                        .appendQueryParameter("ecode", params[0])
+                        .appendQueryParameter("netid", params[1])
+                        .appendQueryParameter("serial", params[2])
+                        .appendQueryParameter("dcrno", params[3])
+                        .appendQueryParameter("financialyear", params[4])
+                        .appendQueryParameter("d1d2", params[5])
+                        .appendQueryParameter("field", params[6])
+                        .appendQueryParameter("jsonarray", params[7])
+                        .appendQueryParameter("qgen", params[8])
+                        .appendQueryParameter("DBPrefix", params[9])
+                        .appendQueryParameter("cntcd", params[10])
+                        .appendQueryParameter("dcrdate", params[11])
+                        .appendQueryParameter("COMPLETECALL", params[12])
+                        .appendQueryParameter("spflag", params[13])
+                        .appendQueryParameter("pflag", params[14]);
 
                 String query = builder.build().getEncodedQuery();
 
@@ -607,11 +604,11 @@ public class DocDCRProduct extends AppCompatActivity {
                     }
 
                     // Pass data to onPostExecute method
-                    return(result.toString());
+                    return (result.toString());
 
-                }else{
+                } else {
 
-                    return("unsuccessful");
+                    return ("unsuccessful");
                 }
 
             } catch (IOException e) {
@@ -633,13 +630,12 @@ public class DocDCRProduct extends AppCompatActivity {
             try {
                 JSONObject jobj = new JSONObject(result);
 
-                if(!jobj.getBoolean("error"))
-                {
+                if (!jobj.getBoolean("error")) {
                     DcrddrlstItem modelx = DoctorsData.dcrdlst.get(position);
                     modelx.setCompletecall(iscompcall);
                     onBackPressed();
                     DoctorsData.doctorslist.getAdapter().notifyDataSetChanged();
-                    Toast.makeText(DocDCRProduct.this, jobj.getString("errormsg"),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DocDCRProduct.this, jobj.getString("errormsg"), Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -649,7 +645,7 @@ public class DocDCRProduct extends AppCompatActivity {
         }
     }
 
-    public void showQuesPopup(){
+    public void showQuesPopup() {
         final Dialog dialog = new Dialog(DocDCRProduct.this);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -663,111 +659,114 @@ public class DocDCRProduct extends AppCompatActivity {
         rv_list_popup.setNestedScrollingEnabled(false);
         rv_list_popup.setLayoutManager(new LinearLayoutManager(DocDCRProduct.this));
         rv_list_popup.setAdapter(new RecyclerView.Adapter() {
-            @NonNull
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                View view= LayoutInflater.from(DocDCRProduct.this).inflate(R.layout.yes_no_questions_popup_adapter, viewGroup,false);
-                Holder holder=new Holder(view);
-                return holder;
-            }
+                                     @NonNull
+                                     @Override
+                                     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                                         View view = LayoutInflater.from(DocDCRProduct.this).inflate(R.layout.yes_no_questions_popup_adapter, viewGroup, false);
+                                         Holder holder = new Holder(view);
+                                         return holder;
+                                     }
 
-            @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-                final Holder myHolder= (Holder) viewHolder;
-                final QuestionslistItem model = questionslist.get(i);
-                myHolder.donewith.setVisibility(View.GONE);
-                myHolder.question.setText(model.getQdescrpn());
-                String andesc = "Select option~"+model.getAnsdesc();
-                String[] answ = andesc.split("~");
-                ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(DocDCRProduct.this,
-                        android.R.layout.simple_spinner_item, answ);
-                adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                myHolder.ans.setAdapter(adapter1);
-                if(!model.getAns().equalsIgnoreCase("")){
-                    myHolder.ans.setSelection(adapter1.getPosition(model.getAns()));
-                }
+                                     @Override
+                                     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                                         final Holder myHolder = (Holder) viewHolder;
+                                         final QuestionslistItem model = questionslist.get(i);
+                                         myHolder.donewith.setVisibility(View.GONE);
+                                         myHolder.question.setText(model.getQdescrpn());
+                                         String andesc = "Select option~" + model.getAnsdesc();
+                                         String[] answ = andesc.split("~");
+                                         ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(DocDCRProduct.this,
+                                                 android.R.layout.simple_spinner_item, answ);
+                                         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                         myHolder.ans.setAdapter(adapter1);
+                                         if (!model.getAns().equalsIgnoreCase("")) {
+                                             myHolder.ans.setSelection(adapter1.getPosition(model.getAns()));
+                                         }
 
 
-                if(model.getSubansdesc().length() > 0) {
-                    String subandesc = "Select option~" + model.getSubansdesc();
-                    String[] subansw = subandesc.split("~");
-                    ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(DocDCRProduct.this,
-                            android.R.layout.simple_spinner_item, subansw);
-                    adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    myHolder.subans.setAdapter(adapter2);
-                }
+                                         if (model.getSubansdesc().length() > 0) {
+                                             String subandesc = "Select option~" + model.getSubansdesc();
+                                             String[] subansw = subandesc.split("~");
+                                             ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(DocDCRProduct.this,
+                                                     android.R.layout.simple_spinner_item, subansw);
+                                             adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                             myHolder.subans.setAdapter(adapter2);
+                                         }
 
-                myHolder.ans.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                        String text = myHolder.ans.getSelectedItem().toString();
-                        if(text.equalsIgnoreCase("Select option")){
-                            model.setAns("");
-                            if(model.getSubansdesc().length() > 0){
-                            myHolder.subans.setSelection(0);
-                            model.setSubans("");
-                            myHolder.donewith.setVisibility(View.GONE);
-                            }
-                        }else{
-                            if(text.equalsIgnoreCase("YES")){
-                                model.setAns(text);
-                                if(model.getSubansdesc().length() > 0){
-                                    myHolder.donewith.setVisibility(View.VISIBLE);
-                                }
-                            }else {
-                                model.setAns(text);
-                                if(model.getSubansdesc().length() > 0){
-                                    myHolder.subans.setSelection(0);
-                                    model.setSubans("");
-                                    myHolder.donewith.setVisibility(View.GONE);
-                                }
-                            }
-                        }
-                    }
+                                         myHolder.ans.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                             @Override
+                                             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                                                 String text = myHolder.ans.getSelectedItem().toString();
+                                                 if (text.equalsIgnoreCase("Select option")) {
+                                                     model.setAns("");
+                                                     if (model.getSubansdesc().length() > 0) {
+                                                         myHolder.subans.setSelection(0);
+                                                         model.setSubans("");
+                                                         myHolder.donewith.setVisibility(View.GONE);
+                                                     }
+                                                 } else {
+                                                     if (text.equalsIgnoreCase("YES")) {
+                                                         model.setAns(text);
+                                                         if (model.getSubansdesc().length() > 0) {
+                                                             myHolder.donewith.setVisibility(View.VISIBLE);
+                                                         }
+                                                     } else {
+                                                         model.setAns(text);
+                                                         if (model.getSubansdesc().length() > 0) {
+                                                             myHolder.subans.setSelection(0);
+                                                             model.setSubans("");
+                                                             myHolder.donewith.setVisibility(View.GONE);
+                                                         }
+                                                     }
+                                                 }
+                                             }
 
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parentView) {
-                        // your code here
-                    }
+                                             @Override
+                                             public void onNothingSelected(AdapterView<?> parentView) {
+                                                 // your code here
+                                             }
 
-                });
+                                         });
 
-                myHolder.subans.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                        String text = myHolder.subans.getSelectedItem().toString();
-                        if(text.equalsIgnoreCase("Select option")){
-                            model.setSubans("");
-                        }else{
-                            model.setSubans(text);
-                        }
-                    }
+                                         myHolder.subans.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                             @Override
+                                             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                                                 String text = myHolder.subans.getSelectedItem().toString();
+                                                 if (text.equalsIgnoreCase("Select option")) {
+                                                     model.setSubans("");
+                                                 } else {
+                                                     model.setSubans(text);
+                                                 }
+                                             }
 
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parentView) {
-                        // your code here
-                    }
+                                             @Override
+                                             public void onNothingSelected(AdapterView<?> parentView) {
+                                                 // your code here
+                                             }
 
-                });
+                                         });
 
-            }
+                                     }
 
-            @Override
-            public int getItemCount() {
-                return questionslist.size();
-            }
-            class Holder extends RecyclerView.ViewHolder {
-                TextView question;
-                Spinner ans,subans;
-                LinearLayout donewith;
-                public Holder(@NonNull View itemView) {
-                    super(itemView);
-                    question = itemView.findViewById(R.id.question);
-                    ans = itemView.findViewById(R.id.ans);
-                    subans = itemView.findViewById(R.id.subans);
-                    donewith = itemView.findViewById(R.id.donewith);
-                }
-            } }
+                                     @Override
+                                     public int getItemCount() {
+                                         return questionslist.size();
+                                     }
+
+                                     class Holder extends RecyclerView.ViewHolder {
+                                         TextView question;
+                                         Spinner ans, subans;
+                                         LinearLayout donewith;
+
+                                         public Holder(@NonNull View itemView) {
+                                             super(itemView);
+                                             question = itemView.findViewById(R.id.question);
+                                             ans = itemView.findViewById(R.id.ans);
+                                             subans = itemView.findViewById(R.id.subans);
+                                             donewith = itemView.findViewById(R.id.donewith);
+                                         }
+                                     }
+                                 }
         );
 
         rv_list_popup.getAdapter().notifyDataSetChanged();
@@ -784,28 +783,28 @@ public class DocDCRProduct extends AppCompatActivity {
 
                 boolean isansgiven = true;
                 boolean issubansgiven = true;
-                for(int m=0;m<questionslist.size();m++){
-                    if(questionslist.get(m).getAns().equalsIgnoreCase("")){
+                for (int m = 0; m < questionslist.size(); m++) {
+                    if (questionslist.get(m).getAns().equalsIgnoreCase("")) {
                         isansgiven = false;
                     }
-                    if(questionslist.get(m).getSubansdesc().length()>0){
-                        if(questionslist.get(m).getAns().equalsIgnoreCase("YES") && questionslist.get(m).getSubans().equalsIgnoreCase("")){
+                    if (questionslist.get(m).getSubansdesc().length() > 0) {
+                        if (questionslist.get(m).getAns().equalsIgnoreCase("YES") && questionslist.get(m).getSubans().equalsIgnoreCase("")) {
                             issubansgiven = false;
                         }
                     }
                 }
 
-                if(isansgiven){
-                    if(issubansgiven){
+                if (isansgiven) {
+                    if (issubansgiven) {
                         dialog.dismiss();
                         Gson gson = new GsonBuilder().create();
                         JsonArray myCustomArray = gson.toJsonTree(questionslist).getAsJsonArray();
                         //Toast.makeText(DocDCRProduct.this, myCustomArray.toString(), Toast.LENGTH_SHORT).show();
                         storePopupQuesAnsInDB(myCustomArray.toString());
-                    }else{
+                    } else {
                         Toast.makeText(DocDCRProduct.this, "First answer all sub question !", Toast.LENGTH_SHORT).show();
                     }
-                }else {
+                } else {
                     Toast.makeText(DocDCRProduct.this, "First answer all question !", Toast.LENGTH_SHORT).show();
                     //todo save in db
                 }
@@ -822,13 +821,13 @@ public class DocDCRProduct extends AppCompatActivity {
     private void storePopupQuesAnsInDB(String json) {
         progressDialoge.show();
         retrofit2.Call<DefaultResponse> call1 = RetrofitClient
-                .getInstance().getApi().submitPopupQuesAns(Global.ecode,Global.netid, Global.dcrdate, json,Global.dcrdatemonth, Global.dcrdateyear, cntcd,Global.dbprefix);
+                .getInstance().getApi().submitPopupQuesAns(Global.ecode, Global.netid, Global.dcrdate, json, Global.dcrdatemonth, Global.dcrdateyear, cntcd, Global.dbprefix);
         call1.enqueue(new Callback<DefaultResponse>() {
             @Override
             public void onResponse(retrofit2.Call<DefaultResponse> call1, Response<DefaultResponse> response) {
                 progressDialoge.dismiss();
                 DefaultResponse res = response.body();
-                if(!res.isError()){
+                if (!res.isError()) {
                     Toast.makeText(DocDCRProduct.this, res.getErrormsg(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -842,26 +841,27 @@ public class DocDCRProduct extends AppCompatActivity {
         });
     }
 
-    private void getPopup1data(final String prodid,final String pname) {
+    private void getPopup1data(final String prodid, final String pname) {
         pop1data.clear();
         progressDialoge.show();
         retrofit2.Call<EpidermPopUpRes> call1 = RetrofitClient
-                .getInstance().getApi().get117611771187(Global.ecode, Global.netid, Global.dcrdate, cntcd, prodid, Global.dcrno,Global.dbprefix);
+                .getInstance().getApi().get117611771187(Global.ecode, Global.netid, Global.dcrdate, cntcd, prodid, Global.dcrno, Global.dbprefix);
         call1.enqueue(new Callback<EpidermPopUpRes>() {
             @Override
             public void onResponse(retrofit2.Call<EpidermPopUpRes> call1, Response<EpidermPopUpRes> response) {
                 progressDialoge.dismiss();
                 EpidermPopUpRes res = response.body();
                 pop1data = res.getDCRProdDemoDet();
-                if(pop1data.size()>0) {
+                if (pop1data.size() > 0) {
                     if (prodid.equalsIgnoreCase("1187"))
                         showPopup1187(prodid, pname);
                     else
                         showPopupOth(prodid, pname);
-                }else{
+                } else {
                     showNoDocDataAlert();
                 }
             }
+
             @Override
             public void onFailure(Call<EpidermPopUpRes> call1, Throwable t) {
                 progressDialoge.dismiss();
@@ -907,36 +907,36 @@ public class DocDCRProduct extends AppCompatActivity {
         final EditText edt1 = dialog.findViewById(R.id.odrqty);
 
         TextView prdname = dialog.findViewById(R.id.prdname);
-        prdname.setText("PRODUCT NAME \n"+pname);
+        prdname.setText("PRODUCT NAME \n" + pname);
         drname.setText(pop1data.get(0).getDRNAME());
         drtype.setText(pop1data.get(0).getTradeDis());
-        chemname.setText("AVAILABLE AT PULSE CHEMIST ?\n"+pop1data.get(0).getChemistname());
+        chemname.setText("AVAILABLE AT PULSE CHEMIST ?\n" + pop1data.get(0).getChemistname());
 
         String strpres = "";
-        if(!pop1data.get(0).getPrescriptiondate().equalsIgnoreCase("0000-00-00"))
+        if (!pop1data.get(0).getPrescriptiondate().equalsIgnoreCase("0000-00-00"))
             strpres = "Y";
 
-        if(strpres.equalsIgnoreCase("Y")){
+        if (strpres.equalsIgnoreCase("Y")) {
             rbgrp1.check(R.id.yes1);
             no1.setEnabled(false);
         }
 
-        if(pop1data.get(0).getMadeAvailableAtChem().equalsIgnoreCase("Y")){
+        if (pop1data.get(0).getMadeAvailableAtChem().equalsIgnoreCase("Y")) {
             rbgrp2.check(R.id.yes2);
             no2.setEnabled(false);
-        }else if(pop1data.get(0).getMadeAvailableAtChem().equalsIgnoreCase("N")){
+        } else if (pop1data.get(0).getMadeAvailableAtChem().equalsIgnoreCase("N")) {
             rbgrp2.check(R.id.no2);
         }
 
-        if(!pop1data.get(0).getDdorderqty().equalsIgnoreCase("")){
+        if (!pop1data.get(0).getDdorderqty().equalsIgnoreCase("")) {
             edt1.setText(pop1data.get(0).getDdorderqty());
             edt1.setEnabled(false);
         }
 
-        if(pop1data.get(0).getTriopackgiven().equalsIgnoreCase("Y")){
+        if (pop1data.get(0).getTriopackgiven().equalsIgnoreCase("Y")) {
             rbgrp3.check(R.id.yes3);
             no3.setEnabled(false);
-        }else if(pop1data.get(0).getTriopackgiven().equalsIgnoreCase("N")){
+        } else if (pop1data.get(0).getTriopackgiven().equalsIgnoreCase("N")) {
             rbgrp3.check(R.id.no3);
         }
 
@@ -949,26 +949,23 @@ public class DocDCRProduct extends AppCompatActivity {
         buttonYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String startedpres="",madeavail="",triopack="";
-                if (rbgrp1.getCheckedRadioButtonId() != -1)
-                {
+                String startedpres = "", madeavail = "", triopack = "";
+                if (rbgrp1.getCheckedRadioButtonId() != -1) {
                     AppCompatRadioButton radioButton = dialog.findViewById(rbgrp1.getCheckedRadioButtonId());
                     startedpres = radioButton.getText().toString();
                 }
                 //Log.d("rbgrp2-->",Integer.toString(rbgrp2.getCheckedRadioButtonId())+"  id-->"+R.id.yes2);
-                if (rbgrp2.getCheckedRadioButtonId() != -1)
-                {
+                if (rbgrp2.getCheckedRadioButtonId() != -1) {
                     AppCompatRadioButton radioButton = dialog.findViewById(rbgrp2.getCheckedRadioButtonId());
                     madeavail = radioButton.getText().toString();
                     //Log.d("madeavail-->",madeavail);
                 }
-                if (rbgrp3.getCheckedRadioButtonId() != -1)
-                {
+                if (rbgrp3.getCheckedRadioButtonId() != -1) {
                     AppCompatRadioButton radioButton = dialog.findViewById(rbgrp3.getCheckedRadioButtonId());
                     triopack = radioButton.getText().toString();
                 }
 
-                save11761177(prodid,startedpres,madeavail,triopack,edt1.getText().toString());
+                save11761177(prodid, startedpres, madeavail, triopack, edt1.getText().toString());
                 dialog.dismiss();
             }
         });
@@ -983,16 +980,17 @@ public class DocDCRProduct extends AppCompatActivity {
     private void save11761177(String prodid, String startedpres, String madeavail, String triopack, String odrqty) {
         progressDialoge.show();
         retrofit2.Call<DefaultResponse> call1 = RetrofitClient
-                .getInstance().getApi().submit11761177(Global.ecode, Global.netid, Global.dcrdate, cntcd, prodid, Global.dcrno, startedpres, madeavail, odrqty, triopack,Global.dbprefix);
+                .getInstance().getApi().submit11761177(Global.ecode, Global.netid, Global.dcrdate, cntcd, prodid, Global.dcrno, startedpres, madeavail, odrqty, triopack, Global.dbprefix);
         call1.enqueue(new Callback<DefaultResponse>() {
             @Override
             public void onResponse(retrofit2.Call<DefaultResponse> call1, Response<DefaultResponse> response) {
                 progressDialoge.dismiss();
                 DefaultResponse res = response.body();
-                if(!res.isError()){
+                if (!res.isError()) {
                     Toast.makeText(DocDCRProduct.this, res.getErrormsg(), Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<DefaultResponse> call1, Throwable t) {
                 progressDialoge.dismiss();
@@ -1027,73 +1025,73 @@ public class DocDCRProduct extends AppCompatActivity {
         final EditText edt3 = dialog.findViewById(R.id.unitsold);
 
         TextView prdname = dialog.findViewById(R.id.prdname);
-        prdname.setText("PRODUCT NAME \n"+pname);
+        prdname.setText("PRODUCT NAME \n" + pname);
         drname.setText(pop1data.get(0).getDRNAME());
         drtype.setText(pop1data.get(0).getTradeDis());
-        chemname.setText("AVAILABLE AT PULSE CHEMIST ?\n"+pop1data.get(0).getChemistname());
+        chemname.setText("AVAILABLE AT PULSE CHEMIST ?\n" + pop1data.get(0).getChemistname());
 
-        if(pop1data.get(0).getEpidermlaunched().equalsIgnoreCase("Y") && !pop1data.get(0).getLaunchdate().equalsIgnoreCase(Global.dcrdate)){
+        if (pop1data.get(0).getEpidermlaunched().equalsIgnoreCase("Y") && !pop1data.get(0).getLaunchdate().equalsIgnoreCase(Global.dcrdate)) {
             rbgrp1.check(R.id.yes1);
             no1.setEnabled(false);
-        }else{
-            if(pop1data.get(0).getEpidermlaunched().equalsIgnoreCase("Y")){
+        } else {
+            if (pop1data.get(0).getEpidermlaunched().equalsIgnoreCase("Y")) {
                 rbgrp1.check(R.id.yes1);
-            }else if(pop1data.get(0).getEpidermlaunched().equalsIgnoreCase("N")){
+            } else if (pop1data.get(0).getEpidermlaunched().equalsIgnoreCase("N")) {
                 rbgrp1.check(R.id.no1);
             }
         }
 
-        if(pop1data.get(0).getEpidermsamplegiven().equalsIgnoreCase("Y") && !pop1data.get(0).getEpidermsamplegivedate().equalsIgnoreCase(Global.dcrdate)){
+        if (pop1data.get(0).getEpidermsamplegiven().equalsIgnoreCase("Y") && !pop1data.get(0).getEpidermsamplegivedate().equalsIgnoreCase(Global.dcrdate)) {
             rbgrp2.check(R.id.yes2);
             no2.setEnabled(false);
-        }else{
-            if(pop1data.get(0).getEpidermsamplegiven().equalsIgnoreCase("Y")){
+        } else {
+            if (pop1data.get(0).getEpidermsamplegiven().equalsIgnoreCase("Y")) {
                 rbgrp2.check(R.id.yes2);
-            }else if(pop1data.get(0).getEpidermsamplegiven().equalsIgnoreCase("N")){
+            } else if (pop1data.get(0).getEpidermsamplegiven().equalsIgnoreCase("N")) {
                 rbgrp2.check(R.id.no2);
             }
         }
 
-        if(pop1data.get(0).getEpidermprscReceived().equalsIgnoreCase("Y") && !pop1data.get(0).getEpidermprscReceiveddate().equalsIgnoreCase(Global.dcrdate)){
+        if (pop1data.get(0).getEpidermprscReceived().equalsIgnoreCase("Y") && !pop1data.get(0).getEpidermprscReceiveddate().equalsIgnoreCase(Global.dcrdate)) {
             rbgrp3.check(R.id.yes3);
             no3.setEnabled(false);
-        }else{
-            if(pop1data.get(0).getEpidermprscReceived().equalsIgnoreCase("Y")){
+        } else {
+            if (pop1data.get(0).getEpidermprscReceived().equalsIgnoreCase("Y")) {
                 rbgrp3.check(R.id.yes3);
-            }else if(pop1data.get(0).getEpidermprscReceived().equalsIgnoreCase("N")){
+            } else if (pop1data.get(0).getEpidermprscReceived().equalsIgnoreCase("N")) {
                 rbgrp3.check(R.id.no3);
             }
         }
 
-        if(!pop1data.get(0).getEpidermpresno().equalsIgnoreCase("0") && !pop1data.get(0).getEpidermpresnodate().equalsIgnoreCase(Global.dcrdate)){
+        if (!pop1data.get(0).getEpidermpresno().equalsIgnoreCase("0") && !pop1data.get(0).getEpidermpresnodate().equalsIgnoreCase(Global.dcrdate)) {
             edt1.setText(pop1data.get(0).getEpidermpresno());
             edt1.setEnabled(false);
-        }else{
+        } else {
             edt1.setText(pop1data.get(0).getEpidermpresno());
         }
 
-        if(pop1data.get(0).getMadeAvailableAtChem().equalsIgnoreCase("Y") && !pop1data.get(0).getAvailabilityDate().equalsIgnoreCase(Global.dcrdate)){
+        if (pop1data.get(0).getMadeAvailableAtChem().equalsIgnoreCase("Y") && !pop1data.get(0).getAvailabilityDate().equalsIgnoreCase(Global.dcrdate)) {
             rbgrp4.check(R.id.yes4);
             no4.setEnabled(false);
-        }else{
-            if(pop1data.get(0).getMadeAvailableAtChem().equalsIgnoreCase("Y")){
+        } else {
+            if (pop1data.get(0).getMadeAvailableAtChem().equalsIgnoreCase("Y")) {
                 rbgrp4.check(R.id.yes4);
-            }else if(pop1data.get(0).getMadeAvailableAtChem().equalsIgnoreCase("N")){
+            } else if (pop1data.get(0).getMadeAvailableAtChem().equalsIgnoreCase("N")) {
                 rbgrp4.check(R.id.no4);
             }
         }
 
-        if(!pop1data.get(0).getEpidermnoofunitsavail().equalsIgnoreCase("0") && !pop1data.get(0).getEpidermnoofunitsavaildate().equalsIgnoreCase(Global.dcrdate)){
+        if (!pop1data.get(0).getEpidermnoofunitsavail().equalsIgnoreCase("0") && !pop1data.get(0).getEpidermnoofunitsavaildate().equalsIgnoreCase(Global.dcrdate)) {
             edt2.setText(pop1data.get(0).getEpidermnoofunitsavail());
             edt2.setEnabled(false);
-        }else{
+        } else {
             edt2.setText(pop1data.get(0).getEpidermnoofunitsavail());
         }
 
-        if(!pop1data.get(0).getEpidermnoofunitsoldafterlaunch().equalsIgnoreCase("0") && !pop1data.get(0).getEpidermnoofunitsoldafterlaunchdate().equalsIgnoreCase(Global.dcrdate)){
+        if (!pop1data.get(0).getEpidermnoofunitsoldafterlaunch().equalsIgnoreCase("0") && !pop1data.get(0).getEpidermnoofunitsoldafterlaunchdate().equalsIgnoreCase(Global.dcrdate)) {
             edt3.setText(pop1data.get(0).getEpidermnoofunitsoldafterlaunch());
             edt3.setEnabled(false);
-        }else{
+        } else {
             edt3.setText(pop1data.get(0).getEpidermnoofunitsoldafterlaunch());
         }
 
@@ -1107,29 +1105,25 @@ public class DocDCRProduct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //todo save data
-                String launched="",madeavail="",samplegiven="",prescreceived="";
-                if (rbgrp1.getCheckedRadioButtonId() != -1)
-                {
+                String launched = "", madeavail = "", samplegiven = "", prescreceived = "";
+                if (rbgrp1.getCheckedRadioButtonId() != -1) {
                     AppCompatRadioButton radioButton = dialog.findViewById(rbgrp1.getCheckedRadioButtonId());
                     launched = radioButton.getText().toString();
                 }
-                if (rbgrp2.getCheckedRadioButtonId() != -1)
-                {
+                if (rbgrp2.getCheckedRadioButtonId() != -1) {
                     AppCompatRadioButton radioButton = dialog.findViewById(rbgrp2.getCheckedRadioButtonId());
                     samplegiven = radioButton.getText().toString();
                 }
-                if (rbgrp3.getCheckedRadioButtonId() != -1)
-                {
+                if (rbgrp3.getCheckedRadioButtonId() != -1) {
                     AppCompatRadioButton radioButton = dialog.findViewById(rbgrp3.getCheckedRadioButtonId());
                     prescreceived = radioButton.getText().toString();
                 }
-                if (rbgrp4.getCheckedRadioButtonId() != -1)
-                {
+                if (rbgrp4.getCheckedRadioButtonId() != -1) {
                     AppCompatRadioButton radioButton = dialog.findViewById(rbgrp4.getCheckedRadioButtonId());
                     madeavail = radioButton.getText().toString();
                 }
 
-                save1187(prodid,launched,samplegiven,prescreceived,madeavail,edt1.getText().toString(),edt2.getText().toString(),edt3.getText().toString());
+                save1187(prodid, launched, samplegiven, prescreceived, madeavail, edt1.getText().toString(), edt2.getText().toString(), edt3.getText().toString());
                 dialog.dismiss();
             }
         });
@@ -1144,16 +1138,17 @@ public class DocDCRProduct extends AppCompatActivity {
     private void save1187(String prodid, String launched, String samplegiven, String prescreceived, String madeavail, String presno, String unitavail, String unitsold) {
         progressDialoge.show();
         retrofit2.Call<DefaultResponse> call1 = RetrofitClient
-                .getInstance().getApi().submit1187(Global.ecode, Global.netid, Global.dcrdate, cntcd, prodid, Global.dcrno, launched, samplegiven, prescreceived, presno, madeavail, unitavail, unitsold,Global.dbprefix);
+                .getInstance().getApi().submit1187(Global.ecode, Global.netid, Global.dcrdate, cntcd, prodid, Global.dcrno, launched, samplegiven, prescreceived, presno, madeavail, unitavail, unitsold, Global.dbprefix);
         call1.enqueue(new Callback<DefaultResponse>() {
             @Override
             public void onResponse(retrofit2.Call<DefaultResponse> call1, Response<DefaultResponse> response) {
                 progressDialoge.dismiss();
                 DefaultResponse res = response.body();
-                if(!res.isError()){
+                if (!res.isError()) {
                     Toast.makeText(DocDCRProduct.this, res.getErrormsg(), Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<DefaultResponse> call1, Throwable t) {
                 progressDialoge.dismiss();
@@ -1163,23 +1158,24 @@ public class DocDCRProduct extends AppCompatActivity {
         });
     }
 
-    private void getPopup2data(final String prodid,final String pname) {
+    private void getPopup2data(final String prodid, final String pname) {
         pop2data.clear();
         progressDialoge.show();
         retrofit2.Call<QseraPopUpRes> call1 = RetrofitClient
-                .getInstance().getApi().get1098(Global.ecode, Global.netid, Global.dcrdate, cntcd, prodid, Global.dcrno,Global.dbprefix);
+                .getInstance().getApi().get1098(Global.ecode, Global.netid, Global.dcrdate, cntcd, prodid, Global.dcrno, Global.dbprefix);
         call1.enqueue(new Callback<QseraPopUpRes>() {
             @Override
             public void onResponse(retrofit2.Call<QseraPopUpRes> call1, Response<QseraPopUpRes> response) {
                 progressDialoge.dismiss();
                 QseraPopUpRes res = response.body();
                 pop2data = res.getDCRGiftSplDrDet();
-                if(pop2data.size()>0) {
+                if (pop2data.size() > 0) {
                     showPopupQSera(prodid, pname);
-                }else{
+                } else {
                     showNoDocDataAlert();
                 }
             }
+
             @Override
             public void onFailure(Call<QseraPopUpRes> call1, Throwable t) {
                 progressDialoge.dismiss();
@@ -1214,27 +1210,27 @@ public class DocDCRProduct extends AppCompatActivity {
         View v3 = dialog.findViewById(R.id.v3);
 
         TextView prdname = dialog.findViewById(R.id.prdname);
-        prdname.setText("PRODUCT NAME \n"+pname);
+        prdname.setText("PRODUCT NAME \n" + pname);
         drname.setText(pop2data.get(0).getDRNAME());
         drtype.setText(pop2data.get(0).getTradeDis());
-        chemname.setText("AVAILABLE AT PULSE CHEMIST ?\n"+pop2data.get(0).getChemistname());
+        chemname.setText("AVAILABLE AT PULSE CHEMIST ?\n" + pop2data.get(0).getChemistname());
 
-        if(pop2data.get(0).getMadeAvailableAtPulseChem().equalsIgnoreCase("Y") && !pop2data.get(0).getAvailabilityDate().equalsIgnoreCase(Global.dcrdate)){
+        if (pop2data.get(0).getMadeAvailableAtPulseChem().equalsIgnoreCase("Y") && !pop2data.get(0).getAvailabilityDate().equalsIgnoreCase(Global.dcrdate)) {
             rbgrp1.check(R.id.yes1);
             no1.setEnabled(false);
-        }else{
-            if(pop2data.get(0).getMadeAvailableAtPulseChem().equalsIgnoreCase("Y")){
+        } else {
+            if (pop2data.get(0).getMadeAvailableAtPulseChem().equalsIgnoreCase("Y")) {
                 rbgrp1.check(R.id.yes1);
-            }else if(pop2data.get(0).getMadeAvailableAtPulseChem().equalsIgnoreCase("N")){
+            } else if (pop2data.get(0).getMadeAvailableAtPulseChem().equalsIgnoreCase("N")) {
                 rbgrp1.check(R.id.no1);
             }
         }
 
-        if(prodid.equalsIgnoreCase("2024") || prodid.equalsIgnoreCase("1098")) {
+        if (prodid.equalsIgnoreCase("2024") || prodid.equalsIgnoreCase("1098")) {
             edt1.setText(pop2data.get(0).getNoQSeraHairSerumRx());
             edt2.setText(pop2data.get(0).getNoofunitsold());
             edt3.setText(pop2data.get(0).getDoctorsfeedback());
-        }else{
+        } else {
             v1.setVisibility(View.GONE);
             v2.setVisibility(View.GONE);
             v3.setVisibility(View.GONE);
@@ -1252,14 +1248,13 @@ public class DocDCRProduct extends AppCompatActivity {
         buttonYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String madeavail="";
-                if (rbgrp1.getCheckedRadioButtonId() != -1)
-                {
+                String madeavail = "";
+                if (rbgrp1.getCheckedRadioButtonId() != -1) {
                     AppCompatRadioButton radioButton = dialog.findViewById(rbgrp1.getCheckedRadioButtonId());
                     madeavail = radioButton.getText().toString();
                 }
 
-                save1098(prodid,madeavail,edt1.getText().toString(),edt2.getText().toString(),edt3.getText().toString());
+                save1098(prodid, madeavail, edt1.getText().toString(), edt2.getText().toString(), edt3.getText().toString());
                 dialog.dismiss();
             }
         });
@@ -1274,16 +1269,17 @@ public class DocDCRProduct extends AppCompatActivity {
     private void save1098(String prodid, String madeavail, String rxgen, String unitsold, String drfeedbk) {
         progressDialoge.show();
         retrofit2.Call<DefaultResponse> call1 = RetrofitClient
-                .getInstance().getApi().submit1098(Global.ecode, Global.netid, Global.dcrdate, cntcd, prodid, Global.dcrno, madeavail, rxgen, unitsold, drfeedbk,Global.dbprefix);
+                .getInstance().getApi().submit1098(Global.ecode, Global.netid, Global.dcrdate, cntcd, prodid, Global.dcrno, madeavail, rxgen, unitsold, drfeedbk, Global.dbprefix);
         call1.enqueue(new Callback<DefaultResponse>() {
             @Override
             public void onResponse(retrofit2.Call<DefaultResponse> call1, Response<DefaultResponse> response) {
                 progressDialoge.dismiss();
                 DefaultResponse res = response.body();
-                if(!res.isError()){
+                if (!res.isError()) {
                     Toast.makeText(DocDCRProduct.this, res.getErrormsg(), Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<DefaultResponse> call1, Throwable t) {
                 progressDialoge.dismiss();
@@ -1297,19 +1293,20 @@ public class DocDCRProduct extends AppCompatActivity {
         pop3data.clear();
         progressDialoge.show();
         retrofit2.Call<RedicnePopUpRes> call1 = RetrofitClient
-                .getInstance().getApi().get3009(Global.ecode, Global.netid, Global.dcrdate, cntcd, "3009", Global.dcrno,Global.dbprefix);
+                .getInstance().getApi().get3009(Global.ecode, Global.netid, Global.dcrdate, cntcd, "3009", Global.dcrno, Global.dbprefix);
         call1.enqueue(new Callback<RedicnePopUpRes>() {
             @Override
             public void onResponse(retrofit2.Call<RedicnePopUpRes> call1, Response<RedicnePopUpRes> response) {
                 progressDialoge.dismiss();
                 RedicnePopUpRes res = response.body();
                 pop3data = res.getDCRRidacneDet();
-                if(pop3data.size()>0) {
+                if (pop3data.size() > 0) {
                     showPopupRedicne(prodid, pname);
-                }else{
+                } else {
                     showNoDocDataAlert();
                 }
             }
+
             @Override
             public void onFailure(Call<RedicnePopUpRes> call1, Throwable t) {
                 progressDialoge.dismiss();
@@ -1356,159 +1353,159 @@ public class DocDCRProduct extends AppCompatActivity {
         final EditText edt8 = dialog.findViewById(R.id.rxgen8);
 
         TextView prdname = dialog.findViewById(R.id.prdname);
-        prdname.setText("PRODUCT NAME \n"+pname);
+        prdname.setText("PRODUCT NAME \n" + pname);
         drname.setText(pop3data.get(0).getDRNAME());
         drtype.setText(pop3data.get(0).getTradeDis());
 
         // 1
-        if(pop3data.get(0).getKMACBriefednConsentRcvd().equalsIgnoreCase("Y")){
+        if (pop3data.get(0).getKMACBriefednConsentRcvd().equalsIgnoreCase("Y")) {
             rbgrp1.check(R.id.done1);
             no1.setEnabled(false);
-        }else{
-            if(pop3data.get(0).getKMACBriefednConsentRcvd().equalsIgnoreCase("Y")){
+        } else {
+            if (pop3data.get(0).getKMACBriefednConsentRcvd().equalsIgnoreCase("Y")) {
                 rbgrp1.check(R.id.done1);
-            }else if(pop3data.get(0).getKMACBriefednConsentRcvd().equalsIgnoreCase("N")){
+            } else if (pop3data.get(0).getKMACBriefednConsentRcvd().equalsIgnoreCase("N")) {
                 rbgrp1.check(R.id.no1);
             }
         }
 
-        if(!pop3data.get(0).getNoofRidacneRxWeek1520jul().equalsIgnoreCase("0")){
+        if (!pop3data.get(0).getNoofRidacneRxWeek1520jul().equalsIgnoreCase("0")) {
             edt1.setText(pop3data.get(0).getNoofRidacneRxWeek1520jul());
             edt1.setEnabled(false);
-        }else{
+        } else {
             edt1.setText(pop3data.get(0).getNoofRidacneRxWeek1520jul());
         }
         //1 ends here
         //2
-        if(pop3data.get(0).getKMACUploadMaterailRcvdFromDr().equalsIgnoreCase("Y")){
+        if (pop3data.get(0).getKMACUploadMaterailRcvdFromDr().equalsIgnoreCase("Y")) {
             rbgrp2.check(R.id.done2);
             no2.setEnabled(false);
-        }else{
-            if(pop3data.get(0).getKMACUploadMaterailRcvdFromDr().equalsIgnoreCase("Y")){
+        } else {
+            if (pop3data.get(0).getKMACUploadMaterailRcvdFromDr().equalsIgnoreCase("Y")) {
                 rbgrp2.check(R.id.done2);
-            }else if(pop3data.get(0).getKMACUploadMaterailRcvdFromDr().equalsIgnoreCase("N")){
+            } else if (pop3data.get(0).getKMACUploadMaterailRcvdFromDr().equalsIgnoreCase("N")) {
                 rbgrp2.check(R.id.no2);
             }
         }
 
-        if(!pop3data.get(0).getNoofRidacneRxWeek2431jul().equalsIgnoreCase("0")){
+        if (!pop3data.get(0).getNoofRidacneRxWeek2431jul().equalsIgnoreCase("0")) {
             edt2.setText(pop3data.get(0).getNoofRidacneRxWeek2431jul());
             edt2.setEnabled(false);
-        }else{
+        } else {
             edt2.setText(pop3data.get(0).getNoofRidacneRxWeek2431jul());
         }
         //2 ends here
         //3
-        if(pop3data.get(0).getDrAgreedWiththeKMACUploadedMaterial().equalsIgnoreCase("Y")){
+        if (pop3data.get(0).getDrAgreedWiththeKMACUploadedMaterial().equalsIgnoreCase("Y")) {
             rbgrp3.check(R.id.done3);
             no3.setEnabled(false);
-        }else{
-            if(pop3data.get(0).getDrAgreedWiththeKMACUploadedMaterial().equalsIgnoreCase("Y")){
+        } else {
+            if (pop3data.get(0).getDrAgreedWiththeKMACUploadedMaterial().equalsIgnoreCase("Y")) {
                 rbgrp3.check(R.id.done3);
-            }else if(pop3data.get(0).getDrAgreedWiththeKMACUploadedMaterial().equalsIgnoreCase("N")){
+            } else if (pop3data.get(0).getDrAgreedWiththeKMACUploadedMaterial().equalsIgnoreCase("N")) {
                 rbgrp3.check(R.id.no3);
             }
         }
 
-        if(!pop3data.get(0).getNoofRidacneRxWeek0107aug().equalsIgnoreCase("0")){
+        if (!pop3data.get(0).getNoofRidacneRxWeek0107aug().equalsIgnoreCase("0")) {
             edt3.setText(pop3data.get(0).getNoofRidacneRxWeek0107aug());
             edt3.setEnabled(false);
-        }else{
+        } else {
             edt3.setText(pop3data.get(0).getNoofRidacneRxWeek0107aug());
         }
         //3 ends here
         //4
-        if(pop3data.get(0).getHandedOverKMACInstrumentToTheDr().equalsIgnoreCase("Y")){
+        if (pop3data.get(0).getHandedOverKMACInstrumentToTheDr().equalsIgnoreCase("Y")) {
             rbgrp4.check(R.id.done4);
             no4.setEnabled(false);
-        }else{
-            if(pop3data.get(0).getHandedOverKMACInstrumentToTheDr().equalsIgnoreCase("Y")){
+        } else {
+            if (pop3data.get(0).getHandedOverKMACInstrumentToTheDr().equalsIgnoreCase("Y")) {
                 rbgrp4.check(R.id.done4);
-            }else if(pop3data.get(0).getHandedOverKMACInstrumentToTheDr().equalsIgnoreCase("N")){
+            } else if (pop3data.get(0).getHandedOverKMACInstrumentToTheDr().equalsIgnoreCase("N")) {
                 rbgrp4.check(R.id.no4);
             }
         }
 
-        if(!pop3data.get(0).getNoofRidacneRxWeek0814aug().equalsIgnoreCase("0")){
+        if (!pop3data.get(0).getNoofRidacneRxWeek0814aug().equalsIgnoreCase("0")) {
             edt4.setText(pop3data.get(0).getNoofRidacneRxWeek0814aug());
             edt4.setEnabled(false);
-        }else{
+        } else {
             edt4.setText(pop3data.get(0).getNoofRidacneRxWeek0814aug());
         }
         //4 ends here
         //5
-        if(pop3data.get(0).getKMACRelatedallMaterialPlacedDspatientWaitingarena().equalsIgnoreCase("Y")){
+        if (pop3data.get(0).getKMACRelatedallMaterialPlacedDspatientWaitingarena().equalsIgnoreCase("Y")) {
             rbgrp5.check(R.id.done5);
             no5.setEnabled(false);
-        }else{
-            if(pop3data.get(0).getKMACRelatedallMaterialPlacedDspatientWaitingarena().equalsIgnoreCase("Y")){
+        } else {
+            if (pop3data.get(0).getKMACRelatedallMaterialPlacedDspatientWaitingarena().equalsIgnoreCase("Y")) {
                 rbgrp5.check(R.id.done5);
-            }else if(pop3data.get(0).getKMACRelatedallMaterialPlacedDspatientWaitingarena().equalsIgnoreCase("N")){
+            } else if (pop3data.get(0).getKMACRelatedallMaterialPlacedDspatientWaitingarena().equalsIgnoreCase("N")) {
                 rbgrp5.check(R.id.no5);
             }
         }
 
-        if(!pop3data.get(0).getNoofRidacneRxWeek1622aug().equalsIgnoreCase("0")){
+        if (!pop3data.get(0).getNoofRidacneRxWeek1622aug().equalsIgnoreCase("0")) {
             edt5.setText(pop3data.get(0).getNoofRidacneRxWeek1622aug());
             edt5.setEnabled(false);
-        }else{
+        } else {
             edt5.setText(pop3data.get(0).getNoofRidacneRxWeek1622aug());
         }
         //5 ends here
         //6
-        if(pop3data.get(0).getKMACRunningWellCheckednFdbkUpdatedDr().equalsIgnoreCase("Y")){
+        if (pop3data.get(0).getKMACRunningWellCheckednFdbkUpdatedDr().equalsIgnoreCase("Y")) {
             rbgrp6.check(R.id.done6);
             no6.setEnabled(false);
-        }else{
-            if(pop3data.get(0).getKMACRunningWellCheckednFdbkUpdatedDr().equalsIgnoreCase("Y")){
+        } else {
+            if (pop3data.get(0).getKMACRunningWellCheckednFdbkUpdatedDr().equalsIgnoreCase("Y")) {
                 rbgrp6.check(R.id.done6);
-            }else if(pop3data.get(0).getKMACRunningWellCheckednFdbkUpdatedDr().equalsIgnoreCase("N")){
+            } else if (pop3data.get(0).getKMACRunningWellCheckednFdbkUpdatedDr().equalsIgnoreCase("N")) {
                 rbgrp6.check(R.id.no6);
             }
         }
 
-        if(!pop3data.get(0).getNoofRidacneRxWeek2431aug().equalsIgnoreCase("0")){
+        if (!pop3data.get(0).getNoofRidacneRxWeek2431aug().equalsIgnoreCase("0")) {
             edt6.setText(pop3data.get(0).getNoofRidacneRxWeek2431aug());
             edt6.setEnabled(false);
-        }else{
+        } else {
             edt6.setText(pop3data.get(0).getNoofRidacneRxWeek2431aug());
         }
         //6 ends here
         //7
-        if(pop3data.get(0).getKMACFdbkTakenFromDr().equalsIgnoreCase("Y")){
+        if (pop3data.get(0).getKMACFdbkTakenFromDr().equalsIgnoreCase("Y")) {
             rbgrp7.check(R.id.done7);
             no7.setEnabled(false);
-        }else{
-            if(pop3data.get(0).getKMACFdbkTakenFromDr().equalsIgnoreCase("Y")){
+        } else {
+            if (pop3data.get(0).getKMACFdbkTakenFromDr().equalsIgnoreCase("Y")) {
                 rbgrp7.check(R.id.done7);
-            }else if(pop3data.get(0).getKMACFdbkTakenFromDr().equalsIgnoreCase("N")){
+            } else if (pop3data.get(0).getKMACFdbkTakenFromDr().equalsIgnoreCase("N")) {
                 rbgrp7.check(R.id.no7);
             }
         }
 
-        if(!pop3data.get(0).getNoofRidacneRxWeek0105sep().equalsIgnoreCase("0")){
+        if (!pop3data.get(0).getNoofRidacneRxWeek0105sep().equalsIgnoreCase("0")) {
             edt7.setText(pop3data.get(0).getNoofRidacneRxWeek0105sep());
             edt7.setEnabled(false);
-        }else{
+        } else {
             edt7.setText(pop3data.get(0).getNoofRidacneRxWeek0105sep());
         }
         //7 ends here
         //8
-        if(pop3data.get(0).getSectimeKMACRunningWellcheckednFdbkUpdatedDr().equalsIgnoreCase("Y")){
+        if (pop3data.get(0).getSectimeKMACRunningWellcheckednFdbkUpdatedDr().equalsIgnoreCase("Y")) {
             rbgrp8.check(R.id.done8);
             no8.setEnabled(false);
-        }else{
-            if(pop3data.get(0).getSectimeKMACRunningWellcheckednFdbkUpdatedDr().equalsIgnoreCase("Y")){
+        } else {
+            if (pop3data.get(0).getSectimeKMACRunningWellcheckednFdbkUpdatedDr().equalsIgnoreCase("Y")) {
                 rbgrp8.check(R.id.done8);
-            }else if(pop3data.get(0).getSectimeKMACRunningWellcheckednFdbkUpdatedDr().equalsIgnoreCase("N")){
+            } else if (pop3data.get(0).getSectimeKMACRunningWellcheckednFdbkUpdatedDr().equalsIgnoreCase("N")) {
                 rbgrp8.check(R.id.no8);
             }
         }
 
-        if(!pop3data.get(0).getNoofRidacneRxWeek1630sep().equalsIgnoreCase("0")){
+        if (!pop3data.get(0).getNoofRidacneRxWeek1630sep().equalsIgnoreCase("0")) {
             edt8.setText(pop3data.get(0).getNoofRidacneRxWeek1630sep());
             edt8.setEnabled(false);
-        }else{
+        } else {
             edt8.setText(pop3data.get(0).getNoofRidacneRxWeek1630sep());
         }
         //8 ends here
@@ -1523,85 +1520,77 @@ public class DocDCRProduct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //todo save data
-                String KMACBriefednConsentRcvd="",KMACUploadMaterailRcvdFromDr="",DrAgreedWiththeKMACUploadedMaterial="",HandedOverKMACInstrumentToTheDr="";
-                String KMACRelatedallMaterialPlacedDspatientWaitingarena="",KMACRunningWellCheckednFdbkUpdatedDr="",KMACFdbkTakenFromDr="",sectimeKMACRunningWellcheckednFdbkUpdatedDr="";
-                if (rbgrp1.getCheckedRadioButtonId() != -1)
-                {
+                String KMACBriefednConsentRcvd = "", KMACUploadMaterailRcvdFromDr = "", DrAgreedWiththeKMACUploadedMaterial = "", HandedOverKMACInstrumentToTheDr = "";
+                String KMACRelatedallMaterialPlacedDspatientWaitingarena = "", KMACRunningWellCheckednFdbkUpdatedDr = "", KMACFdbkTakenFromDr = "", sectimeKMACRunningWellcheckednFdbkUpdatedDr = "";
+                if (rbgrp1.getCheckedRadioButtonId() != -1) {
                     AppCompatRadioButton radioButton = dialog.findViewById(rbgrp1.getCheckedRadioButtonId());
                     String txt = radioButton.getText().toString();
-                    if(txt.equalsIgnoreCase("DONE"))
+                    if (txt.equalsIgnoreCase("DONE"))
                         KMACBriefednConsentRcvd = "Y";
-                    else if(txt.equalsIgnoreCase("Could Not Do"))
+                    else if (txt.equalsIgnoreCase("Could Not Do"))
                         KMACBriefednConsentRcvd = "N";
                 }
-                if (rbgrp2.getCheckedRadioButtonId() != -1)
-                {
+                if (rbgrp2.getCheckedRadioButtonId() != -1) {
                     AppCompatRadioButton radioButton = dialog.findViewById(rbgrp2.getCheckedRadioButtonId());
                     String txt = radioButton.getText().toString();
-                    if(txt.equalsIgnoreCase("DONE"))
+                    if (txt.equalsIgnoreCase("DONE"))
                         KMACUploadMaterailRcvdFromDr = "Y";
-                    else if(txt.equalsIgnoreCase("Could Not Do"))
+                    else if (txt.equalsIgnoreCase("Could Not Do"))
                         KMACUploadMaterailRcvdFromDr = "N";
                 }
-                if (rbgrp3.getCheckedRadioButtonId() != -1)
-                {
+                if (rbgrp3.getCheckedRadioButtonId() != -1) {
                     AppCompatRadioButton radioButton = dialog.findViewById(rbgrp3.getCheckedRadioButtonId());
                     String txt = radioButton.getText().toString();
-                    if(txt.equalsIgnoreCase("DONE"))
+                    if (txt.equalsIgnoreCase("DONE"))
                         DrAgreedWiththeKMACUploadedMaterial = "Y";
-                    else if(txt.equalsIgnoreCase("Could Not Do"))
+                    else if (txt.equalsIgnoreCase("Could Not Do"))
                         DrAgreedWiththeKMACUploadedMaterial = "N";
                 }
-                if (rbgrp4.getCheckedRadioButtonId() != -1)
-                {
+                if (rbgrp4.getCheckedRadioButtonId() != -1) {
                     AppCompatRadioButton radioButton = dialog.findViewById(rbgrp4.getCheckedRadioButtonId());
                     String txt = radioButton.getText().toString();
-                    if(txt.equalsIgnoreCase("DONE"))
+                    if (txt.equalsIgnoreCase("DONE"))
                         HandedOverKMACInstrumentToTheDr = "Y";
-                    else if(txt.equalsIgnoreCase("Could Not Do"))
+                    else if (txt.equalsIgnoreCase("Could Not Do"))
                         HandedOverKMACInstrumentToTheDr = "N";
                 }
-                if (rbgrp5.getCheckedRadioButtonId() != -1)
-                {
+                if (rbgrp5.getCheckedRadioButtonId() != -1) {
                     AppCompatRadioButton radioButton = dialog.findViewById(rbgrp5.getCheckedRadioButtonId());
                     String txt = radioButton.getText().toString();
-                    if(txt.equalsIgnoreCase("DONE"))
+                    if (txt.equalsIgnoreCase("DONE"))
                         KMACRelatedallMaterialPlacedDspatientWaitingarena = "Y";
-                    else if(txt.equalsIgnoreCase("Could Not Do"))
+                    else if (txt.equalsIgnoreCase("Could Not Do"))
                         KMACRelatedallMaterialPlacedDspatientWaitingarena = "N";
                 }
-                if (rbgrp6.getCheckedRadioButtonId() != -1)
-                {
+                if (rbgrp6.getCheckedRadioButtonId() != -1) {
                     AppCompatRadioButton radioButton = dialog.findViewById(rbgrp6.getCheckedRadioButtonId());
                     String txt = radioButton.getText().toString();
-                    if(txt.equalsIgnoreCase("DONE"))
+                    if (txt.equalsIgnoreCase("DONE"))
                         KMACRunningWellCheckednFdbkUpdatedDr = "Y";
-                    else if(txt.equalsIgnoreCase("Could Not Do"))
+                    else if (txt.equalsIgnoreCase("Could Not Do"))
                         KMACRunningWellCheckednFdbkUpdatedDr = "N";
                 }
-                if (rbgrp7.getCheckedRadioButtonId() != -1)
-                {
+                if (rbgrp7.getCheckedRadioButtonId() != -1) {
                     AppCompatRadioButton radioButton = dialog.findViewById(rbgrp7.getCheckedRadioButtonId());
                     String txt = radioButton.getText().toString();
-                    if(txt.equalsIgnoreCase("DONE"))
+                    if (txt.equalsIgnoreCase("DONE"))
                         KMACFdbkTakenFromDr = "Y";
-                    else if(txt.equalsIgnoreCase("Could Not Do"))
+                    else if (txt.equalsIgnoreCase("Could Not Do"))
                         KMACFdbkTakenFromDr = "N";
                 }
-                if (rbgrp8.getCheckedRadioButtonId() != -1)
-                {
+                if (rbgrp8.getCheckedRadioButtonId() != -1) {
                     AppCompatRadioButton radioButton = dialog.findViewById(rbgrp8.getCheckedRadioButtonId());
                     String txt = radioButton.getText().toString();
-                    if(txt.equalsIgnoreCase("DONE"))
+                    if (txt.equalsIgnoreCase("DONE"))
                         sectimeKMACRunningWellcheckednFdbkUpdatedDr = "Y";
-                    else if(txt.equalsIgnoreCase("Could Not Do"))
+                    else if (txt.equalsIgnoreCase("Could Not Do"))
                         sectimeKMACRunningWellcheckednFdbkUpdatedDr = "N";
                 }
 
-                save3009(prodid, KMACBriefednConsentRcvd,edt1.getText().toString(), KMACUploadMaterailRcvdFromDr,edt2.getText().toString(),
-                        DrAgreedWiththeKMACUploadedMaterial,edt3.getText().toString(), HandedOverKMACInstrumentToTheDr,edt4.getText().toString(),
-                        KMACRelatedallMaterialPlacedDspatientWaitingarena,edt5.getText().toString(), KMACRunningWellCheckednFdbkUpdatedDr,edt6.getText().toString(),
-                        KMACFdbkTakenFromDr,edt7.getText().toString(), sectimeKMACRunningWellcheckednFdbkUpdatedDr,edt8.getText().toString());
+                save3009(prodid, KMACBriefednConsentRcvd, edt1.getText().toString(), KMACUploadMaterailRcvdFromDr, edt2.getText().toString(),
+                        DrAgreedWiththeKMACUploadedMaterial, edt3.getText().toString(), HandedOverKMACInstrumentToTheDr, edt4.getText().toString(),
+                        KMACRelatedallMaterialPlacedDspatientWaitingarena, edt5.getText().toString(), KMACRunningWellCheckednFdbkUpdatedDr, edt6.getText().toString(),
+                        KMACFdbkTakenFromDr, edt7.getText().toString(), sectimeKMACRunningWellcheckednFdbkUpdatedDr, edt8.getText().toString());
                 dialog.dismiss();
             }
         });
@@ -1619,19 +1608,20 @@ public class DocDCRProduct extends AppCompatActivity {
                           String rx5, String kmacFdbkTakenFromDr, String rx6, String sectimeKMACRunningWellcheckednFdbkUpdatedDr, String rx7) {
         progressDialoge.show();
         retrofit2.Call<DefaultResponse> call1 = RetrofitClient
-                .getInstance().getApi().submit3009(Global.ecode, Global.netid, Global.dcrdate, cntcd, "3009", Global.dcrno,kmacBriefednConsentRcvd, rx,
-                        kmacUploadMaterailRcvdFromDr,  rx1, drAgreedWiththeKMACUploadedMaterial, rx2, handedOverKMACInstrumentToTheDr, rx3,
+                .getInstance().getApi().submit3009(Global.ecode, Global.netid, Global.dcrdate, cntcd, "3009", Global.dcrno, kmacBriefednConsentRcvd, rx,
+                        kmacUploadMaterailRcvdFromDr, rx1, drAgreedWiththeKMACUploadedMaterial, rx2, handedOverKMACInstrumentToTheDr, rx3,
                         kmacRelatedallMaterialPlacedDspatientWaitingarena, rx4, kmacRunningWellCheckednFdbkUpdatedDr,
-                        rx5, kmacFdbkTakenFromDr, rx6, sectimeKMACRunningWellcheckednFdbkUpdatedDr, rx7,Global.dbprefix);
+                        rx5, kmacFdbkTakenFromDr, rx6, sectimeKMACRunningWellcheckednFdbkUpdatedDr, rx7, Global.dbprefix);
         call1.enqueue(new Callback<DefaultResponse>() {
             @Override
             public void onResponse(retrofit2.Call<DefaultResponse> call1, Response<DefaultResponse> response) {
                 progressDialoge.dismiss();
                 DefaultResponse res = response.body();
-                if(!res.isError()){
+                if (!res.isError()) {
                     Toast.makeText(DocDCRProduct.this, res.getErrormsg(), Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<DefaultResponse> call1, Throwable t) {
                 progressDialoge.dismiss();
@@ -1647,12 +1637,13 @@ public class DocDCRProduct extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 break;
-        } return true;
+        }
+        return true;
     }
 
     @Override
     public void onBackPressed() {
         finish();
-        DocDCRProduct.this.overridePendingTransition(R.anim.trans_right_in,R.anim.trans_right_out);
+        DocDCRProduct.this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }
 }

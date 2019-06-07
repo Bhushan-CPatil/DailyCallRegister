@@ -151,6 +151,7 @@
                             android:layout_weight="1"
                             android:id="@+id/rxgen1"
                             android:hint="Enter Value."
+                            android:digits="0123456789"
                             android:gravity="end"
                             android:maxLength="10"
                             android:inputType="number"/>
@@ -216,6 +217,7 @@
                             android:layout_weight="1"
                             android:id="@+id/rxgen2"
                             android:hint="Enter Value."
+                            android:digits="0123456789"
                             android:gravity="end"
                             android:maxLength="10"
                             android:inputType="number"/>
@@ -282,6 +284,7 @@
                             android:id="@+id/rxgen3"
                             android:hint="Enter Value."
                             android:gravity="end"
+                            android:digits="0123456789"
                             android:maxLength="10"
                             android:inputType="number"/>
                     </LinearLayout>
@@ -347,6 +350,7 @@
                             android:id="@+id/rxgen4"
                             android:hint="Enter Value."
                             android:gravity="end"
+                            android:digits="0123456789"
                             android:maxLength="10"
                             android:inputType="number"/>
                     </LinearLayout>
@@ -412,6 +416,7 @@
                             android:id="@+id/rxgen5"
                             android:hint="Enter Value."
                             android:gravity="end"
+                            android:digits="0123456789"
                             android:maxLength="10"
                             android:inputType="number"/>
                     </LinearLayout>
@@ -477,6 +482,7 @@
                             android:id="@+id/rxgen6"
                             android:hint="Enter Value."
                             android:gravity="end"
+                            android:digits="0123456789"
                             android:maxLength="10"
                             android:inputType="number"/>
                     </LinearLayout>
@@ -543,6 +549,7 @@
                             android:hint="Enter Value."
                             android:gravity="end"
                             android:maxLength="10"
+                            android:digits="0123456789"
                             android:inputType="number"/>
                     </LinearLayout>
                     <View
@@ -608,6 +615,7 @@
                             android:hint="Enter Value."
                             android:gravity="end"
                             android:maxLength="10"
+                            android:digits="0123456789"
                             android:inputType="number"/>
                     </LinearLayout>
                 </LinearLayout>

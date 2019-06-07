@@ -49,6 +49,7 @@ android:orientation="vertical">
             android:layout_marginRight="3dp"
             android:id="@+id/pob"
             android:hint="Enter POB"
+            android:digits="0123456789"
             android:textColorHint="@color/textcolorred"
             android:layout_weight="7"
             android:inputType="number"

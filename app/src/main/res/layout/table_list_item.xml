@@ -206,6 +206,8 @@
             android:drawableRight="@drawable/ic_edit"
             android:hint="Enter Rec Qty For Dr."
             android:inputType="number"
+            android:maxLength="4"
+            android:digits="0123456789"
             android:paddingStart="4dp"
             android:textSize="17sp" />
         </LinearLayout>
@@ -240,6 +242,8 @@
             android:background="@drawable/edittext_bg"
             android:drawableRight="@drawable/ic_edit"
             android:inputType="number"
+            android:digits="0123456789"
+            android:maxLength="4"
             android:hint="Enter Rec Qty For Self"
             android:paddingStart="4dp"
             android:textSize="17sp"/>

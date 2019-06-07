@@ -192,6 +192,7 @@
                             android:layout_weight="1"
                             android:id="@+id/odrqty"
                             android:hint="Enter Qty."
+                            android:digits="0123456789"
                             android:gravity="end"
                             android:maxLength="10"
                             android:inputType="number"/>

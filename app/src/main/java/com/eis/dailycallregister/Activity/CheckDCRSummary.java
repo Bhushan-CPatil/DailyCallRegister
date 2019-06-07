@@ -56,6 +56,7 @@ public class CheckDCRSummary extends AppCompatActivity {
     List<GiftSummaryItem> giftsum = new ArrayList<>();
     List<ProdgiftdetSummaryItem> pgdetsum = new ArrayList<>();
     RelativeLayout rtl;
+    String intentremark = "";
     AdaptiveTableLayout mTableLayout, mTableLayout2;
     String[][] prodgiftdetsum;
     String[][] arrgiftsum;
@@ -72,6 +73,7 @@ public class CheckDCRSummary extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_black);
         setContentView(R.layout.activity_check_dcrsummary);
         progressDialoge = new ViewDialog(CheckDCRSummary.this);
+        intentremark = getIntent().getStringExtra("remark");
         dsvl = findViewById(R.id.dsvl);
         dnsvl = findViewById(R.id.dnsvl);
         csvl = findViewById(R.id.csvl);
@@ -145,7 +147,7 @@ public class CheckDCRSummary extends AppCompatActivity {
 
     private void callApi1() {
         progressDialoge.show();
-        Call<GetDCRSummaryMainRes> call = RetrofitClient.getInstance().getApi().getDCRSummary(Global.ecode, Global.netid, "", Global.dcrno, Global.dbprefix);
+        Call<GetDCRSummaryMainRes> call = RetrofitClient.getInstance().getApi().getDCRSummary(Global.ecode, Global.netid, intentremark, Global.dcrno, Global.dbprefix);
         call.enqueue(new Callback<GetDCRSummaryMainRes>() {
             @Override
             public void onResponse(Call<GetDCRSummaryMainRes> call, Response<GetDCRSummaryMainRes> response) {
@@ -158,7 +160,7 @@ public class CheckDCRSummary extends AppCompatActivity {
                 tpob.setText(res.getTotpob());
                 texp.setText(res.getTotexp());
                 ded.setText(res.getDeduction());
-                remark.setText("");
+                remark.setText(intentremark);
                 expsum = res.getExpensedetSummary();
                 prodsum = res.getProductSummary();
                 giftsum = res.getGiftSummary();

@@ -31,6 +31,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Scroller;
@@ -79,6 +80,7 @@ public class DCREntry extends Fragment {
     LinearLayout l1,l2,l3;
     TextView dcrdate;
     Spinner spinnerHolDates;
+    EditText remark;
     MaterialButton submitdcrdate,condcrent;
     List<String> arrayList;
     List<SampleAndGiftReceiptItem> samplegift = new ArrayList<>();
@@ -97,6 +99,7 @@ public class DCREntry extends Fragment {
         progressDialoge=new ViewDialog(getActivity());
         sv = view.findViewById(R.id.sv);
         m1 = view.findViewById(R.id.carddcrdate);
+        remark = view.findViewById(R.id.remark);
         m2 = view.findViewById(R.id.dcrdatesdropdown);
         m3 = view.findViewById(R.id.cardremark);
         l1 = view.findViewById(R.id.l1);
@@ -244,6 +247,7 @@ public class DCREntry extends Fragment {
                                     Snackbar.make(sv, "First fill the DCR", Snackbar.LENGTH_LONG).show();
                                 }else{
                                    Intent intent = new Intent(getActivity(), CheckDCRSummary.class);
+                                   intent.putExtra("remark", remark.getText().toString());
                                     Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
                                     startActivity(intent,bndlanimation);
                                 }
@@ -289,6 +293,11 @@ public class DCREntry extends Fragment {
                     if(!Global.dcrdatestatus){
                         Global.dcrno = res.getErrormsg();
                     }
+
+                    if(res.getRemark() != null && !res.getRemark().equalsIgnoreCase("")){
+                        remark.setText(res.getRemark());
+                    }
+
                     dcrdate.setText("DCR DATE : "+Global.dcrdateday+"-"+Global.dcrdatemonth+"-"+Global.dcrdateyear);
                     m1.setVisibility(View.VISIBLE);
                     checkmtp();

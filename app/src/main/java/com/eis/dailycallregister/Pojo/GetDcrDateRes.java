@@ -17,6 +17,17 @@ public class GetDcrDateRes{
 	@SerializedName("errormsg")
 	private String errormsg;
 
+	@SerializedName("remark")
+	private String remark;
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
 	public void setDcrdate(String dcrdate){
 		this.dcrdate = dcrdate;
 	}
@@ -57,6 +68,7 @@ public class GetDcrDateRes{
 			",newflg = '" + newflg + '\'' + 
 			",error = '" + error + '\'' + 
 			",errormsg = '" + errormsg + '\'' + 
+			",remark = '" + remark + '\'' +
 			"}";
 		}
 }

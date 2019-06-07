@@ -17,7 +17,7 @@
         android:id="@+id/remark"
         android:inputType="textMultiLine"
         android:lines="8"
-        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,.+-*/ "
+        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,.+-*/: "
         android:minLines="6"
         android:gravity="top|left"
         android:maxLines="10"

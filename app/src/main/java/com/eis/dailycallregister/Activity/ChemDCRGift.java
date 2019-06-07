@@ -1,6 +1,8 @@
 package com.eis.dailycallregister.Activity;
 
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -15,6 +17,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +31,7 @@ import com.eis.dailycallregister.Others.Global;
 import com.eis.dailycallregister.Others.ViewDialog;
 import com.eis.dailycallregister.Pojo.DCRGiftListRes;
 import com.eis.dailycallregister.Pojo.DcrdchlstItem;
+import com.eis.dailycallregister.Pojo.DcrddrlstItem;
 import com.eis.dailycallregister.Pojo.DcrgiftslistItem;
 import com.eis.dailycallregister.R;
 import com.google.gson.Gson;
@@ -65,6 +69,7 @@ public class ChemDCRGift extends AppCompatActivity {
     public AppCompatEditText pob;
     //NestedScrollView nsv;
     int position;
+    String param = "";
     RecyclerView giftnameslist;
     public String serial,d1d2,finyr,field;
     public List<DcrgiftslistItem> dcrplst = new ArrayList<>();
@@ -100,7 +105,7 @@ public class ChemDCRGift extends AppCompatActivity {
         chname = findViewById(R.id.chname);
         pob = findViewById(R.id.pob);
         chname.setText(getIntent().getStringExtra("chname"));
-        if(Integer.parseInt(getIntent().getStringExtra("pob")) > 0){
+        if(!getIntent().getStringExtra("pob").equalsIgnoreCase("") && Integer.parseInt(getIntent().getStringExtra("pob")) > 0){
             pob.setText(getIntent().getStringExtra("pob"));
         }
         setGiftAdapter();
@@ -115,6 +120,7 @@ public class ChemDCRGift extends AppCompatActivity {
         submitbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                param = "SUBMIT";
                 //onBackPressed();
                 giftnameslist.clearFocus();
                 AlertDialog.Builder builder = new AlertDialog.Builder(ChemDCRGift.this);
@@ -125,10 +131,7 @@ public class ChemDCRGift extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Gson gson = new GsonBuilder().create();
-                                JsonArray myCustomArray = gson.toJsonTree(dcrplst).getAsJsonArray();
-                                //Toast.makeText(ChemDCRGift.this, myCustomArray.toString(), Toast.LENGTH_LONG).show();
-                                new ChemDCRGift.addGiftEntry().execute(Global.ecode,Global.netid,serial,Global.dcrno,finyr,d1d2,field,myCustomArray.toString(),pob.getText().toString(),Global.dbprefix);
+                                submitentry();
                             }
                         });
                 builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -140,8 +143,6 @@ public class ChemDCRGift extends AppCompatActivity {
 
                 AlertDialog dialog = builder.create();
                 dialog.show();
-
-
                 //Toast.makeText(DocDCRGift.this, myCustomArray.toString(), Toast.LENGTH_LONG).show();
             }
         });
@@ -150,10 +151,13 @@ public class ChemDCRGift extends AppCompatActivity {
     }
 
     private void apicall1() {
+        String[] wrkdate = Global.date.split("-");
+        String lyr = wrkdate[0];
+        String lmth = wrkdate[1];
         progressDialoge.show();
 
         retrofit2.Call<DCRGiftListRes> call1 = RetrofitClient
-                .getInstance().getApi().DCRGiftApi(serial, Global.netid, Global.dcrno, d1d2, Global.ecode, finyr,Global.dbprefix);
+                .getInstance().getApi().DCRGiftApi(serial, Global.netid, Global.dcrno, d1d2, Global.ecode, finyr, lmth, lyr, Global.dbprefix);
         call1.enqueue(new Callback<DCRGiftListRes>() {
             @Override
             public void onResponse(retrofit2.Call<DCRGiftListRes> call1, Response<DCRGiftListRes> response) {
@@ -352,7 +356,8 @@ public class ChemDCRGift extends AppCompatActivity {
                 {
                     DcrdchlstItem modelx = ChemistData.dcrdlst.get(position);
                     modelx.setPOB(pob.getText().toString());
-                    onBackPressed();
+                    //onBackPressed();
+                    menuOperation(param);
                     ChemistData.chemistlist.getAdapter().notifyDataSetChanged();
                     Toast.makeText(ChemDCRGift.this, jobj.getString("errormsg"),Toast.LENGTH_SHORT).show();
                 }
@@ -364,12 +369,64 @@ public class ChemDCRGift extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.dcr_ch_gift_menu, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        /*switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 break;
-        } return true;
+        }
+        return true;*/
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.chnextgift) {
+            param = "NEXT";
+            submitentry();
+            return true;
+        } else if(id == android.R.id.home){
+            onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void submitentry() {
+        Gson gson = new GsonBuilder().create();
+        JsonArray myCustomArray = gson.toJsonTree(dcrplst).getAsJsonArray();
+        //Toast.makeText(ChemDCRGift.this, myCustomArray.toString(), Toast.LENGTH_LONG).show();
+        new ChemDCRGift.addGiftEntry().execute(Global.ecode,Global.netid,serial,Global.dcrno,finyr,d1d2,field,myCustomArray.toString(),pob.getText().toString(),Global.dbprefix);
+    }
+
+    private void menuOperation(String mode) {
+        int nextposition = position + 1;
+        if(mode.equalsIgnoreCase("NEXT")){
+            if(nextposition < ChemistData.dcrdlst.size()){
+                DcrdchlstItem model = ChemistData.dcrdlst.get(nextposition);
+                Intent intent = new Intent(ChemDCRGift.this,ChemDCRGift.class);
+                intent.putExtra("serial", "CH"+model.getSerial());
+                intent.putExtra("oserial", model.getSerial());
+                intent.putExtra("cntcd", model.getCntCD());
+                intent.putExtra("wnetid", model.getWNetID());
+                intent.putExtra("pob", model.getPOB());
+                intent.putExtra("position", Integer.toString(nextposition));
+                intent.putExtra("chname", "Name - "+model.getStname());
+                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(ChemDCRGift.this, R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
+                startActivity(intent,bndlanimation);
+                finish();
+            }else {
+                onBackPressed();
+            }
+        }else {
+            onBackPressed();
+        }
     }
 
     @Override

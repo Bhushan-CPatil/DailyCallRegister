@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/nextgift"
+        android:icon="@drawable/ic_gift_2"
+        android:iconTint="@color/colorPrimaryDark"
+        app:showAsAction="always"
+        android:title="Gift entry of next Dr." />
+
+    <item
+        android:id="@+id/sameprod"
+        android:icon="@drawable/ic_productbox_2"
+        android:iconTint="@color/colorPrimaryDark"
+        app:showAsAction="always"
+        android:title="Prod. entry of same Dr." />
+</menu>

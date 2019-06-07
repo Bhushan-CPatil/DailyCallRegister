@@ -268,6 +268,8 @@ public interface Api {
             @Field("d1d2") String d1d2,
             @Field("ecode") String ecode,
             @Field("financialyear") String financialyear,
+            @Field("logmth") String logmth,
+            @Field("logyr") String logyr,
             @Field("DBPrefix") String DBPrefix
     );
 
@@ -296,6 +298,8 @@ public interface Api {
             @Field("mth") String mth,
             @Field("yr") String yr,
             @Field("cntcd") String cntcd,
+            @Field("logmth") String logmth,
+            @Field("logyr") String logyr,
             @Field("DBPrefix") String DBPrefix
     );
 

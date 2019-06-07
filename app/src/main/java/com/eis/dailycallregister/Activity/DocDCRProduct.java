@@ -22,6 +22,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,6 +99,7 @@ public class DocDCRProduct extends AppCompatActivity {
     public String serial, serialwp, d1d2, iscompcall, finyr, field, cntcd, drclass;
     Spinner spn;
     int position;
+    String param = "";
     public List<DcrproductlistItem> dcrprodlst = new ArrayList<>();
     public List<QuestionslistItem> questionslist = new ArrayList<>();
     public List<DCRProdDemoDetItem> pop1data = new ArrayList<>();
@@ -164,6 +166,7 @@ public class DocDCRProduct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //onBackPressed();
+                param = "SUBMIT";
                 productnameslist.clearFocus();
                 if (showDropdownAlert) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(DocDCRProduct.this);
@@ -285,10 +288,13 @@ public class DocDCRProduct extends AppCompatActivity {
     }
 
     private void apicall1() {
+        String[] wrkdate = Global.date.split("-");
+        String lyr = wrkdate[0];
+        String lmth = wrkdate[1];
         progressDialoge.show();
 
         retrofit2.Call<DCRProdListRes> call1 = RetrofitClient
-                .getInstance().getApi().DCRProdApi(serial, Global.netid, Global.dcrno, d1d2, Global.ecode, finyr, Global.dcrdate, Global.dcrdatemonth, Global.dcrdateyear, cntcd, Global.dbprefix);
+                .getInstance().getApi().DCRProdApi(serial, Global.netid, Global.dcrno, d1d2, Global.ecode, finyr, Global.dcrdate, Global.dcrdatemonth, Global.dcrdateyear, cntcd, lmth, lyr, Global.dbprefix);
         call1.enqueue(new Callback<DCRProdListRes>() {
             @Override
             public void onResponse(retrofit2.Call<DCRProdListRes> call1, Response<DCRProdListRes> response) {
@@ -633,7 +639,8 @@ public class DocDCRProduct extends AppCompatActivity {
                 if (!jobj.getBoolean("error")) {
                     DcrddrlstItem modelx = DoctorsData.dcrdlst.get(position);
                     modelx.setCompletecall(iscompcall);
-                    onBackPressed();
+                    //onBackPressed();
+                    menuOperation(param);
                     DoctorsData.doctorslist.getAdapter().notifyDataSetChanged();
                     Toast.makeText(DocDCRProduct.this, jobj.getString("errormsg"), Toast.LENGTH_SHORT).show();
 
@@ -1632,13 +1639,80 @@ public class DocDCRProduct extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.dcr_product_entry_menu, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        /*switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 break;
         }
-        return true;
+        return true;*/
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.nextprod) {
+            param = "NEXT";
+            submitentry();
+            return true;
+        } else if (id == R.id.samegift) {
+            param = "SAME";
+            submitentry();
+            return true;
+        } else if(id == android.R.id.home){
+            onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void menuOperation(String mode) {
+        int nextposition = position + 1;
+        if(mode.equalsIgnoreCase("NEXT")){
+            if(nextposition < DoctorsData.dcrdlst.size()){
+                DcrddrlstItem model = DoctorsData.dcrdlst.get(nextposition);
+                Intent intent = new Intent(DocDCRProduct.this,DocDCRProduct.class);
+                intent.putExtra("serial", "DR"+model.getSerial());
+                intent.putExtra("oserial", model.getSerial());
+                intent.putExtra("cntcd", model.getCntCD());
+                intent.putExtra("wnetid", model.getWNetID());
+                intent.putExtra("drname", "Doctor Name - "+model.getDrname());
+                intent.putExtra("compcall", model.getCompletecall());
+                intent.putExtra("position", Integer.toString(nextposition));
+                intent.putExtra("drclass", model.getJsonMemberClass());
+                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(DocDCRProduct.this, R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
+                startActivity(intent,bndlanimation);
+                finish();
+            }else {
+                onBackPressed();
+            }
+        }else if(mode.equalsIgnoreCase("SAME")){
+            if(position < DoctorsData.dcrdlst.size()){
+                DcrddrlstItem model = DoctorsData.dcrdlst.get(position);
+                Intent intent = new Intent(DocDCRProduct.this,DocDCRGift.class);
+                intent.putExtra("serial", "DR"+model.getSerial());
+                intent.putExtra("oserial", model.getSerial());
+                intent.putExtra("cntcd", model.getCntCD());
+                intent.putExtra("wnetid", model.getWNetID());
+                intent.putExtra("drname", "Doctor Name - "+model.getDrname());
+                intent.putExtra("compcall", model.getCompletecall());
+                intent.putExtra("position", Integer.toString(position));
+                intent.putExtra("drclass", model.getJsonMemberClass());
+                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(DocDCRProduct.this, R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
+                startActivity(intent,bndlanimation);
+                finish();
+            }else {
+                onBackPressed();
+            }
+        }else {
+            onBackPressed();
+        }
     }
 
     @Override

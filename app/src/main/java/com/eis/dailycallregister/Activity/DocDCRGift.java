@@ -19,6 +19,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ import com.eis.dailycallregister.Api.RetrofitClient;
 import com.eis.dailycallregister.Others.Global;
 import com.eis.dailycallregister.Others.ViewDialog;
 import com.eis.dailycallregister.Pojo.DCRGiftListRes;
+import com.eis.dailycallregister.Pojo.DcrddrlstItem;
 import com.eis.dailycallregister.Pojo.DcrgiftslistItem;
 import com.eis.dailycallregister.R;
 import com.google.gson.Gson;
@@ -66,6 +68,8 @@ public class DocDCRGift extends AppCompatActivity {
     MaterialButton submitbtn,cancelbtn;
     ConstraintLayout nsv;
     TextView docname;
+    String param = "";
+    int position;
     //NestedScrollView nsv;
     RecyclerView giftnameslist;
     public String serial,d1d2,finyr,field;
@@ -81,7 +85,7 @@ public class DocDCRGift extends AppCompatActivity {
         progressDialoge=new ViewDialog(DocDCRGift.this);
 
         serial = getIntent().getStringExtra("serial");
-
+        position = Integer.parseInt(getIntent().getStringExtra("position"));
         if(Global.hname.contains("(A)")){
             d1d2 = "A";
         }else if(Global.hname.contains("(B)")){
@@ -112,6 +116,7 @@ public class DocDCRGift extends AppCompatActivity {
         submitbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                param = "SUBMIT";
                 //onBackPressed();
                 giftnameslist.clearFocus();
                 AlertDialog.Builder builder = new AlertDialog.Builder(DocDCRGift.this);
@@ -122,10 +127,7 @@ public class DocDCRGift extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Gson gson = new GsonBuilder().create();
-                                JsonArray myCustomArray = gson.toJsonTree(dcrplst).getAsJsonArray();
-                                //Toast.makeText(DocDCRGift.this, myCustomArray.toString(), Toast.LENGTH_LONG).show();
-                                new DocDCRGift.addGiftEntry().execute(Global.ecode,Global.netid,serial,Global.dcrno,finyr,d1d2,field,myCustomArray.toString(),"",Global.dbprefix);
+                                submitentry();
                             }
                         });
                 builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -163,11 +165,16 @@ public class DocDCRGift extends AppCompatActivity {
 
     }
 
+
+
     private void apicall1() {
+        String[] wrkdate = Global.date.split("-");
+        String lyr = wrkdate[0];
+        String lmth = wrkdate[1];
         progressDialoge.show();
 
         retrofit2.Call<DCRGiftListRes> call1 = RetrofitClient
-                .getInstance().getApi().DCRGiftApi(serial,Global.netid, Global.dcrno, d1d2, Global.ecode, finyr,Global.dbprefix);
+                .getInstance().getApi().DCRGiftApi(serial,Global.netid, Global.dcrno, d1d2, Global.ecode, finyr, lmth, lyr, Global.dbprefix);
         call1.enqueue(new Callback<DCRGiftListRes>() {
             @Override
             public void onResponse(retrofit2.Call<DCRGiftListRes> call1, Response<DCRGiftListRes> response) {
@@ -364,7 +371,8 @@ public class DocDCRGift extends AppCompatActivity {
 
                 if(!jobj.getBoolean("error"))
                 {
-                    onBackPressed();
+                    //onBackPressed();
+                    menuOperation(param);
                     Toast.makeText(DocDCRGift.this, jobj.getString("errormsg"),Toast.LENGTH_SHORT).show();
 
                 }
@@ -376,12 +384,87 @@ public class DocDCRGift extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.dcr_dr_gift_menu, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        /*switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 break;
-        } return true;
+        }
+        return true;*/
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.nextgift) {
+            param = "NEXT";
+            submitentry();
+            return true;
+        } else if (id == R.id.sameprod) {
+            param = "SAME";
+            submitentry();
+            return true;
+        } else if(id == android.R.id.home){
+            onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void submitentry() {
+        Gson gson = new GsonBuilder().create();
+        JsonArray myCustomArray = gson.toJsonTree(dcrplst).getAsJsonArray();
+        //Toast.makeText(DocDCRGift.this, myCustomArray.toString(), Toast.LENGTH_LONG).show();
+        new DocDCRGift.addGiftEntry().execute(Global.ecode,Global.netid,serial,Global.dcrno,finyr,d1d2,field,myCustomArray.toString(),"",Global.dbprefix);
+    }
+
+    private void menuOperation(String mode) {
+        int nextposition = position + 1;
+        if(mode.equalsIgnoreCase("NEXT")){
+            if(nextposition < DoctorsData.dcrdlst.size()){
+                DcrddrlstItem model = DoctorsData.dcrdlst.get(nextposition);
+                Intent intent = new Intent(DocDCRGift.this,DocDCRGift.class);
+                intent.putExtra("serial", "DR"+model.getSerial());
+                intent.putExtra("oserial", model.getSerial());
+                intent.putExtra("cntcd", model.getCntCD());
+                intent.putExtra("wnetid", model.getWNetID());
+                intent.putExtra("drname", "Doctor Name - "+model.getDrname());
+                intent.putExtra("compcall", model.getCompletecall());
+                intent.putExtra("position", Integer.toString(nextposition));
+                intent.putExtra("drclass", model.getJsonMemberClass());
+                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(DocDCRGift.this, R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
+                startActivity(intent,bndlanimation);
+                finish();
+            }else {
+                onBackPressed();
+            }
+        }else if(mode.equalsIgnoreCase("SAME")){
+            if(position < DoctorsData.dcrdlst.size()){
+                DcrddrlstItem model = DoctorsData.dcrdlst.get(position);
+                Intent intent = new Intent(DocDCRGift.this,DocDCRProduct.class);
+                intent.putExtra("serial", "DR"+model.getSerial());
+                intent.putExtra("oserial", model.getSerial());
+                intent.putExtra("cntcd", model.getCntCD());
+                intent.putExtra("wnetid", model.getWNetID());
+                intent.putExtra("drname", "Doctor Name - "+model.getDrname());
+                intent.putExtra("compcall", model.getCompletecall());
+                intent.putExtra("position", Integer.toString(position));
+                intent.putExtra("drclass", model.getJsonMemberClass());
+                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(DocDCRGift.this, R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
+                startActivity(intent,bndlanimation);
+                finish();
+            }else {
+                onBackPressed();
+            }
+        }else {
+            onBackPressed();
+        }
     }
 
     @Override

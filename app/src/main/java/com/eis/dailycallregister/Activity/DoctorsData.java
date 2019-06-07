@@ -707,6 +707,9 @@ public class DoctorsData extends AppCompatActivity {
                         intent.putExtra("cntcd", model.getCntCD());
                         intent.putExtra("wnetid", model.getWNetID());
                         intent.putExtra("drname", "Doctor Name - "+model.getDrname());
+                        intent.putExtra("compcall", model.getCompletecall());
+                        intent.putExtra("position", Integer.toString(i));
+                        intent.putExtra("drclass", model.getJsonMemberClass());
                         Bundle bndlanimation = ActivityOptions.makeCustomAnimation(DoctorsData.this, R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
                         startActivity(intent,bndlanimation);
                     }

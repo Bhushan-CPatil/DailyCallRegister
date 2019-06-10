@@ -3,6 +3,7 @@ package com.eis.dailycallregister.Api;
 
 import com.eis.dailycallregister.Pojo.AreaJntWrkRes;
 import com.eis.dailycallregister.Pojo.ChemistListAWRes;
+import com.eis.dailycallregister.Pojo.ConfirmDCRRes;
 import com.eis.dailycallregister.Pojo.DBList;
 import com.eis.dailycallregister.Pojo.DCRDChemListRes;
 import com.eis.dailycallregister.Pojo.DCRDDocListRes;
@@ -471,6 +472,23 @@ public interface Api {
             @Field("ecode") String ecode,
             @Field("netid") String netid,
             @Field("remark") String remark,
+            @Field("dcrno") String dcrno,
+            @Field("DBPrefix") String dbprefix
+    );
+
+    @FormUrlEncoded
+    @POST("confirmDCREntry.php")
+    Call<ConfirmDCRRes> confirmDCREntry(
+            @Field("Dsvlcalls") String Dsvlcalls,
+            @Field("DNsvlcalls") String DNsvlcalls,
+            @Field("Csvlcalls") String Csvlcalls,
+            @Field("CNsvlcalls") String CNsvlcalls,
+            @Field("NoPOB") String NoPOB,
+            @Field("TotPOB") String TotPOB,
+            @Field("Deduction") String Deduction,
+            @Field("ecode") String ecode,
+            @Field("DCRDate") String DCRDate,
+            @Field("netid") String netid,
             @Field("dcrno") String dcrno,
             @Field("DBPrefix") String dbprefix
     );

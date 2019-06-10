@@ -307,7 +307,7 @@ public class DCREntry extends Fragment {
             @Override
             public void onFailure(Call<GetDcrDateRes> call1, Throwable t) {
                 progressDialoge.dismiss();
-                Snackbar snackbar = Snackbar.make(sv, "Failed to fetch data !", Snackbar.LENGTH_INDEFINITE)
+                Snackbar snackbar = Snackbar.make(sv, "Failed to fetch DCR date !", Snackbar.LENGTH_INDEFINITE)
                         .setAction("Re-try", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -340,7 +340,7 @@ public class DCREntry extends Fragment {
             @Override
             public void onFailure(Call<DefaultResponse> call1, Throwable t) {
                 progressDialoge.dismiss();
-                Snackbar snackbar = Snackbar.make(sv, "Failed to fetch data !", Snackbar.LENGTH_INDEFINITE)
+                Snackbar snackbar = Snackbar.make(sv, "Failed to check MTP !", Snackbar.LENGTH_INDEFINITE)
                         .setAction("Re-try", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -372,7 +372,7 @@ public class DCREntry extends Fragment {
             @Override
             public void onFailure(Call<DefaultResponse> call1, Throwable t) {
                 progressDialoge.dismiss();
-                Snackbar snackbar = Snackbar.make(sv, "Failed to fetch data !", Snackbar.LENGTH_INDEFINITE)
+                Snackbar snackbar = Snackbar.make(sv, "Failed to lock data!", Snackbar.LENGTH_INDEFINITE)
                         .setAction("Re-try", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -412,7 +412,7 @@ public class DCREntry extends Fragment {
             @Override
             public void onFailure(Call<DefaultResponse> call1, Throwable t) {
                 progressDialoge.dismiss();
-                Snackbar snackbar = Snackbar.make(sv, "Failed to fetch data !", Snackbar.LENGTH_INDEFINITE)
+                Snackbar snackbar = Snackbar.make(sv, "Failed to check sample !", Snackbar.LENGTH_INDEFINITE)
                         .setAction("Re-try", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -461,7 +461,7 @@ public class DCREntry extends Fragment {
             @Override
             public void onFailure(Call<DefaultResponse> call1, Throwable t) {
                 progressDialoge.dismiss();
-                Snackbar snackbar = Snackbar.make(sv, "Failed to fetch data !", Snackbar.LENGTH_INDEFINITE)
+                Snackbar snackbar = Snackbar.make(sv, "Failed to check holidays !", Snackbar.LENGTH_INDEFINITE)
                         .setAction("Re-try", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

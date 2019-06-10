@@ -40,26 +40,40 @@ public class Global {
     public static String finyear = null;
     public static String emplevel = "1";
 
-    public Global() {
-        ecode = null;
-        ename = null;
-        password = null;
-        date = null;
-        d1d2 = null;
-        dbprefix = null;
-        netid = null;
-        hname = null;
-        dcrdate = null;
-        dcrdateday = null;
-        dcrdatemonth = null;
-        dcrdateyear = null;
-        SampleGiftRecOrNot = null;
-        workingareaid = null;
-        tcpid = null;
-        wrktype = null;
-        dcrno = null;
-        finyear = null;
-        emplevel = "1";
+    public void clearGlobal(String mode) {
+        if(mode.equalsIgnoreCase("All")) {
+            ecode = null;
+            ename = null;
+            password = null;
+            date = null;
+            d1d2 = null;
+            dbprefix = null;
+            netid = null;
+            hname = null;
+            dcrdate = null;
+            dcrdateday = null;
+            dcrdatemonth = null;
+            dcrdateyear = null;
+            SampleGiftRecOrNot = null;
+            workingareaid = null;
+            tcpid = null;
+            wrktype = null;
+            dcrno = null;
+            finyear = null;
+            emplevel = "1";
+        }else if(mode.equalsIgnoreCase("DCR")){
+            dcrdate = null;
+            dcrdateday = null;
+            dcrdatemonth = null;
+            dcrdateyear = null;
+            SampleGiftRecOrNot = null;
+            workingareaid = null;
+            tcpid = null;
+            wrktype = null;
+            dcrno = null;
+            finyear = null;
+            emplevel = "1";
+        }
     }
 
 

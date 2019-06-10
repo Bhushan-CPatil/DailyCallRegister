@@ -89,7 +89,7 @@ public class LoginScreen extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login_screen);
         getSupportActionBar().hide();
-        new Global();
+        new Global().clearGlobal("All");
         queue= Volley.newRequestQueue(LoginScreen.this);
         checkforUpgrade();
         progress = new ViewDialog(this);

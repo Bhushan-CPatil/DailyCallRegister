@@ -39,7 +39,6 @@
         android:autoSizeStepGranularity="1sp"
         android:id="@+id/dcr"
         android:layout_margin="16dp"
-        android:backgroundTint="@color/textcolorgray"
         app:cornerRadius="8dp"
         app:rippleColor="@color/textcolorwhite"/>
 

@@ -46,15 +46,15 @@ public class Options extends  Fragment {
         dcr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Global().notAllowed(getActivity());
-                /*Intent intent = new Intent(getActivity(),HomeActivity.class);
+                //new Global().notAllowed(getActivity());
+                Intent intent = new Intent(getActivity(),HomeActivity.class);
                 intent.putExtra("ecode", Global.ecode);
                 intent.putExtra("date",Global.date);
                 intent.putExtra("dbprefix",Global.dbprefix);
                 intent.putExtra("openfrag","dcr");
                 Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
                 startActivity(intent,bndlanimation);
-                getActivity().finish();*/
+                getActivity().finish();
             }
         });
 

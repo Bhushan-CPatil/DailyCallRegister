@@ -1,9 +1,12 @@
 package com.eis.dailycallregister.Activity;
 
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.design.button.MaterialButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -30,9 +33,11 @@ import com.cleveroad.adaptivetablelayout.LinkedAdaptiveTableAdapter;
 import com.cleveroad.adaptivetablelayout.OnItemClickListener;
 import com.cleveroad.adaptivetablelayout.OnItemLongClickListener;
 import com.eis.dailycallregister.Api.RetrofitClient;
+import com.eis.dailycallregister.Fragment.Options;
 import com.eis.dailycallregister.Others.Global;
 import com.eis.dailycallregister.Others.SampleLinkedTableAdapter;
 import com.eis.dailycallregister.Others.ViewDialog;
+import com.eis.dailycallregister.Pojo.ConfirmDCRRes;
 import com.eis.dailycallregister.Pojo.ExpensedetSummaryItem;
 import com.eis.dailycallregister.Pojo.GetDCRSummaryMainRes;
 import com.eis.dailycallregister.Pojo.GiftSummaryItem;
@@ -64,6 +69,7 @@ public class CheckDCRSummary extends AppCompatActivity {
     String[][] arrexpsum;
     ScrollView parentScroll;
     CardView prodcard,giftcard;
+    MaterialButton goback,confirm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,7 +140,7 @@ public class CheckDCRSummary extends AppCompatActivity {
         mTableLayout = findViewById(R.id.tableLayout);
         mTableLayout2 = findViewById(R.id.tableLayout2);
         parentScroll = findViewById(R.id.parentScroll);
-        MaterialButton goback = findViewById(R.id.goback);
+        goback = findViewById(R.id.goback);
         goback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,7 +148,87 @@ public class CheckDCRSummary extends AppCompatActivity {
             }
         });
 
+        confirm = findViewById(R.id.confirm);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                confirmDCREntry();
+            }
+        });
 
+    }
+
+    private void confirmDCREntry() {
+
+        String a,b,c,d,e,f,g,h,i,j;
+        a = dsvl.getText().toString();
+        b = dnsvl.getText().toString();
+        c = csvl.getText().toString();
+        d = cnsvl.getText().toString();
+        e = npob.getText().toString();
+        f = tpob.getText().toString();
+        g = ded.getText().toString();
+
+        progressDialoge.show();
+        Call<ConfirmDCRRes> call = RetrofitClient.getInstance()
+                .getApi().confirmDCREntry(a.equalsIgnoreCase("") ? "0" : a,b.equalsIgnoreCase("") ? "0" : b,
+                        c.equalsIgnoreCase("") ? "0" : c,d.equalsIgnoreCase("") ? "0" : d,e.equalsIgnoreCase("") ? "0" : e,
+                        f.equalsIgnoreCase("") ? "0" : f,g.equalsIgnoreCase("") ? "0.00" : g,Global.ecode,
+                        Global.dcrdate,Global.netid,Global.dcrno,Global.dbprefix);
+        call.enqueue(new Callback<ConfirmDCRRes>() {
+            @Override
+            public void onResponse(Call<ConfirmDCRRes> call, Response<ConfirmDCRRes> response) {
+                progressDialoge.dismiss();
+                final ConfirmDCRRes res = response.body();
+                if(!res.isError()){
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(CheckDCRSummary.this);
+                        builder.setCancelable(false);
+                        builder.setTitle("Success");
+                        builder.setMessage(res.getErrormsg());
+                        builder.setPositiveButton("Next", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (res.isPopuphrconnect()) {
+                                    new Global().clearGlobal("DCR");
+                                    String link = res.getPURL();
+                                    Intent intent = new Intent(CheckDCRSummary.this, HomeActivity.class);
+                                    intent.putExtra("openfrag", "home");
+                                    Bundle bndlanimation = ActivityOptions.makeCustomAnimation(CheckDCRSummary.this, R.anim.trans_right_in, R.anim.trans_right_out).toBundle();
+                                    startActivity(intent, bndlanimation);
+                                    finish();
+                                    finish();
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(res.getPURL()));
+                                    startActivity(browserIntent);
+                                }else{
+                                    new Global().clearGlobal("DCR");
+                                    Intent intent = new Intent(CheckDCRSummary.this, HomeActivity.class);
+                                    intent.putExtra("openfrag", "dcr");
+                                    Bundle bndlanimation = ActivityOptions.makeCustomAnimation(CheckDCRSummary.this, R.anim.trans_right_in,R.anim.trans_right_out).toBundle();
+                                    startActivity(intent, bndlanimation);
+                                    finish();
+                                    finish();
+                                }
+                            }
+                        });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ConfirmDCRRes> call, Throwable t) {
+                progressDialoge.dismiss();
+                Snackbar.make(rtl, "Something went wrong ! Please try again !", Snackbar.LENGTH_LONG)
+                        .setAction("Try Again", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                confirmDCREntry();
+                            }
+                        }).show();
+            }
+        });
     }
 
     private void callApi1() {

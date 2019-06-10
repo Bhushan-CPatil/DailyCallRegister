@@ -41,7 +41,7 @@
         android:layout_margin="16dp"
         app:cornerRadius="8dp"
         android:textColor="@color/textcolorwhite"
-        app:rippleColor="@color/textcolorgray"/>
+        app:rippleColor="@color/colorPrimaryDark"/>
 
 
     <android.support.design.button.MaterialButton

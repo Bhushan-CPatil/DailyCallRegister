@@ -140,9 +140,9 @@ public class Options extends  Fragment {
 
                     if(misscall.size()>1)
                         detailedTablePopup(getActivity(), "MISSED CALL DOCTORS", misseddr);
-                    else{
+                    /*else{
                         Snackbar.make(menuoptions, "Doctors not missed yet.", Snackbar.LENGTH_LONG).show();
-                    }
+                    }*/
 
                     progressDialoge.dismiss();
                 }

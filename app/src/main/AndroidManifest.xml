@@ -16,12 +16,13 @@
         android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
-        android:largeHeap="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.CheckDCRSummary"></activity>
+        <activity android:name=".Activity.MTPConfirmation"></activity>
+        <activity android:name=".Activity.CheckDCRSummary" />
         <activity android:name=".Activity.ChemDCRGift" />
         <activity android:name=".Activity.DocDCRProduct" />
         <activity

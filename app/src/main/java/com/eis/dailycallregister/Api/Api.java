@@ -18,6 +18,7 @@ import com.eis.dailycallregister.Pojo.FetchExpdtRes;
 import com.eis.dailycallregister.Pojo.GetDCRSummaryMainRes;
 import com.eis.dailycallregister.Pojo.GetDcrDateRes;
 import com.eis.dailycallregister.Pojo.GetPopupQuesRes;
+import com.eis.dailycallregister.Pojo.MissCallDocsRes;
 import com.eis.dailycallregister.Pojo.NonFieldWrkRes;
 import com.eis.dailycallregister.Pojo.QseraPopUpRes;
 import com.eis.dailycallregister.Pojo.RedicnePopUpRes;
@@ -490,6 +491,16 @@ public interface Api {
             @Field("DCRDate") String DCRDate,
             @Field("netid") String netid,
             @Field("dcrno") String dcrno,
+            @Field("DBPrefix") String dbprefix
+    );
+
+    @FormUrlEncoded
+    @POST("DrMissCallAlert.php")
+    Call<MissCallDocsRes> DrMissCallAlert(
+            @Field("ecode") String ecode,
+            @Field("netid") String netid,
+            @Field("logyr") String logyr,
+            @Field("logmth") String logmth,
             @Field("DBPrefix") String dbprefix
     );
 }

@@ -315,7 +315,7 @@ public class CheckDCRSummary extends AppCompatActivity {
 
                 if(prodsum.size()>0) {
                     prodcard.setVisibility(View.VISIBLE);
-                    LinkedAdaptiveTableAdapter mTableAdapter = new SampleLinkedTableAdapter(CheckDCRSummary.this, arrprodsum);
+                    LinkedAdaptiveTableAdapter mTableAdapter = new SampleLinkedTableAdapter(CheckDCRSummary.this, arrprodsum, "1");
                     mTableAdapter.setOnItemClickListener(new OnItemClickListener() {
                         @Override
                         public void onItemClick(int row, int column) {
@@ -374,7 +374,7 @@ public class CheckDCRSummary extends AppCompatActivity {
                 //2nd table
                 if(giftsum.size()>0) {
                     giftcard.setVisibility(View.VISIBLE);
-                    LinkedAdaptiveTableAdapter mTableAdapter2 = new SampleLinkedTableAdapter(CheckDCRSummary.this, arrgiftsum);
+                    LinkedAdaptiveTableAdapter mTableAdapter2 = new SampleLinkedTableAdapter(CheckDCRSummary.this, arrgiftsum, "1");
                     mTableAdapter2.setOnItemClickListener(new OnItemClickListener() {
                         @Override
                         public void onItemClick(int row, int column) {
@@ -479,7 +479,7 @@ public class CheckDCRSummary extends AppCompatActivity {
         textView.setText(stringmsg);
         ImageButton goback = dialog.findViewById(R.id.goback);
         AdaptiveTableLayout mTableLayout3 = dialog.findViewById(R.id.dettablelayout);
-        LinkedAdaptiveTableAdapter mTableAdapter3 = new SampleLinkedTableAdapter(context, dataarray);
+        LinkedAdaptiveTableAdapter mTableAdapter3 = new SampleLinkedTableAdapter(context, dataarray, "1");
         mTableAdapter3.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int row, int column) {

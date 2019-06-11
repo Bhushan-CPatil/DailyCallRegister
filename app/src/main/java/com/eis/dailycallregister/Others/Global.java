@@ -39,6 +39,7 @@ public class Global {
     public static boolean executedcrchecks ;
     public static String finyear = null;
     public static String emplevel = "1";
+    public static int misscallpopup = 0;
 
     public void clearGlobal(String mode) {
         if(mode.equalsIgnoreCase("All")) {
@@ -61,6 +62,7 @@ public class Global {
             dcrno = null;
             finyear = null;
             emplevel = "1";
+            misscallpopup = 0;
         }else if(mode.equalsIgnoreCase("DCR")){
             dcrdate = null;
             dcrdateday = null;

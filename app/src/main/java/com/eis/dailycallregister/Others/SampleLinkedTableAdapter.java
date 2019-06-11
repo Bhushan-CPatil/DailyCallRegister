@@ -22,12 +22,12 @@ public class SampleLinkedTableAdapter extends LinkedAdaptiveTableAdapter<ViewHol
             0xff8bc34a, 0xffcddc39, 0xffffeb3b, 0xffffc107, 0xffff9800, 0xffff5722};
     private final LayoutInflater mLayoutInflater;
     private String[][] datalist;
-    private final int mColumnWidth;
-    private final int mRowHeight;
-    private final int mHeaderHeight;
-    private final int mHeaderWidth;
+    public int mColumnWidth;
+    public int mRowHeight;
+    public int mHeaderHeight;
+    public int mHeaderWidth;
 
-    public SampleLinkedTableAdapter(Context context, String arr2[][]) {
+    public SampleLinkedTableAdapter(Context context, String arr2[][], String mode) {
         mLayoutInflater = LayoutInflater.from(context);
         datalist =new String[arr2.length][];
         for (int i = 0; i < datalist.length; ++i) {
@@ -37,10 +37,17 @@ public class SampleLinkedTableAdapter extends LinkedAdaptiveTableAdapter<ViewHol
             }
         }
         Resources res = context.getResources();
-        mColumnWidth = res.getDimensionPixelSize(R.dimen.column_width);
-        mRowHeight = res.getDimensionPixelSize(R.dimen.row_height);
-        mHeaderHeight = res.getDimensionPixelSize(R.dimen.column_header_height);
-        mHeaderWidth = res.getDimensionPixelSize(R.dimen.row_header_width);
+        if(mode.equalsIgnoreCase("1")) {
+            mColumnWidth = res.getDimensionPixelSize(R.dimen.column_width1);
+            mRowHeight = res.getDimensionPixelSize(R.dimen.row_height1);
+            mHeaderHeight = res.getDimensionPixelSize(R.dimen.column_header_height1);
+            mHeaderWidth = res.getDimensionPixelSize(R.dimen.row_header_width1);
+        }else if(mode.equalsIgnoreCase("2")){
+            mColumnWidth = res.getDimensionPixelSize(R.dimen.column_width2);
+            mRowHeight = res.getDimensionPixelSize(R.dimen.row_height2);
+            mHeaderHeight = res.getDimensionPixelSize(R.dimen.column_header_height2);
+            mHeaderWidth = res.getDimensionPixelSize(R.dimen.row_header_width2);
+        }
     }
 
     @Override

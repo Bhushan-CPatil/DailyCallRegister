@@ -167,7 +167,7 @@
                 <ImageView
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:src="@drawable/c3"
+                    android:src="@drawable/ic_doctor_data"
                     android:padding="16dp"/>
                 <TextView
                     android:layout_width="match_parent"
@@ -195,7 +195,7 @@
                     <ImageView
                         android:layout_width="150dp"
                         android:layout_height="150dp"
-                        android:src="@drawable/c1"
+                        android:src="@drawable/ic_medicine"
                         android:padding="16dp"/>
                     <TextView
                         android:layout_width="match_parent"
@@ -234,7 +234,7 @@
                     <ImageView
                         android:layout_width="150dp"
                         android:layout_height="150dp"
-                        android:src="@drawable/c4"
+                        android:src="@drawable/ic_money_bag"
                         android:padding="16dp"/>
                     <TextView
                         android:layout_width="match_parent"
@@ -262,7 +262,7 @@
                     <ImageView
                         android:layout_width="150dp"
                         android:layout_height="150dp"
-                        android:src="@drawable/c2"
+                        android:src="@drawable/ic_workspace"
                         android:padding="16dp"/>
                     <TextView
                         android:layout_width="match_parent"

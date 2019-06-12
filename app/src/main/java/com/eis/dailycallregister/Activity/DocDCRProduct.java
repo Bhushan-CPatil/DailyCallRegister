@@ -261,19 +261,24 @@ public class DocDCRProduct extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Gson gson = new GsonBuilder().create();
-                        JsonArray myCustomArray = gson.toJsonTree(dcrprodlst).getAsJsonArray();
-                        String text = spn.getSelectedItem().toString();
-                        String compcall = "N";
-                        if (text.equalsIgnoreCase("YES")) {
-                            compcall = "Y";
-                            iscompcall = "Y";
-                        } else {
-                            iscompcall = "N";
+
+                        boolean allok = true;
+                        allok = checkIfAllOkOrNot();
+                        if(allok){
+                            Gson gson = new GsonBuilder().create();
+                            JsonArray myCustomArray = gson.toJsonTree(dcrprodlst).getAsJsonArray();
+                            String text = spn.getSelectedItem().toString();
+                            String compcall = "N";
+                            if (text.equalsIgnoreCase("YES")) {
+                                compcall = "Y";
+                                iscompcall = "Y";
+                            } else {
+                                iscompcall = "N";
+                            }
+                            //Toast.makeText(DocDCRProduct.this, myCustomArray.toString(), Toast.LENGTH_LONG).show();
+                            new DocDCRProduct.addProductEntry().execute(Global.ecode, Global.netid, serialwp, Global.dcrno, finyr, d1d2, field,
+                                    myCustomArray.toString(), qgen, Global.dbprefix, cntcd, Global.dcrdate, compcall, spflag, pflag);
                         }
-                        //Toast.makeText(DocDCRProduct.this, myCustomArray.toString(), Toast.LENGTH_LONG).show();
-                        new DocDCRProduct.addProductEntry().execute(Global.ecode, Global.netid, serialwp, Global.dcrno, finyr, d1d2, field,
-                                myCustomArray.toString(), qgen, Global.dbprefix, cntcd, Global.dcrdate, compcall, spflag, pflag);
                     }
                 });
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -283,6 +288,39 @@ public class DocDCRProduct extends AppCompatActivity {
             }
         });
 
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private boolean checkIfAllOkOrNot() {
+        for(int i=0;i<dcrprodlst.size();i++){
+            DcrproductlistItem temp = dcrprodlst.get(i);
+            if(temp.getDETFLAG().equalsIgnoreCase("Y")){
+                if(temp.getRxQTY().equalsIgnoreCase("")){
+                    makeAlert("Rx QTY", temp.getPNAME());
+                    return false;
+                }
+                if(temp.getQTY().equalsIgnoreCase("")){
+                    makeAlert("QTY", temp.getPNAME());
+                    return false;
+                }
+
+            }
+        }
+        return true;
+    }
+
+    private void makeAlert(String ofthe, String pname) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(DocDCRProduct.this);
+        builder.setCancelable(true);
+        builder.setTitle("Alert !");
+        builder.setMessage("PLEASE ENTER "+ofthe+" OF "+pname);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //do nothing
+            }
+        });
         AlertDialog dialog = builder.create();
         dialog.show();
     }
@@ -380,10 +418,12 @@ public class DocDCRProduct extends AppCompatActivity {
                                             final Holder myHolder = (Holder) viewHolder;
                                             final DcrproductlistItem model = dcrprodlst.get(i);
                                             myHolder.prodname.setText(model.getPNAME());
-                                            if (!model.getQTY().equalsIgnoreCase("")) {
-                                                myHolder.qty.setText(model.getQTY());
-                                            } else {
+
+                                            if (model.getQTY().equalsIgnoreCase("") || (model.getQTY().equalsIgnoreCase("0") && !model.getDETFLAG().equalsIgnoreCase("Y"))) {
+                                                model.setQTY("");
                                                 myHolder.qty.setText("");
+                                            } else {
+                                                myHolder.qty.setText(model.getQTY());
                                             }
 
                                             if (model.getDETFLAG().equalsIgnoreCase("Y")) {
@@ -451,7 +491,7 @@ public class DocDCRProduct extends AppCompatActivity {
                                                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                                                     if (isChecked) {
                                                         model.setDETFLAG("Y");
-                                                        if (myHolder.qty.getText().toString().equalsIgnoreCase("")) {
+                                                        /*if (myHolder.qty.getText().toString().equalsIgnoreCase("")) {
                                                             model.setQTY("0");
                                                             myHolder.qty.setText(model.getQTY());
                                                         }
@@ -459,7 +499,8 @@ public class DocDCRProduct extends AppCompatActivity {
                                                         if (myHolder.rx.getText().toString().equalsIgnoreCase("")) {
                                                             model.setRxQTY("0");
                                                             myHolder.rx.setText(model.getRxQTY());
-                                                        }
+                                                        }*/
+
                                                         if (model.isTaggedflag() && model.getHsbrandid().contains(model.getGRP()) && model.getDEMO().equalsIgnoreCase("Y") && (model.isSpldrflag() || model.getLastmodifydate().equalsIgnoreCase(Global.dcrdate)) && model.isDateflag()) {
                                                             popupSelection(model.getPRODID(), cntcd, model.isFlag1176(), model.isFlag1177(), model.isFlag3009(), model.isTaggedflag(), model.isFlag1187(), "popupTag", model.getPNAME());
                                                         } else {
@@ -819,8 +860,8 @@ public class DocDCRProduct extends AppCompatActivity {
         });
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
         dialog.show();
         dialog.getWindow().setAttributes(lp);
     }
@@ -978,8 +1019,8 @@ public class DocDCRProduct extends AppCompatActivity {
         });
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
         dialog.show();
         dialog.getWindow().setAttributes(lp);
     }
@@ -1136,8 +1177,8 @@ public class DocDCRProduct extends AppCompatActivity {
         });
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
         dialog.show();
         dialog.getWindow().setAttributes(lp);
     }
@@ -1267,8 +1308,8 @@ public class DocDCRProduct extends AppCompatActivity {
         });
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
         dialog.show();
         dialog.getWindow().setAttributes(lp);
     }
@@ -1603,7 +1644,7 @@ public class DocDCRProduct extends AppCompatActivity {
         });
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.MATCH_PARENT;
         dialog.show();
         dialog.getWindow().setAttributes(lp);

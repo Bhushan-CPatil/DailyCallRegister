@@ -14,6 +14,7 @@ import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.design.button.MaterialButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -69,7 +70,8 @@ import retrofit2.Response;
 
 public class LoginScreen extends AppCompatActivity {
 
-    public EditText uid,pass,date;
+    public EditText uid,date;
+    public TextInputEditText pass;
     public Button login;
     DatePickerDialog datePickerDialog;
     ViewDialog progress;

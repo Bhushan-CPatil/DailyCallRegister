@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/charcoal"
+    android:background="@color/textcolorwhite"
     android:padding="8dp"
     >
 
@@ -14,9 +14,9 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:focusableInTouchMode="true"
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
         android:gravity="center"
-        android:textSize="12sp"
+        android:textSize="14sp"
         tools:text="Text"
         />
 

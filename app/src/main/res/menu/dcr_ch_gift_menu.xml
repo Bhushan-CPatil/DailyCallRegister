@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/chnextgift"
-        android:icon="@drawable/ic_gift_2"
-        android:iconTint="@color/colorPrimaryDark"
+        android:icon="@drawable/ic_next_gift"
         app:showAsAction="always"
         android:title="Gift entry of next Chemist." />
 </menu>

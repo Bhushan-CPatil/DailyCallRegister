@@ -4,15 +4,13 @@
 
     <item
         android:id="@+id/nextgift"
-        android:icon="@drawable/ic_gift_2"
-        android:iconTint="@color/colorPrimaryDark"
+        android:icon="@drawable/ic_next_gift"
         app:showAsAction="always"
         android:title="Gift entry of next Dr." />
 
     <item
         android:id="@+id/sameprod"
-        android:icon="@drawable/ic_productbox_2"
-        android:iconTint="@color/colorPrimaryDark"
+        android:icon="@drawable/ic_new_productbox"
         app:showAsAction="always"
         android:title="Prod. entry of same Dr." />
 </menu>

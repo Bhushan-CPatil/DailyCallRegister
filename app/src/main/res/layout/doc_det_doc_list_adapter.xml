@@ -32,15 +32,15 @@
             android:layout_height="35dp"
             android:layout_weight="1"
             android:id="@+id/productentry"
-            android:backgroundTint="@color/textcolorwhite"
+            android:backgroundTint="@color/transparentcolor"
             android:layout_marginRight="5dp"
-            android:src="@drawable/ic_productbox_2"/>
+            android:src="@drawable/ic_new_productbox"/>
 
         <ImageButton
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/textcolorwhite"
+            android:backgroundTint="@color/transparentcolor"
             android:id="@+id/giftentry"
             android:layout_marginRight="5dp"
             android:src="@drawable/ic_gift_2"/>
@@ -50,7 +50,7 @@
             android:layout_height="35dp"
             android:layout_weight="1"
             android:id="@+id/remarks"
-            android:backgroundTint="@color/textcolorwhite"
+            android:backgroundTint="@color/transparentcolor"
             android:layout_marginRight="5dp"
             android:src="@drawable/ic_remarks"/>
 
@@ -58,7 +58,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/textcolorwhite"
+            android:backgroundTint="@color/transparentcolor"
             android:id="@+id/deletedoc"
             android:layout_marginRight="5dp"
             android:src="@drawable/ic_delete_2"/>

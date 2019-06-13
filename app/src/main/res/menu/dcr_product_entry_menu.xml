@@ -4,8 +4,7 @@
 
     <item
         android:id="@+id/nextprod"
-        android:icon="@drawable/ic_productbox_2"
-        android:iconTint="@color/colorPrimaryDark"
+        android:icon="@drawable/ic_next_product"
         app:showAsAction="always"
         android:title="Prod. entry of next Dr." />
 

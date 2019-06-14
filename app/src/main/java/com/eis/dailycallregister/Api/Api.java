@@ -18,6 +18,7 @@ import com.eis.dailycallregister.Pojo.FetchExpdtRes;
 import com.eis.dailycallregister.Pojo.GetDCRSummaryMainRes;
 import com.eis.dailycallregister.Pojo.GetDcrDateRes;
 import com.eis.dailycallregister.Pojo.GetPopupQuesRes;
+import com.eis.dailycallregister.Pojo.IsDCRCorrectRes;
 import com.eis.dailycallregister.Pojo.MissCallDocsRes;
 import com.eis.dailycallregister.Pojo.NextMTPListRes;
 import com.eis.dailycallregister.Pojo.NonFieldWrkRes;
@@ -164,6 +165,13 @@ public interface Api {
     @FormUrlEncoded
     @POST("getdcrdchem.php")
     Call<DCRDChemListRes> getDCRDChem(
+            @Field("dcrno") String dcrno,
+            @Field("DBPrefix") String DBPrefix
+    );
+
+    @FormUrlEncoded
+    @POST("accessSummary.php")
+    Call<IsDCRCorrectRes> isDCRCorrectlyFilled(
             @Field("dcrno") String dcrno,
             @Field("DBPrefix") String DBPrefix
     );

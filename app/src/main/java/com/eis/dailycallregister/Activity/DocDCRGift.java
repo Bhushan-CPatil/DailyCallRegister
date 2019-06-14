@@ -118,7 +118,7 @@ public class DocDCRGift extends AppCompatActivity {
             public void onClick(View v) {
                 param = "SUBMIT";
                 //onBackPressed();
-                giftnameslist.clearFocus();
+                //giftnameslist.clearFocus();
                 AlertDialog.Builder builder = new AlertDialog.Builder(DocDCRGift.this);
                 builder.setCancelable(true);
                 builder.setTitle("SUBMIT ?");
@@ -418,6 +418,7 @@ public class DocDCRGift extends AppCompatActivity {
     }
 
     private void submitentry() {
+        giftnameslist.clearFocus();
         Gson gson = new GsonBuilder().create();
         JsonArray myCustomArray = gson.toJsonTree(dcrplst).getAsJsonArray();
         //Toast.makeText(DocDCRGift.this, myCustomArray.toString(), Toast.LENGTH_LONG).show();

@@ -167,7 +167,7 @@ public class DocDCRProduct extends AppCompatActivity {
             public void onClick(View v) {
                 //onBackPressed();
                 param = "SUBMIT";
-                productnameslist.clearFocus();
+                //productnameslist.clearFocus();
                 if (showDropdownAlert) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(DocDCRProduct.this);
                     builder.setCancelable(true);
@@ -253,6 +253,7 @@ public class DocDCRProduct extends AppCompatActivity {
     }
 
     public void submitentry() {
+        productnameslist.clearFocus();
         AlertDialog.Builder builder = new AlertDialog.Builder(DocDCRProduct.this);
         builder.setCancelable(true);
         builder.setTitle("SUBMIT ?");

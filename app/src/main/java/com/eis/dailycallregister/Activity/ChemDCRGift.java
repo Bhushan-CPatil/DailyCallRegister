@@ -122,7 +122,7 @@ public class ChemDCRGift extends AppCompatActivity {
             public void onClick(View v) {
                 param = "SUBMIT";
                 //onBackPressed();
-                giftnameslist.clearFocus();
+                //giftnameslist.clearFocus();
                 AlertDialog.Builder builder = new AlertDialog.Builder(ChemDCRGift.this);
                 builder.setCancelable(true);
                 builder.setTitle("SUBMIT ?");
@@ -399,6 +399,7 @@ public class ChemDCRGift extends AppCompatActivity {
     }
 
     private void submitentry() {
+        giftnameslist.clearFocus();
         Gson gson = new GsonBuilder().create();
         JsonArray myCustomArray = gson.toJsonTree(dcrplst).getAsJsonArray();
         //Toast.makeText(ChemDCRGift.this, myCustomArray.toString(), Toast.LENGTH_LONG).show();

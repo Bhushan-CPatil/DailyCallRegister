@@ -51,6 +51,7 @@ import com.eis.dailycallregister.Others.Global;
 import com.eis.dailycallregister.Others.ViewDialog;
 import com.eis.dailycallregister.Pojo.DefaultResponse;
 import com.eis.dailycallregister.Pojo.GetDcrDateRes;
+import com.eis.dailycallregister.Pojo.IsDCRCorrectRes;
 import com.eis.dailycallregister.Pojo.SampleAndGiftReceiptItem;
 import com.eis.dailycallregister.Pojo.SampleAndGiftReceiptRes;
 import com.eis.dailycallregister.R;
@@ -244,12 +245,13 @@ public class DCREntry extends Fragment {
                             public void onClick(DialogInterface dialog, int which) {
                                 //it stores selected dcrdate in global variables
                                 if(Global.dcrno == null) {
-                                    Snackbar.make(sv, "First fill the DCR", Snackbar.LENGTH_LONG).show();
+                                    Snackbar.make(sv, "DCR IS EMPTY !", Snackbar.LENGTH_LONG).show();
                                 }else{
-                                   Intent intent = new Intent(getActivity(), CheckDCRSummary.class);
+                                    checkDCRIsPerfectlyFilledOrNot();
+                                   /*Intent intent = new Intent(getActivity(), CheckDCRSummary.class);
                                    intent.putExtra("remark", remark.getText().toString());
-                                    Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
-                                    startActivity(intent,bndlanimation);
+                                   Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
+                                   startActivity(intent,bndlanimation);*/
                                 }
                             }
                         });
@@ -266,6 +268,71 @@ public class DCREntry extends Fragment {
         });
 
         return view;
+    }
+
+    private void checkDCRIsPerfectlyFilledOrNot() {
+
+        progressDialoge.show();
+        Call<IsDCRCorrectRes> call1 = RetrofitClient
+                .getInstance().getApi().isDCRCorrectlyFilled(Global.dcrno,Global.dbprefix);
+        call1.enqueue(new Callback<IsDCRCorrectRes>() {
+            @Override
+            public void onResponse(Call<IsDCRCorrectRes> call1, Response<IsDCRCorrectRes> response) {
+                progressDialoge.dismiss();
+                IsDCRCorrectRes res = response.body();
+                String stmsg = "";
+                if(!res.isChem()){
+                    stmsg = "Please select at least one chemist !";
+                    showAlert(stmsg);
+                }else if(!res.isDoc()){
+                    stmsg = "Please select at least one doctor !";
+                    showAlert(stmsg);
+                }else if(!res.isDocsmp()){
+                    stmsg = "No sample selected for "+res.getDocsmpnames()+".";
+                    showAlert(stmsg);
+                }else if(!res.isDocgift()){
+                    stmsg = "No gift selected for "+res.getDocgiftnames()+".";
+                    showAlert(stmsg);
+                }else{
+                    Intent intent = new Intent(getActivity(), CheckDCRSummary.class);
+                    intent.putExtra("remark", remark.getText().toString());
+                    Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
+                    startActivity(intent,bndlanimation);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<IsDCRCorrectRes> call1, Throwable t) {
+                progressDialoge.dismiss();
+                Snackbar snackbar = Snackbar.make(sv, "Failed to fetch DCR date !", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("Re-try", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                checkDCRIsPerfectlyFilledOrNot();
+                            }
+                        });
+                snackbar.show();
+            }
+        });
+
+    }
+
+    private void showAlert(String stmsg) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(true);
+        builder.setTitle("Alert ?");
+        builder.setMessage(stmsg);
+        builder.setPositiveButton("OK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //it stores selected dcrdate in global variables
+
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     public void getdcrdate(){

@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -32,6 +33,8 @@ import com.eis.dailycallregister.Others.Global;
 import com.eis.dailycallregister.Others.JointWRKArrayList;
 import com.eis.dailycallregister.Others.ViewDialog;
 import com.eis.dailycallregister.Pojo.DefaultResponse;
+import com.eis.dailycallregister.Pojo.ListOfTownItem;
+import com.eis.dailycallregister.Pojo.NewNonFliedWrkRes;
 import com.eis.dailycallregister.Pojo.NonFieldWrkRes;
 import com.eis.dailycallregister.Pojo.NonjointwrkItem;
 import com.eis.dailycallregister.Pojo.NonworkingItem;
@@ -65,7 +68,7 @@ public class NonFieldWork extends AppCompatActivity {
     MaterialButton jointwrkbtn,addnonworking;
     ViewDialog progressDialoge;
     NestedScrollView nestedsv;
-    RecyclerView jointwrklist;
+    RecyclerView jointwrklist,nonfieldwrkarealist;
     NestedScrollView sv;
     Spinner area;
     public List<NonjointwrkItem> jntwrklist = new ArrayList<>();
@@ -73,14 +76,15 @@ public class NonFieldWork extends AppCompatActivity {
     public List<String> arrayList = new ArrayList<>();
     int areanameid=0;
     public List<JointWRKArrayList> seljntwrklst = new ArrayList<>();
-    public List<NonworkingItem> nonworking = new ArrayList<>();
-    public List<WorkingItem> working = new ArrayList<>();
+    //public List<NonworkingItem> nonworking = new ArrayList<>();
+    //public List<WorkingItem> working = new ArrayList<>();
+    public List<ListOfTownItem> newnonworktown = new ArrayList<>();
     public LinkedHashMap<String,String> workingarea = new LinkedHashMap<String,String>();
 
-    CardView c1,c2,c3;
+    CardView c1;
     TextView nstat,narea,ntype,wstat,warea,wtype;
     String tcpidofnonwrk = "";
-    ImageButton delete;
+    //ImageButton delete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,25 +99,27 @@ public class NonFieldWork extends AppCompatActivity {
         nestedsv = findViewById(R.id.nestedsv);
         area = findViewById(R.id.areaspinn);
         jointwrklist = findViewById(R.id.jointwrklist);
+        nonfieldwrkarealist = findViewById(R.id.nonfieldwrkarealist);
         jointwrklist.setNestedScrollingEnabled(false);
         jointwrklist.setLayoutManager(new LinearLayoutManager(NonFieldWork.this));
+        setNonAdapter();
         sv = findViewById(R.id.sv);
         c1 = findViewById(R.id.card1);
-        c2 = findViewById(R.id.card2);
-        c3 = findViewById(R.id.card3);
-        nstat = findViewById(R.id.nonwrkstat);
+        //c2 = findViewById(R.id.card2);
+        //c3 = findViewById(R.id.card3);
+        /*nstat = findViewById(R.id.nonwrkstat);
         narea = findViewById(R.id.nonarea);
         ntype = findViewById(R.id.nontype);
         wstat = findViewById(R.id.workingstat);
         warea = findViewById(R.id.wrkarea);
-        wtype = findViewById(R.id.wrktype);
-        delete = findViewById(R.id.deletenonwrk);
+        wtype = findViewById(R.id.wrktype);*/
+        //delete = findViewById(R.id.deletenonwrk);
         addnonworking = findViewById(R.id.selnonworking);
         c1.setVisibility(View.VISIBLE);
-        c2.setVisibility(View.GONE);
-        c3.setVisibility(View.GONE);
-
-        delete.setOnClickListener(new View.OnClickListener() {
+        //c2.setVisibility(View.GONE);
+        //c3.setVisibility(View.GONE);
+        //todo include in adapter
+        /*delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(NonFieldWork.this);
@@ -137,7 +143,7 @@ public class NonFieldWork extends AppCompatActivity {
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
-        });
+        });*/
 
         addnonworking.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -344,6 +350,81 @@ public class NonFieldWork extends AppCompatActivity {
         if(Global.dcrno != null && !Global.dcrno.equalsIgnoreCase("")){
             dcrno = Global.dcrno;
         }
+        Call<NewNonFliedWrkRes> call = RetrofitClient.getInstance().getApi().getNonFieldWorkList2(Global.ecode,Global.netid, dcrno,Global.dcrdatemonth,Global.dcrdateyear,Global.dbprefix);
+        call.enqueue(new Callback<NewNonFliedWrkRes>() {
+            @Override
+            public void onResponse(Call<NewNonFliedWrkRes> call, Response<NewNonFliedWrkRes> response) {
+                progressDialoge.dismiss();
+                NewNonFliedWrkRes res = response.body();
+                String WWITHNAME = "";
+
+                    jntwrklist = res.getNonjointwrk();
+                    arealist = res.getNonwrkarea();
+                    if(arealist.size() == 0){
+                        addnonworking.setEnabled(false);
+                    }
+                    seljntwrklst.clear();
+                    if(!res.getWwith().equalsIgnoreCase("")) {
+
+                        if (res.getWwith().equalsIgnoreCase("Indep")) {
+                            JointWRKArrayList jk = new JointWRKArrayList("Indep", "INDEPENDENT");
+                            seljntwrklst.add(jk);
+                            indchkbox.setChecked(true);
+                            jointwrkbtn.setEnabled(false);
+                        } else {
+                            for (int k = 0; k < jntwrklist.size(); k++) {
+                                if (jntwrklist.get(k).getECODE().equalsIgnoreCase(res.getWwith())) {
+                                    WWITHNAME = jntwrklist.get(k).getENAME();
+                                }
+                            }
+                            JointWRKArrayList jk = new JointWRKArrayList(res.getWwith(), WWITHNAME);
+                            seljntwrklst.add(jk);
+                            indchkbox.setChecked(false);
+                            jointwrklist.getAdapter().notifyDataSetChanged();
+                            nestedsv.setVisibility(View.VISIBLE);
+                        }
+                    }
+                    for(int i=0;i<arealist.size();i++){
+                        String key = arealist.get(i).getTOWN()+" / "+arealist.get(i).getTOWNID();
+                        arrayList.add(key);
+                        String value = arealist.get(i).getTCPID()+":"+arealist.get(i).getWTYPE();
+                        workingarea.put(key,value);
+                    }
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(NonFieldWork.this,  android.R.layout.simple_spinner_item, arrayList);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    area.setAdapter(adapter);
+
+                if(!res.isNoRecordsExists()){
+                    newnonworktown = res.getListOfTown();
+                    c1.setVisibility(View.GONE);
+                    nonfieldwrkarealist.setVisibility(View.VISIBLE);
+                    nonfieldwrkarealist.getAdapter().notifyDataSetChanged();
+                }else{
+                    c1.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NewNonFliedWrkRes> call, Throwable t) {
+                progressDialoge.dismiss();
+                Snackbar snackbar = Snackbar.make(sv, "Failed to fetch data !", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("Re-try", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                apicall1();
+                            }
+                        });
+                snackbar.show();
+            }
+        });
+    }
+
+    /*private void apicall1() {
+        progressDialoge.show();
+        String dcrno = "";
+        if(Global.dcrno != null && !Global.dcrno.equalsIgnoreCase("")){
+            dcrno = Global.dcrno;
+        }
         retrofit2.Call<NonFieldWrkRes> call1 = RetrofitClient
                 .getInstance().getApi().getNonFieldWrk(Global.ecode,Global.netid, dcrno,Global.dcrdatemonth,Global.dcrdateyear,Global.dbprefix);
         call1.enqueue(new Callback<NonFieldWrkRes>() {
@@ -459,7 +540,7 @@ public class NonFieldWork extends AppCompatActivity {
             }
         });
 
-    }
+    }*/
 
     private void deleteapi(String serial) {
         progressDialoge.show();
@@ -475,19 +556,20 @@ public class NonFieldWork extends AppCompatActivity {
                     if(res.getErrormsg().equalsIgnoreCase("Updated Successfully.")){
                         Snackbar snackbar = Snackbar.make(sv, res.getErrormsg(), Snackbar.LENGTH_SHORT);
                         snackbar.show();
-                        nonworking.clear();
-                        working.clear();
+                        //nonworking.clear();
+                        //working.clear();
                         recreate();
                     }else if(res.getErrormsg().equalsIgnoreCase("Deleted Successfully.")){
                         Snackbar snackbar = Snackbar.make(sv, res.getErrormsg(), Snackbar.LENGTH_SHORT);
                         snackbar.show();
-                        seljntwrklst.clear();
+                        /*seljntwrklst.clear();
                         indchkbox.setChecked(false);
                         jointwrklist.getAdapter().notifyDataSetChanged();
                         nestedsv.setVisibility(View.GONE);
                         c1.setVisibility(View.VISIBLE);
                         c2.setVisibility(View.GONE);
-                        c3.setVisibility(View.GONE);
+                        c3.setVisibility(View.GONE);*/
+                        recreate();
                     }else{
                         Snackbar snackbar = Snackbar.make(sv, res.getErrormsg(), Snackbar.LENGTH_SHORT);
                         snackbar.show();
@@ -633,6 +715,86 @@ public class NonFieldWork extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void setNonAdapter() {
+        nonfieldwrkarealist.setNestedScrollingEnabled(false);
+        nonfieldwrkarealist.setLayoutManager(new LinearLayoutManager(NonFieldWork.this));
+        nonfieldwrkarealist.setAdapter(new RecyclerView.Adapter() {
+                                        @NonNull
+                                        @Override
+                                        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                                            View view = LayoutInflater.from(NonFieldWork.this).inflate(R.layout.non_field_wrk_adapter, viewGroup, false);
+                                            Holder holder = new Holder(view);
+                                            return holder;
+                                        }
+
+                                        @Override
+                                        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
+                                            final Holder myHolder = (Holder) viewHolder;
+                                            final ListOfTownItem model = newnonworktown.get(i);
+                                            if(model.getSelected().equalsIgnoreCase("Y")) {
+                                                myHolder.wrkstat.setVisibility(View.VISIBLE);
+                                            }else {
+                                                myHolder.wrkstat.setVisibility(View.GONE);
+                                            }
+
+                                            if(model.getDelete().equalsIgnoreCase("Y")){
+                                                myHolder.deletenonwrk.setVisibility(View.VISIBLE);
+                                            }else{
+                                                myHolder.deletenonwrk.setVisibility(View.GONE);
+                                            }
+
+                                            myHolder.area.setText(model.getTcpid()+" "+model.getArea());
+                                            myHolder.type.setText(model.getType());
+
+                                            myHolder.deletenonwrk.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    AlertDialog.Builder builder = new AlertDialog.Builder(NonFieldWork.this);
+                                                    builder.setCancelable(true);
+                                                    builder.setTitle("DELETE ?");
+                                                    builder.setMessage("Are you sure wants to Delete ?");
+                                                    builder.setPositiveButton("Yes",
+                                                            new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                    deleteapi(model.getTcpid());
+                                                                }
+                                                            });
+                                                    builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            //do nothing
+                                                        }
+                                                    });
+
+                                                    AlertDialog dialog = builder.create();
+                                                    dialog.show();
+                                                }
+                                            });
+
+                                        }
+
+                                        @Override
+                                        public int getItemCount() {
+                                            return newnonworktown.size();
+                                        }
+
+                                        class Holder extends RecyclerView.ViewHolder {
+                                            TextView wrkstat, area, type;
+                                            ImageButton deletenonwrk;
+
+                                            public Holder(@NonNull View itemView) {
+                                                super(itemView);
+                                                wrkstat = itemView.findViewById(R.id.wrkstat);
+                                                deletenonwrk = itemView.findViewById(R.id.deletenonwrk);
+                                                area = itemView.findViewById(R.id.area);
+                                                type = itemView.findViewById(R.id.type);
+                                            }
+                                        }
+                                    }
+        );
     }
 
     @Override

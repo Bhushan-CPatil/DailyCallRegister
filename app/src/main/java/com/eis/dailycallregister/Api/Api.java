@@ -20,6 +20,7 @@ import com.eis.dailycallregister.Pojo.GetDcrDateRes;
 import com.eis.dailycallregister.Pojo.GetPopupQuesRes;
 import com.eis.dailycallregister.Pojo.IsDCRCorrectRes;
 import com.eis.dailycallregister.Pojo.MissCallDocsRes;
+import com.eis.dailycallregister.Pojo.NewNonFliedWrkRes;
 import com.eis.dailycallregister.Pojo.NextMTPListRes;
 import com.eis.dailycallregister.Pojo.NonFieldWrkRes;
 import com.eis.dailycallregister.Pojo.QseraPopUpRes;
@@ -221,6 +222,17 @@ public interface Api {
     Call<DefaultResponse> getSubRemark(
             @Field("dcrno") String dcrno,
             @Field("serial") String serial,
+            @Field("DBPrefix") String DBPrefix
+    );
+
+    @FormUrlEncoded
+    @POST("getNonFieldWorkList2.php")
+    Call<NewNonFliedWrkRes> getNonFieldWorkList2(
+            @Field("ecode") String ecode,
+            @Field("netid") String netid,
+            @Field("dcrno") String dcrno,
+            @Field("dcrmth") String dcrmth,
+            @Field("dcryr") String dcryr,
             @Field("DBPrefix") String DBPrefix
     );
 

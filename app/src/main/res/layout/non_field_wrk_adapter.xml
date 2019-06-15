@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/card3"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginTop="10dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_margin="8dp"
+            android:weightSum="10">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="9"
+                android:textStyle="bold"
+                android:id="@+id/wrkstat"
+                android:paddingLeft="10dp"
+                android:textColor="@color/textcolorred"
+                android:text="SELECTED"
+                android:singleLine="true"
+                android:ellipsize="end"/>
+
+
+            <ImageButton
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/textcolorwhite"
+                android:id="@+id/deletenonwrk"
+                android:layout_marginRight="5dp"
+                android:visibility="visible"
+                android:src="@drawable/ic_delete_2"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="9"
+            android:textStyle="bold"
+            android:id="@+id/area"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/textcolordarkgray"
+            android:text="AREA - 088	ADMINISTRATION"
+            android:singleLine="true"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="9"
+            android:id="@+id/type"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/textcolordarkgray"
+            android:text="TYPE - Non-Working"
+            android:singleLine="true"
+            android:ellipsize="end"/>
+
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

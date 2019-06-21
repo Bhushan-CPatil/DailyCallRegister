@@ -35,6 +35,7 @@ public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     TextView ename,hqname,wdate;
+    String whichmth = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -183,5 +184,28 @@ public class HomeActivity extends AppCompatActivity
         dialog.show();
     }
 
+    public void mtpAlert(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+        builder.setCancelable(true);
+        builder.setTitle("Alert ?");
+        builder.setMessage("Which month of MTP you wants to view ?");
+        builder.setPositiveButton("NEXT", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Global.whichmth = "NEXT";
+                //fragment = new MTPConfirmation();
+            }
+        });
+        builder.setNeutralButton("CURRENT", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //new Global().notAllowed(getActivity());
+                Global.whichmth = "CURRENT";
+                //fragment = new MTPConfirmation();
+            }
+        });
+        AlertDialog dialog2 = builder.create();
+        dialog2.show();
+    }
 
 }

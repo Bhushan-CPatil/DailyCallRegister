@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:id="@+id/sv"
+android:layout_height="match_parent"
+tools:context=".Activity.NonFieldWork">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <android.support.design.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Joint Working"
+                android:textSize="18sp"
+                />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:gravity="center">
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/indchkbox"
+                    android:text="Independent"
+                    android:textSize="18sp"
+                    android:layout_marginRight="20dp"
+                    android:textColor="#424242"/>
+                <android.support.design.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/jointwrkbtn"
+                    android:text="Joint Work"
+                    android:layout_marginLeft="21dp"
+                    />
+
+            </LinearLayout>
+            <android.support.v4.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/nestedsv"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:visibility="gone">
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/jointwrklist" />
+            </android.support.v4.widget.NestedScrollView>
+        </LinearLayout>
+
+    </android.support.design.card.MaterialCardView>
+    <android.support.design.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="16dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select Area :"
+                android:textColor="#424242"
+                android:textSize="18sp"/>
+            <android.support.v7.widget.AppCompatSpinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/areaspinn"
+                android:layout_marginTop="8dp" />
+
+            <android.support.design.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:id="@+id/selnonworking"
+                android:text="ADD NON FIELD WORK TYPE"
+                />
+
+        </LinearLayout>
+    </android.support.design.card.MaterialCardView>
+
+    <!--<android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/card3"
+        android:layout_margin="16dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_margin="8dp"
+                android:weightSum="10">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="9"
+                    android:textStyle="bold"
+                    android:id="@+id/nonwrkstat"
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/textcolorred"
+                    android:text="SELECTED"
+                    android:singleLine="true"
+                    android:ellipsize="end"/>
+
+
+                <ImageButton
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/textcolorwhite"
+                    android:id="@+id/deletenonwrk"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/ic_delete_2"/>
+
+            </LinearLayout>
+
+            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="9"
+            android:textStyle="bold"
+            android:id="@+id/nonarea"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/textcolordarkgray"
+            android:text="AREA - 088	ADMINISTRATION"
+            android:singleLine="true"
+            android:ellipsize="end"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="9"
+                android:id="@+id/nontype"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/textcolordarkgray"
+                android:text="TYPE - Non-Working"
+                android:singleLine="true"
+                android:ellipsize="end"/>
+
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>-->
+
+    <!--<android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/card2"
+        android:layout_margin="16dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="9"
+                android:textStyle="bold"
+                android:id="@+id/workingstat"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="16dp"
+                android:textColor="@color/textcolorred"
+                android:text="SELECTED"
+                android:singleLine="true"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="9"
+                android:textStyle="bold"
+                android:id="@+id/wrkarea"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/textcolordarkgray"
+                android:text="AREA - 052	SCH-05 FR1-MAHASAMUND"
+                android:singleLine="true"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="9"
+                android:id="@+id/wrktype"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/textcolordarkgray"
+                android:text="TYPE - Working"
+                android:singleLine="true"
+                android:ellipsize="end"/>
+
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/nonfieldwrkarealist"
+                android:visibility="gone"/>
+    </LinearLayout>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/card1"
+        android:layout_margin="16dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="9"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_margin="8dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/textcolorred"
+                android:text="No Records Exists"
+                android:singleLine="true"
+                android:ellipsize="end"/>
+
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
+</android.support.v4.widget.NestedScrollView>

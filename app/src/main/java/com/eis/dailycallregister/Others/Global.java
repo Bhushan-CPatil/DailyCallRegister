@@ -40,6 +40,7 @@ public class Global {
     public static String finyear = null;
     public static String emplevel = "1";
     public static int misscallpopup = 0;
+    public static String whichmth = null;
 
     public void clearGlobal(String mode) {
         if(mode.equalsIgnoreCase("All")) {
@@ -63,6 +64,7 @@ public class Global {
             finyear = null;
             emplevel = "1";
             misscallpopup = 0;
+            whichmth = null;
         }else if(mode.equalsIgnoreCase("DCR")){
             dcrdate = null;
             dcrdateday = null;
@@ -75,6 +77,7 @@ public class Global {
             dcrno = null;
             finyear = null;
             emplevel = "1";
+            whichmth = null;
         }
     }
 

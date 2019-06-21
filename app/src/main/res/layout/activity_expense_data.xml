@@ -20,7 +20,6 @@
         android:autoSizeMinTextSize="1sp"
         android:autoSizeMaxTextSize="18sp"
         android:autoSizeStepGranularity="1sp"
-        app:rippleColor="@color/textcolorwhite"
         />
 
 

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:layout_gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_gravity="center"
+            android:gravity="left|center"
+            android:orientation="horizontal"
+            android:weightSum="15"
+            android:background="@color/colorPrimaryDark">
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="50dp"
+                android:id="@+id/goback"
+                android:layout_marginLeft="10dp"
+                android:padding="10dp"
+                android:background="@color/transparentcolor"
+                android:src="@drawable/ic_arrow_back_black"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="11"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
+                android:id="@+id/title"
+                android:textColor="@color/textcolorwhite"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:gravity="center"
+                android:text="PRODUCT DETAILS"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="50dp"
+                android:layout_marginRight="10dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/textcolorgray">
+            <com.cleveroad.adaptivetablelayout.AdaptiveTableLayout
+                android:id="@+id/dettablelayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cellMargin="1dp"
+                app:dragAndDropEnabled="true"
+                app:fixedHeaders="true"
+                app:solidRowHeaders="true"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</android.support.design.card.MaterialCardView>

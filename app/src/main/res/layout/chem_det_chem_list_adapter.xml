@@ -34,7 +34,7 @@
             android:layout_height="35dp"
             android:layout_weight="1"
             android:layout_marginRight="10dp"
-            android:backgroundTint="@color/transparentcolor"
+            android:background="@color/transparentcolor"
             android:id="@+id/giftentry"
             android:src="@drawable/ic_gift_2"/>
 
@@ -43,7 +43,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/transparentcolor"
+            android:background="@color/transparentcolor"
             android:id="@+id/deletechem"
             android:layout_marginRight="10dp"
             android:src="@drawable/ic_delete_2"/>

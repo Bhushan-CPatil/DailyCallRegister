@@ -11,6 +11,17 @@ public class MissCallDocsRes{
 	@SerializedName("error")
 	private boolean error;
 
+	@SerializedName("mtpflg")
+	private boolean mtpflg;
+
+	public boolean isMtpflg() {
+		return mtpflg;
+	}
+
+	public void setMtpflg(boolean mtpflg) {
+		this.mtpflg = mtpflg;
+	}
+
 	public void setMisscalldrs(List<MisscalldrsItem> misscalldrs){
 		this.misscalldrs = misscalldrs;
 	}
@@ -33,6 +44,7 @@ public class MissCallDocsRes{
 			"MissCallDocsRes{" + 
 			"misscalldrs = '" + misscalldrs + '\'' + 
 			",error = '" + error + '\'' + 
+			",mtpflg = '" + mtpflg + '\'' +
 			"}";
 		}
 }

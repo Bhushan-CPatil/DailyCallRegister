@@ -511,7 +511,6 @@ public class DocDCRProduct extends AppCompatActivity {
                                                         model.setDETFLAG("");
                                                         model.setQTY("");
                                                         myHolder.qty.setText(model.getQTY());
-
                                                     }
                                                 }
                                             });

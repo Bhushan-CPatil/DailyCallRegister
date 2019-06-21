@@ -36,7 +36,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/textcolorwhite"
+                android:background="@color/transparentcolor"
                 android:id="@+id/deletenonwrk"
                 android:layout_marginRight="5dp"
                 android:visibility="visible"

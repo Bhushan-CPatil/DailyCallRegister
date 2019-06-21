@@ -544,7 +544,7 @@
             android:layout_marginRight="12dp"
             android:layout_height="wrap_content"
             android:id="@+id/goback"
-            android:backgroundTint="@color/textcolorred"
+            app:rippleColor="@color/textcolorred"
             android:text="GO BACK"/>
     </LinearLayout>
 </RelativeLayout>

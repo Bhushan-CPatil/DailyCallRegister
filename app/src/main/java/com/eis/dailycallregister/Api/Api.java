@@ -12,6 +12,7 @@ import com.eis.dailycallregister.Pojo.DCRGiftListRes;
 import com.eis.dailycallregister.Pojo.DCRProdListRes;
 import com.eis.dailycallregister.Pojo.DefaultResponse;
 import com.eis.dailycallregister.Pojo.DoctorListAWRes;
+import com.eis.dailycallregister.Pojo.EditMtpFormResponse;
 import com.eis.dailycallregister.Pojo.EpidermPopUpRes;
 import com.eis.dailycallregister.Pojo.ErrorBooleanResponce;
 import com.eis.dailycallregister.Pojo.FetchExpdtRes;
@@ -20,6 +21,7 @@ import com.eis.dailycallregister.Pojo.GetDcrDateRes;
 import com.eis.dailycallregister.Pojo.GetPopupQuesRes;
 import com.eis.dailycallregister.Pojo.IsDCRCorrectRes;
 import com.eis.dailycallregister.Pojo.MissCallDocsRes;
+import com.eis.dailycallregister.Pojo.NewMTPListOfMTHRes;
 import com.eis.dailycallregister.Pojo.NewNonFliedWrkRes;
 import com.eis.dailycallregister.Pojo.NextMTPListRes;
 import com.eis.dailycallregister.Pojo.NonFieldWrkRes;
@@ -522,6 +524,7 @@ public interface Api {
             @Field("netid") String netid,
             @Field("logyr") String logyr,
             @Field("logmth") String logmth,
+            @Field("checkmtp") String checkmtp,
             @Field("DBPrefix") String dbprefix
     );
 
@@ -536,12 +539,56 @@ public interface Api {
     );
 
     @FormUrlEncoded
+    @POST("getMTPListOfMth.php")
+    Call<NewMTPListOfMTHRes> getMTPListOfMth(
+            @Field("ecode") String ecode,
+            @Field("netid") String netid,
+            @Field("wyr") String wyr,
+            @Field("wmonth") String wmonth,
+            @Field("whichmth") String whichmth,
+            @Field("DBPrefix") String dbprefix
+    );
+
+    @FormUrlEncoded
     @POST("confirmMTP.php")
     Call<DefaultResponse> confirmMTP(
             @Field("ecode") String ecode,
             @Field("netid") String netid,
             @Field("yr") String yr,
             @Field("mth") String mth,
+            @Field("DBPrefix") String dbprefix
+    );
+
+    @FormUrlEncoded
+    @POST("deleteMTPEntry.php")
+    Call<DefaultResponse> deleteMTPEntry(
+            @Field("ecode") String ecode,
+            @Field("netid") String netid,
+            @Field("tcpid") String tcpid,
+            @Field("wdate") String wdate,
+            @Field("DBPrefix") String dbprefix
+    );
+
+    @FormUrlEncoded
+    @POST("editMTPEntry.php")
+    Call<EditMtpFormResponse> editMTPEntry(
+            @Field("ecode") String ecode,
+            @Field("netid") String netid,
+            @Field("tcpid") String tcpid,
+            @Field("wdate") String wdate,
+            @Field("DBPrefix") String dbprefix
+    );
+
+    @FormUrlEncoded
+    @POST("updateMTPEntry.php")
+    Call<DefaultResponse> updateMTPEntry(
+            @Field("ecode") String ecode,
+            @Field("netid") String netid,
+            @Field("tcpid") String tcpid,
+            @Field("wdate") String wdate,
+            @Field("objctv") String objctv,
+            @Field("mngrjtwrk") String mngrjtwrk,
+            @Field("prevtcpid") String prevtcpid,
             @Field("DBPrefix") String dbprefix
     );
 

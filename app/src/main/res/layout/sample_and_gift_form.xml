@@ -66,7 +66,7 @@
                 android:clickable="true"
                 android:id="@+id/submit"
                 android:layout_margin="16dp"
-                android:backgroundTint="@color/colorPrimaryDark">
+                app:cardBackgroundColor="@color/colorPrimaryDark">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -84,7 +84,7 @@
                 android:clickable="true"
                 android:id="@+id/cancel"
                 android:layout_margin="16dp"
-                android:backgroundTint="@color/textcolorred">
+                app:cardBackgroundColor="@color/textcolorred">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

@@ -356,7 +356,6 @@ public class LoginScreen extends AppCompatActivity {
                 List<String> arrayList =new ArrayList<>();
                 String[] dblist = res.getDbnames().split(",");
                 for (String s: dblist) {
-                   
                     arrayList.add(s);
                 }
                 callpermissiongranted = true;

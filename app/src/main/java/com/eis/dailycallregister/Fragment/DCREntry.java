@@ -597,6 +597,7 @@ public class DCREntry extends Fragment {
             @Override
             public void onClick(View v) {
                 if(errormsg.equalsIgnoreCase("Next month MTP is not \nconfirmed or approved.")){
+                    Global.whichmth = "NEXT";
                     Intent intent = new Intent(getActivity(), HomeActivity.class);
                     intent.putExtra("openfrag", "mtp");
                     Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_right_in, R.anim.trans_right_out).toBundle();

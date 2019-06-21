@@ -95,7 +95,7 @@ public class UploadVisitingCard extends Fragment {
     }
 
     public void setDocLstAdapter(){
-        doctorslist.setNestedScrollingEnabled(true);
+        doctorslist.setNestedScrollingEnabled(false);
         doctorslist.setLayoutManager(new LinearLayoutManager(getActivity()));
         doctorslist.setAdapter(new RecyclerView.Adapter() {
             @NonNull

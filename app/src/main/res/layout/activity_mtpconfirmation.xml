@@ -16,7 +16,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:background="@color/charcoal"
+            android:background="@color/textcolorwhite"
             android:padding="8dp">
 
             <TextView
@@ -53,16 +53,18 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="12"
-            android:id="@+id/llt"
-            android:background="@color/textcolorgray">
-            <com.cleveroad.adaptivetablelayout.AdaptiveTableLayout
-                android:id="@+id/mtptable"
+            android:id="@+id/llt">
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:cellMargin="1dp"
-                app:dragAndDropEnabled="true"
-                app:fixedHeaders="true"
-                app:solidRowHeaders="true"/>
+                android:layout_marginBottom="16dp">
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/mtptownlist">
+
+            </android.support.v7.widget.RecyclerView>
+            </android.support.v4.widget.NestedScrollView>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

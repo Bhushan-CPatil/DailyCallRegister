@@ -41,7 +41,7 @@ public class Help extends Fragment {
         View v=inflater.inflate(R.layout.fragment_help, container, false);
         r1 = v.findViewById(R.id.mail);
         r2 = v.findViewById(R.id.call1);
-        r3 = v.findViewById(R.id.call2);
+        //r3 = v.findViewById(R.id.call2);
 
         r2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +64,7 @@ public class Help extends Fragment {
             }
         });
 
-        r3.setOnClickListener(new View.OnClickListener() {
+        /*r3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent callIntent = new Intent(Intent.ACTION_CALL);
@@ -83,7 +83,7 @@ public class Help extends Fragment {
                     }
                 }
             }
-        });
+        });*/
 
         r1.setOnClickListener(new View.OnClickListener() {
             @Override

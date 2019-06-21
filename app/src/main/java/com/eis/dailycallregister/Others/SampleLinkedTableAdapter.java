@@ -29,7 +29,7 @@ public class SampleLinkedTableAdapter extends LinkedAdaptiveTableAdapter<ViewHol
 
     public SampleLinkedTableAdapter(Context context, String arr2[][], String mode) {
         mLayoutInflater = LayoutInflater.from(context);
-        datalist =new String[arr2.length][];
+        datalist = new String[arr2.length][];
         for (int i = 0; i < datalist.length; ++i) {
             datalist[i] = new String[arr2[i].length];
             for (int j = 0; j < datalist[i].length; ++j) {
@@ -37,17 +37,17 @@ public class SampleLinkedTableAdapter extends LinkedAdaptiveTableAdapter<ViewHol
             }
         }
         Resources res = context.getResources();
-        if(mode.equalsIgnoreCase("1")) {
+        if (mode.equalsIgnoreCase("1")) {
             mColumnWidth = res.getDimensionPixelSize(R.dimen.column_width1);
             mRowHeight = res.getDimensionPixelSize(R.dimen.row_height1);
             mHeaderHeight = res.getDimensionPixelSize(R.dimen.column_header_height1);
             mHeaderWidth = res.getDimensionPixelSize(R.dimen.row_header_width1);
-        }else if(mode.equalsIgnoreCase("2")){
+        } else if (mode.equalsIgnoreCase("2")) {
             mColumnWidth = res.getDimensionPixelSize(R.dimen.column_width2);
             mRowHeight = res.getDimensionPixelSize(R.dimen.row_height2);
             mHeaderHeight = res.getDimensionPixelSize(R.dimen.column_header_height2);
             mHeaderWidth = res.getDimensionPixelSize(R.dimen.row_header_width2);
-        }else if(mode.equalsIgnoreCase("3")){
+        } else if (mode.equalsIgnoreCase("3")) {
             mColumnWidth = res.getDimensionPixelSize(R.dimen.column_width3);
             mRowHeight = res.getDimensionPixelSize(R.dimen.row_height3);
             mHeaderHeight = res.getDimensionPixelSize(R.dimen.column_header_height3);

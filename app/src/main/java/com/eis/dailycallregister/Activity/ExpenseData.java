@@ -87,16 +87,16 @@ public class ExpenseData extends AppCompatActivity {
         c = findViewById(R.id.card);
 
         expent = findViewById(R.id.expent);
-        expenselist =findViewById(R.id.expenselist);
+        expenselist = findViewById(R.id.expenselist);
         mainlyout = findViewById(R.id.mainlyout);
-        progressDialoge=new ViewDialog(ExpenseData.this);
+        progressDialoge = new ViewDialog(ExpenseData.this);
 
         c.setVisibility(View.VISIBLE);
         setExpAdapter();
-        if(Global.dcrno != null){
+        if (Global.dcrno != null) {
             expent.setVisibility(View.VISIBLE);
             callapi();
-        }else{
+        } else {
             expent.setVisibility(View.GONE);
             c.setVisibility(View.VISIBLE);
         }
@@ -110,49 +110,52 @@ public class ExpenseData extends AppCompatActivity {
 
     }
 
-    public void setExpAdapter(){
+    public void setExpAdapter() {
         expenselist.setNestedScrollingEnabled(false);
         expenselist.setLayoutManager(new LinearLayoutManager(ExpenseData.this));
         expenselist.setAdapter(new RecyclerView.Adapter() {
-            @NonNull
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                View view=LayoutInflater.from(ExpenseData.this).inflate(R.layout.view_expense_adapter, viewGroup,false);
-                Holder holder=new Holder(view);
-                return holder;
-            }
+                                   @NonNull
+                                   @Override
+                                   public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                                       View view = LayoutInflater.from(ExpenseData.this).inflate(R.layout.view_expense_adapter, viewGroup, false);
+                                       Holder holder = new Holder(view);
+                                       return holder;
+                                   }
 
-            @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
-                final Holder myHolder= (Holder) viewHolder;
-                final ExpfetchItem model = expdatajson.get(i);
-                myHolder.edesc.setText(model.getEdesc());
-                myHolder.amount.setText("₹. "+model.getAmount());
+                                   @Override
+                                   public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
+                                       final Holder myHolder = (Holder) viewHolder;
+                                       final ExpfetchItem model = expdatajson.get(i);
+                                       myHolder.edesc.setText(model.getEdesc());
+                                       myHolder.amount.setText("₹. " + model.getAmount());
 
 
-                myHolder.deleteexp.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showconfirmationdialog(model.getExpcd());
-                    }
-                });
+                                       myHolder.deleteexp.setOnClickListener(new View.OnClickListener() {
+                                           @Override
+                                           public void onClick(View v) {
+                                               showconfirmationdialog(model.getExpcd());
+                                           }
+                                       });
 
-            }
+                                   }
 
-            @Override
-            public int getItemCount() {
-                return expdatajson.size();
-            }
-            class Holder extends RecyclerView.ViewHolder {
-                TextView edesc,amount;
-                ImageButton deleteexp;
-                public Holder(@NonNull View itemView) {
-                    super(itemView);
-                    edesc = itemView.findViewById(R.id.edesc);
-                    amount = itemView.findViewById(R.id.amount);
-                    deleteexp = itemView.findViewById(R.id.deleteexp);
-                }
-            } }
+                                   @Override
+                                   public int getItemCount() {
+                                       return expdatajson.size();
+                                   }
+
+                                   class Holder extends RecyclerView.ViewHolder {
+                                       TextView edesc, amount;
+                                       ImageButton deleteexp;
+
+                                       public Holder(@NonNull View itemView) {
+                                           super(itemView);
+                                           edesc = itemView.findViewById(R.id.edesc);
+                                           amount = itemView.findViewById(R.id.amount);
+                                           deleteexp = itemView.findViewById(R.id.deleteexp);
+                                       }
+                                   }
+                               }
         );
     }
 
@@ -184,18 +187,18 @@ public class ExpenseData extends AppCompatActivity {
         progressDialoge.show();
 
         retrofit2.Call<FetchExpdtRes> call1 = RetrofitClient
-                .getInstance().getApi().fetchExpData(Global.dcrno,Global.dbprefix);
+                .getInstance().getApi().fetchExpData(Global.dcrno, Global.dbprefix);
         call1.enqueue(new Callback<FetchExpdtRes>() {
             @Override
             public void onResponse(retrofit2.Call<FetchExpdtRes> call1, Response<FetchExpdtRes> response) {
                 FetchExpdtRes res = response.body();
                 progressDialoge.dismiss();
-                if(!res.isError()){
+                if (!res.isError()) {
                     c.setVisibility(View.GONE);
                     expdatajson = res.getExpfetch();
                     expenselist.setVisibility(View.VISIBLE);
                     expenselist.getAdapter().notifyDataSetChanged();
-                }else{
+                } else {
                     c.setVisibility(View.VISIBLE);
                     expenselist.setVisibility(View.GONE);
                 }
@@ -221,16 +224,16 @@ public class ExpenseData extends AppCompatActivity {
         progressDialoge.show();
 
         retrofit2.Call<DCRExpenseListRes> call1 = RetrofitClient
-                .getInstance().getApi().DCRExpenseReq(Global.dcrno,Global.dbprefix);
+                .getInstance().getApi().DCRExpenseReq(Global.dcrno, Global.dbprefix);
         call1.enqueue(new Callback<DCRExpenseListRes>() {
             @Override
             public void onResponse(retrofit2.Call<DCRExpenseListRes> call1, Response<DCRExpenseListRes> response) {
                 DCRExpenseListRes res = response.body();
                 progressDialoge.dismiss();
-                if(!res.isError()){
+                if (!res.isError()) {
                     exentrylist = res.getExpentlst();
                     showExpenseEntryPopup();
-                }else{
+                } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(ExpenseData.this);
                     builder.setCancelable(true);
                     //builder.setTitle("LOGOUT ?");
@@ -267,17 +270,17 @@ public class ExpenseData extends AppCompatActivity {
         progressDialoge.show();
 
         retrofit2.Call<DefaultResponse> call1 = RetrofitClient
-                .getInstance().getApi().deleteExpenseEntry(Global.dcrno,expcd,Global.dbprefix);
+                .getInstance().getApi().deleteExpenseEntry(Global.dcrno, expcd, Global.dbprefix);
         call1.enqueue(new Callback<DefaultResponse>() {
             @Override
             public void onResponse(retrofit2.Call<DefaultResponse> call1, Response<DefaultResponse> response) {
                 DefaultResponse res = response.body();
                 progressDialoge.dismiss();
-                if(!res.isError()){
+                if (!res.isError()) {
                     Snackbar snackbar = Snackbar.make(mainlyout, res.getErrormsg(), Snackbar.LENGTH_SHORT);
                     snackbar.show();
                     callapi();
-                }else{
+                } else {
                     Snackbar snackbar = Snackbar.make(mainlyout, res.getErrormsg(), Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
@@ -299,7 +302,7 @@ public class ExpenseData extends AppCompatActivity {
         });
     }
 
-    public void showExpenseEntryPopup(){
+    public void showExpenseEntryPopup() {
         final Dialog dialog = new Dialog(ExpenseData.this);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -313,52 +316,55 @@ public class ExpenseData extends AppCompatActivity {
         rv_list_popup.setNestedScrollingEnabled(false);
         rv_list_popup.setLayoutManager(new LinearLayoutManager(ExpenseData.this));
         rv_list_popup.setAdapter(new RecyclerView.Adapter() {
-            @NonNull
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                View view= LayoutInflater.from(ExpenseData.this).inflate(R.layout.expense_entry_adapter, viewGroup,false);
-                Holder holder=new Holder(view);
-                return holder;
-            }
+                                     @NonNull
+                                     @Override
+                                     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                                         View view = LayoutInflater.from(ExpenseData.this).inflate(R.layout.expense_entry_adapter, viewGroup, false);
+                                         Holder holder = new Holder(view);
+                                         return holder;
+                                     }
 
-            @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-                final Holder myHolder= (Holder) viewHolder;
-                final ExpentlstItem model = exentrylist.get(i);
-                myHolder.expname.setText(model.getEDESC());
-                myHolder.expamount.setText(model.getAmount());
-                myHolder.expamount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View view, boolean hasFocus) {
-                        if (!hasFocus) {
-                            if(myHolder.expamount.getText().toString().equalsIgnoreCase("")){
-                                model.setAmount("");
-                            } else {
-                                @SuppressLint("DefaultLocale") String xyz = String.format("%.2f", Double.parseDouble(myHolder.expamount.getText().toString()));
-                                model.setAmount(xyz);
-                            }
-                            //Toast.makeText(DocDCRGift.this, "Focus Lose", Toast.LENGTH_SHORT).show();
-                            InputMethodManager imm =  (InputMethodManager) getSystemService(ExpenseData.this.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(mainlyout.getWindowToken(), 0);
-                        }
+                                     @Override
+                                     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                                         final Holder myHolder = (Holder) viewHolder;
+                                         final ExpentlstItem model = exentrylist.get(i);
+                                         myHolder.expname.setText(model.getEDESC());
+                                         myHolder.expamount.setText(model.getAmount());
+                                         myHolder.expamount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                                             @Override
+                                             public void onFocusChange(View view, boolean hasFocus) {
+                                                 if (!hasFocus) {
+                                                     if (myHolder.expamount.getText().toString().equalsIgnoreCase("")) {
+                                                         model.setAmount("");
+                                                     } else {
+                                                         @SuppressLint("DefaultLocale") String xyz = String.format("%.2f", Double.parseDouble(myHolder.expamount.getText().toString()));
+                                                         model.setAmount(xyz);
+                                                     }
+                                                     //Toast.makeText(DocDCRGift.this, "Focus Lose", Toast.LENGTH_SHORT).show();
+                                                     InputMethodManager imm = (InputMethodManager) getSystemService(ExpenseData.this.INPUT_METHOD_SERVICE);
+                                                     imm.hideSoftInputFromWindow(mainlyout.getWindowToken(), 0);
+                                                 }
 
-                    }
-                });
-            }
+                                             }
+                                         });
+                                     }
 
-            @Override
-            public int getItemCount() {
-                return exentrylist.size();
-            }
-            class Holder extends RecyclerView.ViewHolder {
-                TextView expname;
-                EditText expamount;
-                public Holder(@NonNull View itemView) {
-                    super(itemView);
-                    expname = itemView.findViewById(R.id.expname);
-                    expamount = itemView.findViewById(R.id.expamount);
-                }
-            } }
+                                     @Override
+                                     public int getItemCount() {
+                                         return exentrylist.size();
+                                     }
+
+                                     class Holder extends RecyclerView.ViewHolder {
+                                         TextView expname;
+                                         EditText expamount;
+
+                                         public Holder(@NonNull View itemView) {
+                                             super(itemView);
+                                             expname = itemView.findViewById(R.id.expname);
+                                             expamount = itemView.findViewById(R.id.expamount);
+                                         }
+                                     }
+                                 }
         );
 
         rv_list_popup.getAdapter().notifyDataSetChanged();
@@ -376,7 +382,7 @@ public class ExpenseData extends AppCompatActivity {
                 JsonArray myCustomArray = gson.toJsonTree(exentrylist).getAsJsonArray();
                 //Toast.makeText(ExpenseData.this, myCustomArray.toString(), Toast.LENGTH_LONG).show();
                 //Log.d("json-->",myCustomArray.toString());
-                new ExpenseData.addExpenseEntryInDB().execute(Global.dcrno, myCustomArray.toString(),Global.dbprefix);
+                new ExpenseData.addExpenseEntryInDB().execute(Global.dcrno, myCustomArray.toString(), Global.dbprefix);
                 dialog.dismiss();
             }
         });
@@ -400,12 +406,13 @@ public class ExpenseData extends AppCompatActivity {
             progressDialoge.show();
 
         }
+
         @Override
         protected String doInBackground(String... params) {
             try {
 
                 // Enter URL address where your php file resides
-                url = new URL(RetrofitClient.BASE_URL+"addDcrExpenseEntry.php");
+                url = new URL(RetrofitClient.BASE_URL + "addDcrExpenseEntry.php");
 
             } catch (MalformedURLException e) {
 
@@ -414,7 +421,7 @@ public class ExpenseData extends AppCompatActivity {
             }
             try {
                 // Setup HttpURLConnection class to send and receive data from php and mysql
-                conn = (HttpURLConnection)url.openConnection();
+                conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(READ_TIMEOUT);
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
                 conn.setRequestMethod("POST");
@@ -424,9 +431,9 @@ public class ExpenseData extends AppCompatActivity {
                 conn.setDoOutput(true);
                 // Append parameters to URL
                 Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("dcrno",params[0])
-                        .appendQueryParameter("jsonarray",params[1])
-                        .appendQueryParameter("DBPrefix",params[2]);
+                        .appendQueryParameter("dcrno", params[0])
+                        .appendQueryParameter("jsonarray", params[1])
+                        .appendQueryParameter("DBPrefix", params[2]);
 
                 String query = builder.build().getEncodedQuery();
 
@@ -464,11 +471,11 @@ public class ExpenseData extends AppCompatActivity {
                     }
 
                     // Pass data to onPostExecute method
-                    return(result.toString());
+                    return (result.toString());
 
-                }else{
+                } else {
 
-                    return("unsuccessful");
+                    return ("unsuccessful");
                 }
 
             } catch (IOException e) {
@@ -490,9 +497,8 @@ public class ExpenseData extends AppCompatActivity {
             try {
                 JSONObject jobj = new JSONObject(result);
 
-                if(!jobj.getBoolean("error"))
-                {
-                    Toast.makeText(ExpenseData.this, jobj.getString("errormsg"),Toast.LENGTH_SHORT).show();
+                if (!jobj.getBoolean("error")) {
+                    Toast.makeText(ExpenseData.this, jobj.getString("errormsg"), Toast.LENGTH_SHORT).show();
                     callapi();
                 }
 
@@ -508,12 +514,13 @@ public class ExpenseData extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 break;
-        } return true;
+        }
+        return true;
     }
 
     @Override
     public void onBackPressed() {
         finish();
-        ExpenseData.this.overridePendingTransition(R.anim.trans_right_in,R.anim.trans_right_out);
+        ExpenseData.this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }
 }

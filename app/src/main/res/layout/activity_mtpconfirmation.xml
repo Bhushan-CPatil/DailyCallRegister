@@ -54,17 +54,13 @@
             android:layout_height="0dp"
             android:layout_weight="12"
             android:id="@+id/llt">
-            <android.support.v4.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="16dp">
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:id="@+id/mtptownlist">
 
             </android.support.v7.widget.RecyclerView>
-            </android.support.v4.widget.NestedScrollView>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

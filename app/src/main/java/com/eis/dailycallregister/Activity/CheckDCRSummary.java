@@ -68,8 +68,8 @@ public class CheckDCRSummary extends AppCompatActivity {
     String[][] arrprodsum;
     String[][] arrexpsum;
     ScrollView parentScroll;
-    CardView prodcard,giftcard;
-    MaterialButton goback,confirm;
+    CardView prodcard, giftcard;
+    MaterialButton goback, confirm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,25 +99,25 @@ public class CheckDCRSummary extends AppCompatActivity {
         viewprod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pgdetsum.size()>1)
-                detailedTablePopup(CheckDCRSummary.this, "DETAILS", prodgiftdetsum);
+                if (pgdetsum.size() > 1)
+                    detailedTablePopup(CheckDCRSummary.this, "DETAILS", prodgiftdetsum);
             }
         });
 
         viewgift.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pgdetsum.size()>1)
-                detailedTablePopup(CheckDCRSummary.this, "DETAILS", prodgiftdetsum);
+                if (pgdetsum.size() > 1)
+                    detailedTablePopup(CheckDCRSummary.this, "DETAILS", prodgiftdetsum);
             }
         });
 
         viewexp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(expsum.size()>0) {
+                if (expsum.size() > 0) {
                     detailedTablePopup(CheckDCRSummary.this, "DETAILS", arrexpsum);
-                }else{
+                } else {
                     //Toast.makeText(CheckDCRSummary.this, "Expense not filled", Toast.LENGTH_LONG).show();
                     final AlertDialog.Builder builder = new AlertDialog.Builder(CheckDCRSummary.this);
                     builder.setCancelable(true);
@@ -160,7 +160,7 @@ public class CheckDCRSummary extends AppCompatActivity {
 
     private void confirmDCREntry() {
 
-        String a,b,c,d,e,f,g,h,i,j;
+        String a, b, c, d, e, f, g, h, i, j;
         a = dsvl.getText().toString();
         b = dnsvl.getText().toString();
         c = csvl.getText().toString();
@@ -171,48 +171,48 @@ public class CheckDCRSummary extends AppCompatActivity {
 
         progressDialoge.show();
         Call<ConfirmDCRRes> call = RetrofitClient.getInstance()
-                .getApi().confirmDCREntry(a.equalsIgnoreCase("") ? "0" : a,b.equalsIgnoreCase("") ? "0" : b,
-                        c.equalsIgnoreCase("") ? "0" : c,d.equalsIgnoreCase("") ? "0" : d,e.equalsIgnoreCase("") ? "0" : e,
-                        f.equalsIgnoreCase("") ? "0" : f,g.equalsIgnoreCase("") ? "0.00" : g,Global.ecode,
-                        Global.dcrdate,Global.netid,Global.dcrno,Global.dbprefix);
+                .getApi().confirmDCREntry(a.equalsIgnoreCase("") ? "0" : a, b.equalsIgnoreCase("") ? "0" : b,
+                        c.equalsIgnoreCase("") ? "0" : c, d.equalsIgnoreCase("") ? "0" : d, e.equalsIgnoreCase("") ? "0" : e,
+                        f.equalsIgnoreCase("") ? "0" : f, g.equalsIgnoreCase("") ? "0.00" : g, Global.ecode,
+                        Global.dcrdate, Global.netid, Global.dcrno, Global.dbprefix);
         call.enqueue(new Callback<ConfirmDCRRes>() {
             @Override
             public void onResponse(Call<ConfirmDCRRes> call, Response<ConfirmDCRRes> response) {
                 progressDialoge.dismiss();
                 final ConfirmDCRRes res = response.body();
-                if(!res.isError()){
+                if (!res.isError()) {
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(CheckDCRSummary.this);
-                        builder.setCancelable(false);
-                        builder.setTitle("Success");
-                        builder.setMessage(res.getErrormsg());
-                        builder.setPositiveButton("Next", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (res.isPopuphrconnect()) {
-                                    new Global().clearGlobal("DCR");
-                                    String link = res.getPURL();
-                                    Intent intent = new Intent(CheckDCRSummary.this, HomeActivity.class);
-                                    intent.putExtra("openfrag", "home");
-                                    Bundle bndlanimation = ActivityOptions.makeCustomAnimation(CheckDCRSummary.this, R.anim.trans_right_in, R.anim.trans_right_out).toBundle();
-                                    startActivity(intent, bndlanimation);
-                                    finish();
-                                    finish();
-                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(res.getPURL()));
-                                    startActivity(browserIntent);
-                                }else{
-                                    new Global().clearGlobal("DCR");
-                                    Intent intent = new Intent(CheckDCRSummary.this, HomeActivity.class);
-                                    intent.putExtra("openfrag", "dcr");
-                                    Bundle bndlanimation = ActivityOptions.makeCustomAnimation(CheckDCRSummary.this, R.anim.trans_right_in,R.anim.trans_right_out).toBundle();
-                                    startActivity(intent, bndlanimation);
-                                    finish();
-                                    finish();
-                                }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CheckDCRSummary.this);
+                    builder.setCancelable(false);
+                    builder.setTitle("Success");
+                    builder.setMessage(res.getErrormsg());
+                    builder.setPositiveButton("Next", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (res.isPopuphrconnect()) {
+                                new Global().clearGlobal("DCR");
+                                String link = res.getPURL();
+                                Intent intent = new Intent(CheckDCRSummary.this, HomeActivity.class);
+                                intent.putExtra("openfrag", "home");
+                                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(CheckDCRSummary.this, R.anim.trans_right_in, R.anim.trans_right_out).toBundle();
+                                startActivity(intent, bndlanimation);
+                                finish();
+                                finish();
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(res.getPURL()));
+                                startActivity(browserIntent);
+                            } else {
+                                new Global().clearGlobal("DCR");
+                                Intent intent = new Intent(CheckDCRSummary.this, HomeActivity.class);
+                                intent.putExtra("openfrag", "dcr");
+                                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(CheckDCRSummary.this, R.anim.trans_right_in, R.anim.trans_right_out).toBundle();
+                                startActivity(intent, bndlanimation);
+                                finish();
+                                finish();
                             }
-                        });
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
 
                 }
             }
@@ -293,7 +293,7 @@ public class CheckDCRSummary extends AppCompatActivity {
                     arrprodsum[i + 1][2] = temp.getQTY();
                 }
 
-                if(!res.getTotexp().equalsIgnoreCase("")) {
+                if (!res.getTotexp().equalsIgnoreCase("")) {
                     arrexpsum = new String[expsum.size() + 2][2];
                     double amt = 0.00;
                     for (int i = 0; i < expsum.size(); i++) {
@@ -313,7 +313,7 @@ public class CheckDCRSummary extends AppCompatActivity {
                     }
                 }
 
-                if(prodsum.size()>0) {
+                if (prodsum.size() > 0) {
                     prodcard.setVisibility(View.VISIBLE);
                     LinkedAdaptiveTableAdapter mTableAdapter = new SampleLinkedTableAdapter(CheckDCRSummary.this, arrprodsum, "1");
                     mTableAdapter.setOnItemClickListener(new OnItemClickListener() {
@@ -372,7 +372,7 @@ public class CheckDCRSummary extends AppCompatActivity {
                     });
                 }
                 //2nd table
-                if(giftsum.size()>0) {
+                if (giftsum.size() > 0) {
                     giftcard.setVisibility(View.VISIBLE);
                     LinkedAdaptiveTableAdapter mTableAdapter2 = new SampleLinkedTableAdapter(CheckDCRSummary.this, arrgiftsum, "1");
                     mTableAdapter2.setOnItemClickListener(new OnItemClickListener() {

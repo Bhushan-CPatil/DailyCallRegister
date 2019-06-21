@@ -71,7 +71,7 @@ public class MTPConfirmation extends Fragment {
 
     View view;
     public RelativeLayout rtl;
-    public TextView confirm,alconf;
+    public TextView confirm, alconf;
     ViewDialog progressDialoge;
     //AdaptiveTableLayout mTableLayout;
     RecyclerView mtptownlist;
@@ -80,7 +80,7 @@ public class MTPConfirmation extends Fragment {
     //public List<MtppendlistItem> mtplst = new ArrayList();
     public LinearLayout llt;
     public ArrayList<String> towns = new ArrayList<>();
-    public HashMap<String,String> towntcpid = new HashMap<>();
+    public HashMap<String, String> towntcpid = new HashMap<>();
     //String[][] mtp;
     boolean mtpconfirmed;
 
@@ -155,12 +155,12 @@ public class MTPConfirmation extends Fragment {
         calendar1.setTime(date1);
         calendar2.setTime(date2);
         //Toast.makeText(getActivity(),datex +"///"+ date , Toast.LENGTH_LONG).show();
-        if(calendar2.compareTo(calendar1) < 0){
+        if (calendar2.compareTo(calendar1) < 0) {
             Global.whichmth = "CURRENT";
             callnewapi();
-        }else{
+        } else {
             //Toast.makeText(getActivity(), "show MTP", Toast.LENGTH_LONG).show();
-            if(Global.whichmth == null) {
+            if (Global.whichmth == null) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setCancelable(true);
                 builder.setTitle("Alert ?");
@@ -182,7 +182,7 @@ public class MTPConfirmation extends Fragment {
                 });
                 AlertDialog dialog2 = builder.create();
                 dialog2.show();
-            }else{
+            } else {
                 callnewapi();
             }
         }
@@ -192,14 +192,14 @@ public class MTPConfirmation extends Fragment {
     private void confmtp() {
         String[] date = mtplst.get(2).getWORKDATE().split("/");
         progressDialoge.show();
-        Call<DefaultResponse> call = RetrofitClient.getInstance().getApi().confirmMTP(Global.ecode,Global.netid,date[2],date[1],Global.dbprefix);
+        Call<DefaultResponse> call = RetrofitClient.getInstance().getApi().confirmMTP(Global.ecode, Global.netid, date[2], date[1], Global.dbprefix);
         call.enqueue(new Callback<DefaultResponse>() {
             @Override
             public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
                 progressDialoge.dismiss();
-                DefaultResponse res =response.body();
-                if(!res.isError()){
-                    if(res.getErrormsg().equalsIgnoreCase("Successfully Confirmed.")){
+                DefaultResponse res = response.body();
+                if (!res.isError()) {
+                    if (res.getErrormsg().equalsIgnoreCase("Successfully Confirmed.")) {
                         confirm.setEnabled(false);
                         confirm.setVisibility(View.GONE);
                         alconf.setText(res.getErrormsg());
@@ -211,7 +211,7 @@ public class MTPConfirmation extends Fragment {
             @Override
             public void onFailure(Call<DefaultResponse> call, Throwable t) {
                 progressDialoge.dismiss();
-                Snackbar.make(rtl,"Failed confirm MTP !", Snackbar.LENGTH_LONG).setAction("Try Again", new View.OnClickListener() {
+                Snackbar.make(rtl, "Failed confirm MTP !", Snackbar.LENGTH_LONG).setAction("Try Again", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         confmtp();
@@ -387,38 +387,38 @@ public class MTPConfirmation extends Fragment {
     private void callnewapi() {
         String[] logdate = Global.date.split("-");
         progressDialoge.show();
-        Call<NewMTPListOfMTHRes> call = RetrofitClient.getInstance().getApi().getMTPListOfMth(Global.ecode,Global.netid,logdate[0],logdate[1], Global.whichmth,Global.dbprefix);
+        Call<NewMTPListOfMTHRes> call = RetrofitClient.getInstance().getApi().getMTPListOfMth(Global.ecode, Global.netid, logdate[0], logdate[1], Global.whichmth, Global.dbprefix);
         call.enqueue(new Callback<NewMTPListOfMTHRes>() {
             @Override
             public void onResponse(Call<NewMTPListOfMTHRes> call, Response<NewMTPListOfMTHRes> response) {
                 progressDialoge.dismiss();
                 NewMTPListOfMTHRes res = response.body();
-                if(!res.isError()){
-                    if(res.isConfirmed()){
+                if (!res.isError()) {
+                    if (res.isConfirmed()) {
                         mtpconfirmed = res.isConfirmed();
                         alconf.setText(res.getErrormsg());
                         alconf.setVisibility(View.VISIBLE);
                         mtplst = res.getMtptownlist();
 
-                        if(mtplst.size()>1){
+                        if (mtplst.size() > 1) {
                             mtptownlist.getAdapter().notifyDataSetChanged();
-                        }else{
+                        } else {
                             llt.setVisibility(View.GONE);
                         }
-                    }else{
+                    } else {
                         mtpconfirmed = res.isConfirmed();
                         confirm.setText(res.getErrormsg());
                         confirm.setVisibility(View.VISIBLE);
                         confirm.setEnabled(true);
                         mtplst = res.getMtptownlist();
 
-                        if(mtplst.size()>1){
+                        if (mtplst.size() > 1) {
                             mtptownlist.getAdapter().notifyDataSetChanged();
-                        }else{
+                        } else {
                             llt.setVisibility(View.GONE);
                         }
                     }
-                }else{
+                } else {
                     alconf.setText(res.getErrormsg());
                     alconf.setVisibility(View.VISIBLE);
                     llt.setVisibility(View.GONE);
@@ -428,7 +428,7 @@ public class MTPConfirmation extends Fragment {
             @Override
             public void onFailure(Call<NewMTPListOfMTHRes> call, Throwable t) {
                 progressDialoge.dismiss();
-                Snackbar.make(rtl,"Failed to get MTP details !", Snackbar.LENGTH_LONG).setAction("Try Again", new View.OnClickListener() {
+                Snackbar.make(rtl, "Failed to get MTP details !", Snackbar.LENGTH_LONG).setAction("Try Again", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         callnewapi();
@@ -438,134 +438,147 @@ public class MTPConfirmation extends Fragment {
         });
     }
 
-    public void setMtpLstAdapter(){
+    public void setMtpLstAdapter() {
         mtptownlist.setNestedScrollingEnabled(true);
         mtptownlist.setLayoutManager(new LinearLayoutManager(getActivity()));
         mtptownlist.setAdapter(new RecyclerView.Adapter() {
-            @NonNull
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                View view=LayoutInflater.from(getActivity()).inflate(R.layout.mtp_list_adapter, viewGroup,false);
-                Holder holder=new Holder(view);
-                return holder;
-            }
-            @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
-                final Holder myHolder= (Holder) viewHolder;
-                final MtptownlistItem model = mtplst.get(i);
-                if(model.getAprvcode().length()>0) {
-                    myHolder.town.setText(model.getTOWN());
-                    myHolder.town.setTextColor(Color.parseColor("#4D4D4D"));
-                }else {
-                    myHolder.town.setText(model.getTOWN()+" *");
-                    myHolder.town.setTextColor(Color.parseColor("#FF5555"));
-                }
+                                   @NonNull
+                                   @Override
+                                   public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                                       View view = LayoutInflater.from(getActivity()).inflate(R.layout.mtp_list_adapter, viewGroup, false);
+                                       Holder holder = new Holder(view);
+                                       return holder;
+                                   }
 
-                myHolder.wdate.setText(model.getWORKDATE());
-                myHolder.objective.setText(model.getOBJECTIVE());
-                myHolder.jointwrk.setText(model.getJOINTWORKING());
-                myHolder.orgtown.setText(model.getORGTOWN());
-                if(!mtpconfirmed){
-                    myHolder.operation.setVisibility(View.VISIBLE);
-                }else{
-                    myHolder.operation.setVisibility(View.GONE);
-                }
+                                   @Override
+                                   public long getItemId(int position) {
+                                       return position;
+                                   }
 
-                myHolder.edit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setCancelable(true);
-                        builder.setTitle("Alert ?");
-                        builder.setMessage("Are you sure you want to Edit MTP of date "+model.getWORKDATE()+" ?");
-                        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                getAllMtpTowns(model.getTCPID(),model.getWORKDATE(),i, model.getTOWN(),model.getOBJECTIVE(), model.getJOINTWORKING());
-                            }
-                        });
-                        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                                   @Override
+                                   public int getItemViewType(int position) {
+                                       return position;
+                                   }
 
-                            }
-                        });
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-                    }
-                });
+                                   @Override
+                                   public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
+                                       final Holder myHolder = (Holder) viewHolder;
+                                       final MtptownlistItem model = mtplst.get(i);
+                                       if (model.getAprvcode().length() > 0) {
+                                           myHolder.town.setText(model.getTOWN());
+                                           myHolder.town.setTextColor(Color.parseColor("#4D4D4D"));
+                                       } else {
+                                           myHolder.town.setText(model.getTOWN() + " *");
+                                           myHolder.town.setTextColor(Color.parseColor("#FF5555"));
+                                       }
 
-                myHolder.delete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setCancelable(true);
-                        builder.setTitle("Alert ?");
-                        builder.setMessage("Are you sure you want to Delete MTP of date "+model.getWORKDATE()+" ?");
-                        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                deleteEntry(model.getTCPID(),model.getWORKDATE(),i);
-                            }
-                        });
-                        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                                       myHolder.wdate.setText(model.getWORKDATE());
+                                       myHolder.objective.setText(model.getOBJECTIVE());
+                                       myHolder.jointwrk.setText(model.getJOINTWORKING());
+                                       myHolder.orgtown.setText(model.getORGTOWN());
+                                       if (!mtpconfirmed) {
+                                           myHolder.operation.setVisibility(View.VISIBLE);
+                                       } else {
+                                           myHolder.operation.setVisibility(View.GONE);
+                                       }
 
-                            }
-                        });
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-                    }
-                });
-            }
+                                       myHolder.edit.setOnClickListener(new View.OnClickListener() {
+                                           @Override
+                                           public void onClick(View v) {
+                                               AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                               builder.setCancelable(true);
+                                               builder.setTitle("Alert ?");
+                                               builder.setMessage("Are you sure you want to Edit MTP of date " + model.getWORKDATE() + " ?");
+                                               builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                                   @Override
+                                                   public void onClick(DialogInterface dialog, int which) {
+                                                       getAllMtpTowns(model.getTCPID(), model.getWORKDATE(), i, model.getTOWN(), model.getOBJECTIVE(), model.getJOINTWORKING());
+                                                   }
+                                               });
+                                               builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                                                   @Override
+                                                   public void onClick(DialogInterface dialog, int which) {
 
-            @Override
-            public int getItemCount() {
-                return mtplst.size();
-            }
-            class Holder extends RecyclerView.ViewHolder {
-                TextView objective,town,wdate,jointwrk,orgtown;
-                ImageButton delete,edit;
-                LinearLayout operation;
-                public Holder(@NonNull View itemView) {
-                    super(itemView);
-                    operation = itemView.findViewById(R.id.operation);
-                    objective = itemView.findViewById(R.id.objective);
-                    town = itemView.findViewById(R.id.town);
-                    wdate = itemView.findViewById(R.id.wdate);
-                    jointwrk = itemView.findViewById(R.id.jointwrk);
-                    orgtown = itemView.findViewById(R.id.orgtown);
-                    delete = itemView.findViewById(R.id.delete);
-                    edit = itemView.findViewById(R.id.edit);
-                }
-            }
-        }
+                                                   }
+                                               });
+                                               AlertDialog dialog = builder.create();
+                                               dialog.show();
+                                           }
+                                       });
+
+                                       myHolder.delete.setOnClickListener(new View.OnClickListener() {
+                                           @Override
+                                           public void onClick(View v) {
+                                               AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                               builder.setCancelable(true);
+                                               builder.setTitle("Alert ?");
+                                               builder.setMessage("Are you sure you want to Delete MTP of date " + model.getWORKDATE() + " ?");
+                                               builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                                   @Override
+                                                   public void onClick(DialogInterface dialog, int which) {
+                                                       deleteEntry(model.getTCPID(), model.getWORKDATE(), i);
+                                                   }
+                                               });
+                                               builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                                                   @Override
+                                                   public void onClick(DialogInterface dialog, int which) {
+
+                                                   }
+                                               });
+                                               AlertDialog dialog = builder.create();
+                                               dialog.show();
+                                           }
+                                       });
+                                   }
+
+                                   @Override
+                                   public int getItemCount() {
+                                       return mtplst.size();
+                                   }
+
+                                   class Holder extends RecyclerView.ViewHolder {
+                                       TextView objective, town, wdate, jointwrk, orgtown;
+                                       ImageButton delete, edit;
+                                       LinearLayout operation;
+
+                                       public Holder(@NonNull View itemView) {
+                                           super(itemView);
+                                           operation = itemView.findViewById(R.id.operation);
+                                           objective = itemView.findViewById(R.id.objective);
+                                           town = itemView.findViewById(R.id.town);
+                                           wdate = itemView.findViewById(R.id.wdate);
+                                           jointwrk = itemView.findViewById(R.id.jointwrk);
+                                           orgtown = itemView.findViewById(R.id.orgtown);
+                                           delete = itemView.findViewById(R.id.delete);
+                                           edit = itemView.findViewById(R.id.edit);
+                                       }
+                                   }
+                               }
         );
     }
 
     private void getAllMtpTowns(final String tcpid, final String workdate, final int position, final String townname, final String objective, final String jointwrk) {
         String[] date = workdate.split("/");
-        String newdate = date[2]+"-"+date[1]+"-"+date[0];
+        String newdate = date[2] + "-" + date[1] + "-" + date[0];
         progressDialoge.show();
-        Call<EditMtpFormResponse> call = RetrofitClient.getInstance().getApi().editMTPEntry(Global.ecode,Global.netid,tcpid,newdate,Global.dbprefix);
+        Call<EditMtpFormResponse> call = RetrofitClient.getInstance().getApi().editMTPEntry(Global.ecode, Global.netid, tcpid, newdate, Global.dbprefix);
         call.enqueue(new Callback<EditMtpFormResponse>() {
             @Override
             public void onResponse(Call<EditMtpFormResponse> call, Response<EditMtpFormResponse> response) {
                 progressDialoge.dismiss();
-                EditMtpFormResponse res =response.body();
-                if(!res.isError()){
-                    if(res.getErrormsg().equalsIgnoreCase("Success")){
+                EditMtpFormResponse res = response.body();
+                if (!res.isError()) {
+                    if (res.getErrormsg().equalsIgnoreCase("Success")) {
                         alltownlist = res.getEDITMTPTCPIDNTOWNS();
-                        if(alltownlist.size()>0){
-                            for(int j=0;j<alltownlist.size();j++){
+                        if (alltownlist.size() > 0) {
+                            for (int j = 0; j < alltownlist.size(); j++) {
                                 towns.add(alltownlist.get(j).getTOWN());
                                 towntcpid.put(alltownlist.get(j).getTOWN(), alltownlist.get(j).getTCPID());
                             }
                             editMTPPopup(townname, workdate, objective, jointwrk, tcpid, position);
                         }
                     }
-                }else{
+                } else {
                     Toast.makeText(getActivity(), res.getErrormsg(), Toast.LENGTH_LONG).show();
                 }
             }
@@ -573,10 +586,10 @@ public class MTPConfirmation extends Fragment {
             @Override
             public void onFailure(Call<EditMtpFormResponse> call, Throwable t) {
                 progressDialoge.dismiss();
-                Snackbar.make(rtl,"Failed to delete MTP !", Snackbar.LENGTH_LONG).setAction("Try Again", new View.OnClickListener() {
+                Snackbar.make(rtl, "Failed to delete MTP !", Snackbar.LENGTH_LONG).setAction("Try Again", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        deleteEntry(tcpid,workdate,position);
+                        deleteEntry(tcpid, workdate, position);
                     }
                 }).show();
             }
@@ -585,20 +598,20 @@ public class MTPConfirmation extends Fragment {
 
     private void deleteEntry(final String tcpid, final String workdate, final int position) {
         String[] date = workdate.split("/");
-        String newdate = date[2]+"-"+date[1]+"-"+date[0];
+        String newdate = date[2] + "-" + date[1] + "-" + date[0];
         progressDialoge.show();
-        Call<DefaultResponse> call = RetrofitClient.getInstance().getApi().deleteMTPEntry(Global.ecode,Global.netid,tcpid,newdate,Global.dbprefix);
+        Call<DefaultResponse> call = RetrofitClient.getInstance().getApi().deleteMTPEntry(Global.ecode, Global.netid, tcpid, newdate, Global.dbprefix);
         call.enqueue(new Callback<DefaultResponse>() {
             @Override
             public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
                 progressDialoge.dismiss();
-                DefaultResponse res =response.body();
-                if(!res.isError()){
-                    if(res.getErrormsg().equalsIgnoreCase("Success")){
+                DefaultResponse res = response.body();
+                if (!res.isError()) {
+                    if (res.getErrormsg().equalsIgnoreCase("Success")) {
                         mtplst.get(position).setAprvcode("");
                         mtptownlist.getAdapter().notifyDataSetChanged();
                     }
-                }else{
+                } else {
                     Toast.makeText(getActivity(), res.getErrormsg(), Toast.LENGTH_LONG).show();
                 }
             }
@@ -606,10 +619,10 @@ public class MTPConfirmation extends Fragment {
             @Override
             public void onFailure(Call<DefaultResponse> call, Throwable t) {
                 progressDialoge.dismiss();
-                Snackbar.make(rtl,"Failed to delete MTP !", Snackbar.LENGTH_LONG).setAction("Try Again", new View.OnClickListener() {
+                Snackbar.make(rtl, "Failed to delete MTP !", Snackbar.LENGTH_LONG).setAction("Try Again", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        deleteEntry(tcpid,workdate,position);
+                        deleteEntry(tcpid, workdate, position);
                     }
                 }).show();
             }
@@ -646,19 +659,19 @@ public class MTPConfirmation extends Fragment {
             public void onClick(View v) {
                 //todo save data
                 String[] date = workdate.split("/");
-                String newdate = date[2]+"-"+date[1]+"-"+date[0];
+                String newdate = date[2] + "-" + date[1] + "-" + date[0];
                 String selitem = townslist.getSelectedItem().toString().trim();
                 String valuefrmhm = towntcpid.get(selitem);
                 String seltcpid = valuefrmhm;
                 String selobj = objectives.getText().toString().trim();
                 String selwwith = wwith.getText().toString().trim();
 
-                updateMTPEntry(seltcpid,selobj,selwwith,newdate,prevtcpid,position,dialog,selitem);
+                updateMTPEntry(seltcpid, selobj, selwwith, newdate, prevtcpid, position, dialog, selitem);
             }
         });
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),  android.R.layout.simple_spinner_item, towns);
-        adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, towns);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
         townslist.setAdapter(adapter);
@@ -675,13 +688,13 @@ public class MTPConfirmation extends Fragment {
 
     private void updateMTPEntry(final String seltcpid, final String selobj, final String selwwith, final String newdate, final String prevtcpid, final int position, final Dialog dialog, final String townname) {
         progressDialoge.show();
-        Call<DefaultResponse> call = RetrofitClient.getInstance().getApi().updateMTPEntry(Global.ecode,Global.netid,seltcpid,newdate,selobj,selwwith,prevtcpid,Global.dbprefix);
+        Call<DefaultResponse> call = RetrofitClient.getInstance().getApi().updateMTPEntry(Global.ecode, Global.netid, seltcpid, newdate, selobj, selwwith, prevtcpid, Global.dbprefix);
         call.enqueue(new Callback<DefaultResponse>() {
             @Override
             public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
                 progressDialoge.dismiss();
                 DefaultResponse res = response.body();
-                if(!res.isError()){
+                if (!res.isError()) {
                     mtplst.get(position).setAprvcode("");
                     mtplst.get(position).setTCPID(seltcpid);
                     mtplst.get(position).setOBJECTIVE(selobj);
@@ -695,10 +708,10 @@ public class MTPConfirmation extends Fragment {
             @Override
             public void onFailure(Call<DefaultResponse> call, Throwable t) {
                 progressDialoge.dismiss();
-                Snackbar.make(rtl,"Failed to Update MTP !", Snackbar.LENGTH_LONG).setAction("Try Again", new View.OnClickListener() {
+                Snackbar.make(rtl, "Failed to Update MTP !", Snackbar.LENGTH_LONG).setAction("Try Again", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        updateMTPEntry(seltcpid,selobj,selwwith,newdate,prevtcpid,position,dialog,townname);
+                        updateMTPEntry(seltcpid, selobj, selwwith, newdate, prevtcpid, position, dialog, townname);
                     }
                 }).show();
             }

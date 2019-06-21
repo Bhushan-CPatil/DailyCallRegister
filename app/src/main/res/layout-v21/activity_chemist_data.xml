@@ -151,16 +151,12 @@
                     />
             </LinearLayout>
         </android.support.design.card.MaterialCardView>
-        <android.support.v4.widget.NestedScrollView
+        <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="16dp">
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/chemistlist">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:id="@+id/chemistlist">
 
-            </android.support.v7.widget.RecyclerView>
-        </android.support.v4.widget.NestedScrollView>
+        </android.support.v7.widget.RecyclerView>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

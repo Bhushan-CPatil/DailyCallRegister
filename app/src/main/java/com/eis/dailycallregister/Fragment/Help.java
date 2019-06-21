@@ -25,7 +25,7 @@ import com.eis.dailycallregister.R;
 
 public class Help extends Fragment {
 
-    RelativeLayout r1,r2,r3;
+    RelativeLayout r1, r2, r3;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class Help extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View v=inflater.inflate(R.layout.fragment_help, container, false);
+        View v = inflater.inflate(R.layout.fragment_help, container, false);
         r1 = v.findViewById(R.id.mail);
         r2 = v.findViewById(R.id.call1);
         //r3 = v.findViewById(R.id.call2);
@@ -53,12 +53,11 @@ public class Help extends Fragment {
                             new String[]{Manifest.permission.CALL_PHONE},
                             10);
                     return;
-                }else {
-                    try{
+                } else {
+                    try {
                         startActivity(callIntent);
-                    }
-                    catch (android.content.ActivityNotFoundException ex){
-                        Toast.makeText(getActivity(),"Requested function not exists !",Toast.LENGTH_SHORT).show();
+                    } catch (android.content.ActivityNotFoundException ex) {
+                        Toast.makeText(getActivity(), "Requested function not exists !", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -90,7 +89,7 @@ public class Help extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/html");
-                String[] recipients={"support@effectiveinfo.com"};
+                String[] recipients = {"support@effectiveinfo.com"};
                 intent.putExtra(Intent.EXTRA_EMAIL, recipients);
                 intent.putExtra(Intent.EXTRA_SUBJECT, "");
                 intent.putExtra(Intent.EXTRA_TEXT, "");

@@ -50,9 +50,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class Options extends  Fragment {
+public class Options extends Fragment {
 
-    MaterialButton dcr,mtp,uploadcard;
+    MaterialButton dcr, mtp, uploadcard;
     ViewDialog progressDialoge;
     List<MisscalldrsItem> misscall = new ArrayList<>();
     LinearLayout menuoptions;
@@ -76,7 +76,7 @@ public class Options extends  Fragment {
         dcr = view.findViewById(R.id.dcr);
         mtp = view.findViewById(R.id.mtp);
         menuoptions = view.findViewById(R.id.menuoptions);
-        progressDialoge=new ViewDialog(getActivity());
+        progressDialoge = new ViewDialog(getActivity());
         mTableLayout = view.findViewById(R.id.tableLayout);
         uploadcard = view.findViewById(R.id.uploadcard);
         Global.whichmth = null;
@@ -84,13 +84,13 @@ public class Options extends  Fragment {
             @Override
             public void onClick(View v) {
                 //new Global().notAllowed(getActivity());
-                Intent intent = new Intent(getActivity(),HomeActivity.class);
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
                 intent.putExtra("ecode", Global.ecode);
-                intent.putExtra("date",Global.date);
-                intent.putExtra("dbprefix",Global.dbprefix);
-                intent.putExtra("openfrag","dcr");
-                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
-                startActivity(intent,bndlanimation);
+                intent.putExtra("date", Global.date);
+                intent.putExtra("dbprefix", Global.dbprefix);
+                intent.putExtra("openfrag", "dcr");
+                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
+                startActivity(intent, bndlanimation);
                 getActivity().finish();
             }
         });
@@ -98,13 +98,13 @@ public class Options extends  Fragment {
         uploadcard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),HomeActivity.class);
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
                 intent.putExtra("ecode", Global.ecode);
-                intent.putExtra("date",Global.date);
-                intent.putExtra("dbprefix",Global.dbprefix);
-                intent.putExtra("openfrag","visitingcard");
-                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
-                startActivity(intent,bndlanimation);
+                intent.putExtra("date", Global.date);
+                intent.putExtra("dbprefix", Global.dbprefix);
+                intent.putExtra("openfrag", "visitingcard");
+                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
+                startActivity(intent, bndlanimation);
                 getActivity().finish();
             }
         });
@@ -147,19 +147,19 @@ public class Options extends  Fragment {
                 });
                 AlertDialog dialog2 = builder.create();
                 dialog2.show();*/
-                Intent intent = new Intent(getActivity(),HomeActivity.class);
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
                 intent.putExtra("ecode", Global.ecode);
-                intent.putExtra("date",Global.date);
-                intent.putExtra("dbprefix",Global.dbprefix);
-                intent.putExtra("openfrag","mtp");
-                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
-                startActivity(intent,bndlanimation);
+                intent.putExtra("date", Global.date);
+                intent.putExtra("dbprefix", Global.dbprefix);
+                intent.putExtra("openfrag", "mtp");
+                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
+                startActivity(intent, bndlanimation);
                 getActivity().finish();
             }
         });
 
-        if(Global.misscallpopup == 0) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
+        if (Global.misscallpopup == 0) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
             String datex = new SimpleDateFormat("yyyy-MM-24", Locale.getDefault()).format(new Date());
             Calendar calendar1 = Calendar.getInstance();
@@ -178,10 +178,10 @@ public class Options extends  Fragment {
             calendar1.setTime(date1);
             calendar2.setTime(date2);
             //Toast.makeText(getActivity(),datex +"///"+ date , Toast.LENGTH_LONG).show();
-            if(calendar2.compareTo(calendar1) < 0){
+            if (calendar2.compareTo(calendar1) < 0) {
                 checkmtp = "N";
                 //Toast.makeText(getActivity(), "Do not show", Toast.LENGTH_LONG).show();
-            }else{
+            } else {
                 checkmtp = "Y";
                 //Toast.makeText(getActivity(), "show MTP", Toast.LENGTH_LONG).show();
                 /*AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -235,13 +235,13 @@ public class Options extends  Fragment {
         String[] newdate = Global.date.split("-");
         progressDialoge.show();
         Call<MissCallDocsRes> call = RetrofitClient.getInstance()
-                .getApi().DrMissCallAlert(Global.ecode,Global.netid,newdate[0],newdate[1], checkmtp,Global.dbprefix);
+                .getApi().DrMissCallAlert(Global.ecode, Global.netid, newdate[0], newdate[1], checkmtp, Global.dbprefix);
         call.enqueue(new Callback<MissCallDocsRes>() {
             @Override
             public void onResponse(Call<MissCallDocsRes> call, Response<MissCallDocsRes> response) {
                 MissCallDocsRes res = response.body();
                 Global.misscallpopup = 1;
-                if(res.isMtpflg()){
+                if (res.isMtpflg()) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setCancelable(true);
                     builder.setMessage("Next month MTP is ready to view.");
@@ -249,13 +249,13 @@ public class Options extends  Fragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Global.whichmth = "NEXT";
-                            Intent intent = new Intent(getActivity(),HomeActivity.class);
+                            Intent intent = new Intent(getActivity(), HomeActivity.class);
                             intent.putExtra("ecode", Global.ecode);
-                            intent.putExtra("date",Global.date);
-                            intent.putExtra("dbprefix",Global.dbprefix);
-                            intent.putExtra("openfrag","mtp");
-                            Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
-                            startActivity(intent,bndlanimation);
+                            intent.putExtra("date", Global.date);
+                            intent.putExtra("dbprefix", Global.dbprefix);
+                            intent.putExtra("openfrag", "mtp");
+                            Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
+                            startActivity(intent, bndlanimation);
                             getActivity().finish();
                         }
                     });
@@ -269,7 +269,7 @@ public class Options extends  Fragment {
                     dialog2.show();
                 }
 
-                if(!res.isError()) {
+                if (!res.isError()) {
                     misscall = res.getMisscalldrs();
                     misseddr = new String[misscall.size()][3];
                     for (int i = 0; i < misscall.size(); i++) {
@@ -279,7 +279,7 @@ public class Options extends  Fragment {
                         misseddr[i][2] = temp.getTOTAL();
                     }
 
-                    if(misscall.size()>1)
+                    if (misscall.size() > 1)
                         detailedTablePopup(getActivity(), "MISSED CALL DOCTORS", misseddr);
                     /*else{
                         Snackbar.make(menuoptions, "Doctors not missed yet.", Snackbar.LENGTH_LONG).show();

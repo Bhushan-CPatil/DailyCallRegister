@@ -63,7 +63,7 @@ public class ChemDCRGift extends AppCompatActivity {
     public static final int CONNECTION_TIMEOUT = 60000;
     public static final int READ_TIMEOUT = 90000;
     ViewDialog progressDialoge;
-    MaterialButton submitbtn,cancelbtn;
+    MaterialButton submitbtn, cancelbtn;
     ConstraintLayout nsv;
     TextView chname;
     public AppCompatEditText pob;
@@ -71,7 +71,7 @@ public class ChemDCRGift extends AppCompatActivity {
     int position;
     String param = "";
     RecyclerView giftnameslist;
-    public String serial,d1d2,finyr,field;
+    public String serial, d1d2, finyr, field;
     public List<DcrgiftslistItem> dcrplst = new ArrayList<>();
 
     @Override
@@ -81,20 +81,20 @@ public class ChemDCRGift extends AppCompatActivity {
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#00E0C6'>Gift/POB Entry</font>"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_black);
-        progressDialoge=new ViewDialog(ChemDCRGift.this);
+        progressDialoge = new ViewDialog(ChemDCRGift.this);
 
         serial = getIntent().getStringExtra("serial");
 
-        if(Global.hname.contains("(A)")){
+        if (Global.hname.contains("(A)")) {
             d1d2 = "A";
-        }else if(Global.hname.contains("(B)")){
+        } else if (Global.hname.contains("(B)")) {
             d1d2 = "B";
-        }else if(Global.hname.contains("(C)")){
+        } else if (Global.hname.contains("(C)")) {
             d1d2 = "C";
-        }else if(Global.hname.contains("(D)")){
+        } else if (Global.hname.contains("(D)")) {
             d1d2 = "D";
         }
-        finyr = Global.getFinancialYr(Global.dcrdatemonth,Global.dcrdateyear);
+        finyr = Global.getFinancialYr(Global.dcrdatemonth, Global.dcrdateyear);
         field = Global.getFieldName(Integer.parseInt(Global.dcrdatemonth));
         position = Integer.parseInt(getIntent().getStringExtra("position"));
         //Log.d("finyr ",finyr);
@@ -105,7 +105,7 @@ public class ChemDCRGift extends AppCompatActivity {
         chname = findViewById(R.id.chname);
         pob = findViewById(R.id.pob);
         chname.setText(getIntent().getStringExtra("chname"));
-        if(!getIntent().getStringExtra("pob").equalsIgnoreCase("") && Integer.parseInt(getIntent().getStringExtra("pob")) > 0){
+        if (!getIntent().getStringExtra("pob").equalsIgnoreCase("") && Integer.parseInt(getIntent().getStringExtra("pob")) > 0) {
             pob.setText(getIntent().getStringExtra("pob"));
         }
         setGiftAdapter();
@@ -183,64 +183,76 @@ public class ChemDCRGift extends AppCompatActivity {
         });
     }
 
-    public void setGiftAdapter(){
+    public void setGiftAdapter() {
         giftnameslist.setNestedScrollingEnabled(false);
         giftnameslist.setLayoutManager(new LinearLayoutManager(ChemDCRGift.this));
         giftnameslist.setAdapter(new RecyclerView.Adapter() {
-            @NonNull
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                View view= LayoutInflater.from(ChemDCRGift.this).inflate(R.layout.doc_gift_adapter, viewGroup,false);
-                Holder holder=new Holder(view);
-                return holder;
-            }
+                                     @NonNull
+                                     @Override
+                                     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                                         View view = LayoutInflater.from(ChemDCRGift.this).inflate(R.layout.doc_gift_adapter, viewGroup, false);
+                                         Holder holder = new Holder(view);
+                                         return holder;
+                                     }
 
-            @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
-                final Holder myHolder= (Holder) viewHolder;
-                final DcrgiftslistItem model = dcrplst.get(i);
-                myHolder.giftname.setText(model.getPNAME());
-                if(!model.getQTY().equalsIgnoreCase("")){
-                    myHolder.qty.setText(model.getQTY());
-                }else{
-                    myHolder.qty.setText("");
-                }
-                myHolder.bal.setText("Bal : "+model.getBAL());
-                myHolder.qty.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View view, boolean hasFocus) {
-                        if (!hasFocus) {
-                            if(myHolder.qty.getText().toString().equalsIgnoreCase("")){
-                                model.setQTY("");
-                            }else{
-                                if(Integer.parseInt(myHolder.qty.getText().toString())>=0){
-                                    model.setQTY(Integer.toString(Integer.parseInt(myHolder.qty.getText().toString())));
-                                }
-                            }
-                            //Toast.makeText(DocDCRGift.this, "Focus Lose", Toast.LENGTH_SHORT).show();
-                            InputMethodManager imm =  (InputMethodManager) getSystemService(ChemDCRGift.this.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(nsv.getWindowToken(), 0);
-                        }
+                                     @Override
+                                     public long getItemId(int position) {
+                                         return position;
+                                     }
 
-                    }
-                });
-            }
+                                     @Override
+                                     public int getItemViewType(int position) {
+                                         return position;
+                                     }
 
-            @Override
-            public int getItemCount() {
-                return dcrplst.size();
-            }
-            class Holder extends RecyclerView.ViewHolder {
-                TextView giftname,bal;
-                EditText qty;
+                                     @Override
+                                     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
+                                         final Holder myHolder = (Holder) viewHolder;
+                                         final DcrgiftslistItem model = dcrplst.get(i);
+                                         myHolder.giftname.setText(model.getPNAME());
+                                         if (!model.getQTY().equalsIgnoreCase("")) {
+                                             myHolder.qty.setText(model.getQTY());
+                                         } else {
+                                             myHolder.qty.setText("");
+                                         }
+                                         myHolder.bal.setText("Bal : " + model.getBAL());
+                                         myHolder.qty.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                                             @Override
+                                             public void onFocusChange(View view, boolean hasFocus) {
+                                                 if (!hasFocus) {
+                                                     if (myHolder.qty.getText().toString().equalsIgnoreCase("")) {
+                                                         model.setQTY("");
+                                                     } else {
+                                                         if (Integer.parseInt(myHolder.qty.getText().toString()) >= 0) {
+                                                             model.setQTY(Integer.toString(Integer.parseInt(myHolder.qty.getText().toString())));
+                                                         }
+                                                     }
+                                                     //Toast.makeText(DocDCRGift.this, "Focus Lose", Toast.LENGTH_SHORT).show();
+                                                     InputMethodManager imm = (InputMethodManager) getSystemService(ChemDCRGift.this.INPUT_METHOD_SERVICE);
+                                                     imm.hideSoftInputFromWindow(nsv.getWindowToken(), 0);
+                                                 }
 
-                public Holder(@NonNull View itemView) {
-                    super(itemView);
-                    giftname = itemView.findViewById(R.id.giftname);
-                    bal = itemView.findViewById(R.id.bal);
-                    qty = itemView.findViewById(R.id.qty);
-                }
-            } }
+                                             }
+                                         });
+                                     }
+
+                                     @Override
+                                     public int getItemCount() {
+                                         return dcrplst.size();
+                                     }
+
+                                     class Holder extends RecyclerView.ViewHolder {
+                                         TextView giftname, bal;
+                                         EditText qty;
+
+                                         public Holder(@NonNull View itemView) {
+                                             super(itemView);
+                                             giftname = itemView.findViewById(R.id.giftname);
+                                             bal = itemView.findViewById(R.id.bal);
+                                             qty = itemView.findViewById(R.id.qty);
+                                         }
+                                     }
+                                 }
         );
     }
 
@@ -255,12 +267,13 @@ public class ChemDCRGift extends AppCompatActivity {
             progressDialoge.show();
 
         }
+
         @Override
         protected String doInBackground(String... params) {
             try {
 
                 // Enter URL address where your php file resides
-                url = new URL(RetrofitClient.BASE_URL+"addDcrGiftEntry.php");
+                url = new URL(RetrofitClient.BASE_URL + "addDcrGiftEntry.php");
 
             } catch (MalformedURLException e) {
 
@@ -269,7 +282,7 @@ public class ChemDCRGift extends AppCompatActivity {
             }
             try {
                 // Setup HttpURLConnection class to send and receive data from php and mysql
-                conn = (HttpURLConnection)url.openConnection();
+                conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(READ_TIMEOUT);
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
                 conn.setRequestMethod("POST");
@@ -279,16 +292,16 @@ public class ChemDCRGift extends AppCompatActivity {
                 conn.setDoOutput(true);
                 // Append parameters to URL
                 Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("ecode",params[0])
-                        .appendQueryParameter("netid",params[1])
-                        .appendQueryParameter("serial",params[2])
-                        .appendQueryParameter("dcrno",params[3])
-                        .appendQueryParameter("financialyear",params[4])
-                        .appendQueryParameter("d1d2",params[5])
-                        .appendQueryParameter("field",params[6])
-                        .appendQueryParameter("jsonarray",params[7])
-                        .appendQueryParameter("pobamt",params[8])
-                        .appendQueryParameter("DBPrefix",params[9]);
+                        .appendQueryParameter("ecode", params[0])
+                        .appendQueryParameter("netid", params[1])
+                        .appendQueryParameter("serial", params[2])
+                        .appendQueryParameter("dcrno", params[3])
+                        .appendQueryParameter("financialyear", params[4])
+                        .appendQueryParameter("d1d2", params[5])
+                        .appendQueryParameter("field", params[6])
+                        .appendQueryParameter("jsonarray", params[7])
+                        .appendQueryParameter("pobamt", params[8])
+                        .appendQueryParameter("DBPrefix", params[9]);
 
                 String query = builder.build().getEncodedQuery();
 
@@ -326,11 +339,11 @@ public class ChemDCRGift extends AppCompatActivity {
                     }
 
                     // Pass data to onPostExecute method
-                    return(result.toString());
+                    return (result.toString());
 
-                }else{
+                } else {
 
-                    return("unsuccessful");
+                    return ("unsuccessful");
                 }
 
             } catch (IOException e) {
@@ -352,14 +365,13 @@ public class ChemDCRGift extends AppCompatActivity {
             try {
                 JSONObject jobj = new JSONObject(result);
 
-                if(!jobj.getBoolean("error"))
-                {
+                if (!jobj.getBoolean("error")) {
                     DcrdchlstItem modelx = ChemistData.dcrdlst.get(position);
                     modelx.setPOB(pob.getText().toString());
                     //onBackPressed();
                     menuOperation(param);
                     ChemistData.chemistlist.getAdapter().notifyDataSetChanged();
-                    Toast.makeText(ChemDCRGift.this, jobj.getString("errormsg"),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChemDCRGift.this, jobj.getString("errormsg"), Toast.LENGTH_SHORT).show();
                 }
 
             } catch (JSONException e) {
@@ -390,7 +402,7 @@ public class ChemDCRGift extends AppCompatActivity {
             param = "NEXT";
             submitentry();
             return true;
-        } else if(id == android.R.id.home){
+        } else if (id == android.R.id.home) {
             onBackPressed();
             return true;
         }
@@ -403,29 +415,29 @@ public class ChemDCRGift extends AppCompatActivity {
         Gson gson = new GsonBuilder().create();
         JsonArray myCustomArray = gson.toJsonTree(dcrplst).getAsJsonArray();
         //Toast.makeText(ChemDCRGift.this, myCustomArray.toString(), Toast.LENGTH_LONG).show();
-        new ChemDCRGift.addGiftEntry().execute(Global.ecode,Global.netid,serial,Global.dcrno,finyr,d1d2,field,myCustomArray.toString(),pob.getText().toString(),Global.dbprefix);
+        new ChemDCRGift.addGiftEntry().execute(Global.ecode, Global.netid, serial, Global.dcrno, finyr, d1d2, field, myCustomArray.toString(), pob.getText().toString(), Global.dbprefix);
     }
 
     private void menuOperation(String mode) {
         int nextposition = position + 1;
-        if(mode.equalsIgnoreCase("NEXT")){
-            if(nextposition < ChemistData.dcrdlst.size()){
+        if (mode.equalsIgnoreCase("NEXT")) {
+            if (nextposition < ChemistData.dcrdlst.size()) {
                 DcrdchlstItem model = ChemistData.dcrdlst.get(nextposition);
-                Intent intent = new Intent(ChemDCRGift.this,ChemDCRGift.class);
-                intent.putExtra("serial", "CH"+model.getSerial());
+                Intent intent = new Intent(ChemDCRGift.this, ChemDCRGift.class);
+                intent.putExtra("serial", "CH" + model.getSerial());
                 intent.putExtra("oserial", model.getSerial());
                 intent.putExtra("cntcd", model.getCntCD());
                 intent.putExtra("wnetid", model.getWNetID());
                 intent.putExtra("pob", model.getPOB());
                 intent.putExtra("position", Integer.toString(nextposition));
-                intent.putExtra("chname", "Name - "+model.getStname());
-                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(ChemDCRGift.this, R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
-                startActivity(intent,bndlanimation);
+                intent.putExtra("chname", "Name - " + model.getStname());
+                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(ChemDCRGift.this, R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
+                startActivity(intent, bndlanimation);
                 finish();
-            }else {
+            } else {
                 onBackPressed();
             }
-        }else {
+        } else {
             onBackPressed();
         }
     }
@@ -433,6 +445,6 @@ public class ChemDCRGift extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
-        ChemDCRGift.this.overridePendingTransition(R.anim.trans_right_in,R.anim.trans_right_out);
+        ChemDCRGift.this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }
 }

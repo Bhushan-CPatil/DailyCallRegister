@@ -265,7 +265,7 @@ public class DocDCRProduct extends AppCompatActivity {
 
                         boolean allok = true;
                         allok = checkIfAllOkOrNot();
-                        if(allok){
+                        if (allok) {
                             Gson gson = new GsonBuilder().create();
                             JsonArray myCustomArray = gson.toJsonTree(dcrprodlst).getAsJsonArray();
                             String text = spn.getSelectedItem().toString();
@@ -294,14 +294,14 @@ public class DocDCRProduct extends AppCompatActivity {
     }
 
     private boolean checkIfAllOkOrNot() {
-        for(int i=0;i<dcrprodlst.size();i++){
+        for (int i = 0; i < dcrprodlst.size(); i++) {
             DcrproductlistItem temp = dcrprodlst.get(i);
-            if(temp.getDETFLAG().equalsIgnoreCase("Y")){
-                if(temp.getRxQTY().equalsIgnoreCase("")){
+            if (temp.getDETFLAG().equalsIgnoreCase("Y")) {
+                if (temp.getRxQTY().equalsIgnoreCase("")) {
                     makeAlert("Rx QTY", temp.getPNAME());
                     return false;
                 }
-                if(temp.getQTY().equalsIgnoreCase("")){
+                if (temp.getQTY().equalsIgnoreCase("")) {
                     makeAlert("QTY", temp.getPNAME());
                     return false;
                 }
@@ -315,7 +315,7 @@ public class DocDCRProduct extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(DocDCRProduct.this);
         builder.setCancelable(true);
         builder.setTitle("Alert !");
-        builder.setMessage("PLEASE ENTER "+ofthe+" OF "+pname);
+        builder.setMessage("PLEASE ENTER " + ofthe + " OF " + pname);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -412,6 +412,16 @@ public class DocDCRProduct extends AppCompatActivity {
                                             View view = LayoutInflater.from(DocDCRProduct.this).inflate(R.layout.doc_product_adapter, viewGroup, false);
                                             Holder holder = new Holder(view);
                                             return holder;
+                                        }
+
+                                        @Override
+                                        public long getItemId(int position) {
+                                            return position;
+                                        }
+
+                                        @Override
+                                        public int getItemViewType(int position) {
+                                            return position;
                                         }
 
                                         @Override
@@ -713,6 +723,16 @@ public class DocDCRProduct extends AppCompatActivity {
                                          View view = LayoutInflater.from(DocDCRProduct.this).inflate(R.layout.yes_no_questions_popup_adapter, viewGroup, false);
                                          Holder holder = new Holder(view);
                                          return holder;
+                                     }
+
+                                     @Override
+                                     public long getItemId(int position) {
+                                         return position;
+                                     }
+
+                                     @Override
+                                     public int getItemViewType(int position) {
+                                         return position;
                                      }
 
                                      @Override
@@ -1705,7 +1725,7 @@ public class DocDCRProduct extends AppCompatActivity {
             param = "SAME";
             submitentry();
             return true;
-        } else if(id == android.R.id.home){
+        } else if (id == android.R.id.home) {
             onBackPressed();
             return true;
         }
@@ -1715,43 +1735,43 @@ public class DocDCRProduct extends AppCompatActivity {
 
     private void menuOperation(String mode) {
         int nextposition = position + 1;
-        if(mode.equalsIgnoreCase("NEXT")){
-            if(nextposition < DoctorsData.dcrdlst.size()){
+        if (mode.equalsIgnoreCase("NEXT")) {
+            if (nextposition < DoctorsData.dcrdlst.size()) {
                 DcrddrlstItem model = DoctorsData.dcrdlst.get(nextposition);
-                Intent intent = new Intent(DocDCRProduct.this,DocDCRProduct.class);
-                intent.putExtra("serial", "DR"+model.getSerial());
+                Intent intent = new Intent(DocDCRProduct.this, DocDCRProduct.class);
+                intent.putExtra("serial", "DR" + model.getSerial());
                 intent.putExtra("oserial", model.getSerial());
                 intent.putExtra("cntcd", model.getCntCD());
                 intent.putExtra("wnetid", model.getWNetID());
-                intent.putExtra("drname", "Doctor Name - "+model.getDrname());
+                intent.putExtra("drname", "Doctor Name - " + model.getDrname());
                 intent.putExtra("compcall", model.getCompletecall());
                 intent.putExtra("position", Integer.toString(nextposition));
                 intent.putExtra("drclass", model.getJsonMemberClass());
-                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(DocDCRProduct.this, R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
-                startActivity(intent,bndlanimation);
+                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(DocDCRProduct.this, R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
+                startActivity(intent, bndlanimation);
                 finish();
-            }else {
+            } else {
                 onBackPressed();
             }
-        }else if(mode.equalsIgnoreCase("SAME")){
-            if(position < DoctorsData.dcrdlst.size()){
+        } else if (mode.equalsIgnoreCase("SAME")) {
+            if (position < DoctorsData.dcrdlst.size()) {
                 DcrddrlstItem model = DoctorsData.dcrdlst.get(position);
-                Intent intent = new Intent(DocDCRProduct.this,DocDCRGift.class);
-                intent.putExtra("serial", "DR"+model.getSerial());
+                Intent intent = new Intent(DocDCRProduct.this, DocDCRGift.class);
+                intent.putExtra("serial", "DR" + model.getSerial());
                 intent.putExtra("oserial", model.getSerial());
                 intent.putExtra("cntcd", model.getCntCD());
                 intent.putExtra("wnetid", model.getWNetID());
-                intent.putExtra("drname", "Doctor Name - "+model.getDrname());
+                intent.putExtra("drname", "Doctor Name - " + model.getDrname());
                 intent.putExtra("compcall", model.getCompletecall());
                 intent.putExtra("position", Integer.toString(position));
                 intent.putExtra("drclass", model.getJsonMemberClass());
-                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(DocDCRProduct.this, R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
-                startActivity(intent,bndlanimation);
+                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(DocDCRProduct.this, R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
+                startActivity(intent, bndlanimation);
                 finish();
-            }else {
+            } else {
                 onBackPressed();
             }
-        }else {
+        } else {
             onBackPressed();
         }
     }

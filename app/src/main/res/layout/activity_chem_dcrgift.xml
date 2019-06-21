@@ -59,23 +59,18 @@ android:orientation="vertical">
     </LinearLayout>
 </android.support.design.card.MaterialCardView>
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="48dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="68dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialCardView2"
-        android:scrollbars="none">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/giftlist"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-    </android.support.v4.widget.NestedScrollView>
+
+<android.support.v7.widget.RecyclerView
+    android:id="@+id/giftlist"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="48dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginBottom="68dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/materialCardView2"/>
 
 <android.support.design.card.MaterialCardView
     android:id="@+id/materialCardView"

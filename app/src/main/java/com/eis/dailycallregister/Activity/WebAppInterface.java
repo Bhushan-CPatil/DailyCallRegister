@@ -15,7 +15,7 @@ public class WebAppInterface {
     }
 
     @JavascriptInterface
-    public void showToast(String message){
+    public void showToast(String message) {
         //Toast.makeText(context,message,Toast.LENGTH_LONG).show();
         Global.password = message;
     }

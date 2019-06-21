@@ -73,18 +73,18 @@ public class ChemistData extends AppCompatActivity {
     public static final int READ_TIMEOUT = 90000;
     Spinner area;
     AppCompatCheckBox indchkbox;
-    MaterialButton jointwrkbtn,chementry;
+    MaterialButton jointwrkbtn, chementry;
     RadioGroup rdgrp;
     RecyclerView jointwrklist;
     public static RecyclerView chemistlist;
     ViewDialog progressDialoge;
     NestedScrollView sv;
     NestedScrollView nestedsv;
-    public String field = "",finyear = "";
-    int areanameid=0;
+    public String field = "", finyear = "";
+    int areanameid = 0;
     public List<JointWRKArrayList> seljntwrklst = new ArrayList<>();
     public List<JointwrkItem> jntwrklist = new ArrayList<>();
-    public LinkedHashMap<String,String> workingarea = new LinkedHashMap<String,String>();
+    public LinkedHashMap<String, String> workingarea = new LinkedHashMap<String, String>();
     public List<ArealistItem> arealist = new ArrayList<>();
     public List<String> arrayList = new ArrayList<>();
     public List<CheminawItem> chlstawlist = new ArrayList<>();
@@ -98,20 +98,20 @@ public class ChemistData extends AppCompatActivity {
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#00E0C6'>Chemist Data</font>"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_black);
-        progressDialoge=new ViewDialog(ChemistData.this);
-        indchkbox =findViewById(R.id.indchkbox);
-        jointwrkbtn =findViewById(R.id.jointwrkbtn);
-        area =findViewById(R.id.areaspinn);
-        rdgrp =findViewById(R.id.rdgrp);
-        chementry =findViewById(R.id.chementry);
-        chemistlist =findViewById(R.id.chemistlist);
-        jointwrklist =findViewById(R.id.jointwrklist);
-        nestedsv =findViewById(R.id.nestedsv);
+        progressDialoge = new ViewDialog(ChemistData.this);
+        indchkbox = findViewById(R.id.indchkbox);
+        jointwrkbtn = findViewById(R.id.jointwrkbtn);
+        area = findViewById(R.id.areaspinn);
+        rdgrp = findViewById(R.id.rdgrp);
+        chementry = findViewById(R.id.chementry);
+        chemistlist = findViewById(R.id.chemistlist);
+        jointwrklist = findViewById(R.id.jointwrklist);
+        nestedsv = findViewById(R.id.nestedsv);
         jointwrklist.setNestedScrollingEnabled(false);
         jointwrklist.setLayoutManager(new LinearLayoutManager(ChemistData.this));
-        sv =findViewById(R.id.sv);
+        sv = findViewById(R.id.sv);
         field = Global.getFieldName(Integer.parseInt(Global.dcrdatemonth));
-        finyear = Global.getFinancialYr(Global.dcrdatemonth,Global.dcrdateyear);
+        finyear = Global.getFinancialYr(Global.dcrdatemonth, Global.dcrdateyear);
         dcrdlst.clear();
         independentCkbCode();
         apicall1();
@@ -125,14 +125,14 @@ public class ChemistData extends AppCompatActivity {
         indchkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
+                if (isChecked) {
                     seljntwrklst.clear();
                     JointWRKArrayList jk = new JointWRKArrayList("Indep", "INDEPENDENT");
                     seljntwrklst.add(jk);
                     jointwrklist.getAdapter().notifyDataSetChanged();
                     nestedsv.setVisibility(View.VISIBLE);
                     jointwrkbtn.setEnabled(false);
-                }else{
+                } else {
                     nestedsv.setVisibility(View.GONE);
                     seljntwrklst.clear();
                     jointwrkbtn.setEnabled(true);
@@ -143,32 +143,45 @@ public class ChemistData extends AppCompatActivity {
 
     private void jointWorkingSetAdaper() {
         jointwrklist.setAdapter(new RecyclerView.Adapter() {
-            @NonNull
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                View view= LayoutInflater.from(ChemistData.this).inflate(R.layout.jointwrkemplist, viewGroup,false);
-                Holder holder=new Holder(view);
-                return holder;
-            }
+                                    @NonNull
+                                    @Override
+                                    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                                        View view = LayoutInflater.from(ChemistData.this).inflate(R.layout.jointwrkemplist, viewGroup, false);
+                                        Holder holder = new Holder(view);
+                                        return holder;
+                                    }
 
-            @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-                final Holder myHolder= (Holder) viewHolder;
-                final JointWRKArrayList model = seljntwrklst.get(i);
-                myHolder.seljntwrk.setText(model.getEname());
-            }
+                                    @Override
+                                    public long getItemId(int position) {
+                                        return position;
+                                    }
 
-            @Override
-            public int getItemCount() {
-                return seljntwrklst.size();
-            }
-            class Holder extends RecyclerView.ViewHolder {
-                TextView seljntwrk;
-                public Holder(@NonNull View itemView) {
-                    super(itemView);
-                    seljntwrk = itemView.findViewById(R.id.seljntwrk);
-                }
-            } }
+                                    @Override
+                                    public int getItemViewType(int position) {
+                                        return position;
+                                    }
+
+                                    @Override
+                                    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                                        final Holder myHolder = (Holder) viewHolder;
+                                        final JointWRKArrayList model = seljntwrklst.get(i);
+                                        myHolder.seljntwrk.setText(model.getEname());
+                                    }
+
+                                    @Override
+                                    public int getItemCount() {
+                                        return seljntwrklst.size();
+                                    }
+
+                                    class Holder extends RecyclerView.ViewHolder {
+                                        TextView seljntwrk;
+
+                                        public Holder(@NonNull View itemView) {
+                                            super(itemView);
+                                            seljntwrk = itemView.findViewById(R.id.seljntwrk);
+                                        }
+                                    }
+                                }
         );
     }
 
@@ -191,51 +204,64 @@ public class ChemistData extends AppCompatActivity {
                 rv_list_popup.setNestedScrollingEnabled(false);
                 rv_list_popup.setLayoutManager(new LinearLayoutManager(ChemistData.this));
                 rv_list_popup.setAdapter(new RecyclerView.Adapter() {
-                    @NonNull
-                    @Override
-                    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                        View view= LayoutInflater.from(ChemistData.this).inflate(R.layout.jointwrkpopuplst_adapter, viewGroup,false);
-                        Holder holder=new Holder(view);
-                        return holder;
-                    }
+                                             @NonNull
+                                             @Override
+                                             public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                                                 View view = LayoutInflater.from(ChemistData.this).inflate(R.layout.jointwrkpopuplst_adapter, viewGroup, false);
+                                                 Holder holder = new Holder(view);
+                                                 return holder;
+                                             }
 
-                    @Override
-                    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-                        final Holder myHolder= (Holder) viewHolder;
-                        final JointwrkItem model = jntwrklist.get(i);
-                        myHolder.drname.setText(model.getENAME());
-                        myHolder.ckb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                            @Override
-                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                if(isChecked){
-                                    JointWRKArrayList jk = new JointWRKArrayList(model.getECODE(),model.getENAME());
-                                    seljntwrklst.add(jk);
-                                }else{
-                                    for (int k = 0; k < seljntwrklst.size(); k++) {
-                                        String ecode = seljntwrklst.get(k).getEcode();
-                                        if(ecode.equals(model.getECODE())){
-                                            seljntwrklst.remove(k);
-                                        }
-                                    }
-                                }
-                            }
-                        });
+                                             @Override
+                                             public long getItemId(int position) {
+                                                 return position;
+                                             }
 
-                    }
+                                             @Override
+                                             public int getItemViewType(int position) {
+                                                 return position;
+                                             }
 
-                    @Override
-                    public int getItemCount() {
-                        return jntwrklist.size();
-                    }
-                    class Holder extends RecyclerView.ViewHolder {
-                        TextView drname;
-                        AppCompatCheckBox ckb;
-                        public Holder(@NonNull View itemView) {
-                            super(itemView);
-                            drname = itemView.findViewById(R.id.jnempname);
-                            ckb = itemView.findViewById(R.id.jnwrkchkbx);
-                        }
-                    } }
+                                             @Override
+                                             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                                                 final Holder myHolder = (Holder) viewHolder;
+                                                 final JointwrkItem model = jntwrklist.get(i);
+                                                 myHolder.drname.setText(model.getENAME());
+                                                 myHolder.ckb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                                     @Override
+                                                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                                         if (isChecked) {
+                                                             JointWRKArrayList jk = new JointWRKArrayList(model.getECODE(), model.getENAME());
+                                                             seljntwrklst.add(jk);
+                                                         } else {
+                                                             for (int k = 0; k < seljntwrklst.size(); k++) {
+                                                                 String ecode = seljntwrklst.get(k).getEcode();
+                                                                 if (ecode.equals(model.getECODE())) {
+                                                                     seljntwrklst.remove(k);
+                                                                 }
+                                                             }
+                                                         }
+                                                     }
+                                                 });
+
+                                             }
+
+                                             @Override
+                                             public int getItemCount() {
+                                                 return jntwrklist.size();
+                                             }
+
+                                             class Holder extends RecyclerView.ViewHolder {
+                                                 TextView drname;
+                                                 AppCompatCheckBox ckb;
+
+                                                 public Holder(@NonNull View itemView) {
+                                                     super(itemView);
+                                                     drname = itemView.findViewById(R.id.jnempname);
+                                                     ckb = itemView.findViewById(R.id.jnwrkchkbx);
+                                                 }
+                                             }
+                                         }
                 );
 
                 rv_list_popup.getAdapter().notifyDataSetChanged();
@@ -248,13 +274,13 @@ public class ChemistData extends AppCompatActivity {
                 submitbtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(seljntwrklst.size()>4){
+                        if (seljntwrklst.size() > 4) {
                             Snackbar snackbar = Snackbar.make(sv, "Maximum 4 can be selected at a time !", Snackbar.LENGTH_LONG);
                             snackbar.show();
-                        }else if(seljntwrklst.size()==0){
+                        } else if (seljntwrklst.size() == 0) {
                             Snackbar snackbar = Snackbar.make(sv, "Please select at list 1 name !", Snackbar.LENGTH_LONG);
                             snackbar.show();
-                        }else {
+                        } else {
                             //todo notify dataset changed an visible it
                             dialog.dismiss();
                             nestedsv.setVisibility(View.VISIBLE);
@@ -276,7 +302,7 @@ public class ChemistData extends AppCompatActivity {
         progressDialoge.show();
 
         retrofit2.Call<AreaJntWrkRes> call1 = RetrofitClient
-                .getInstance().getApi().getAreaJntWrk(Global.ecode,Global.netid, Global.hname,Global.dcrdate,Global.dcrdatemonth,Global.dcrdateyear,Global.dbprefix);
+                .getInstance().getApi().getAreaJntWrk(Global.ecode, Global.netid, Global.hname, Global.dcrdate, Global.dcrdatemonth, Global.dcrdateyear, Global.dbprefix);
         call1.enqueue(new Callback<AreaJntWrkRes>() {
             @Override
             public void onResponse(retrofit2.Call<AreaJntWrkRes> call1, Response<AreaJntWrkRes> response) {
@@ -288,26 +314,26 @@ public class ChemistData extends AppCompatActivity {
                 String areaname = "";
 
 
-                for(int i=0;i<arealist.size();i++){
-                    if(arealist.get(i).getStatus().equalsIgnoreCase("active")){
-                        areaname = arealist.get(i).getTOWN()+" / "+arealist.get(i).getTOWNID();
-                        Global.workingareaid = arealist.get(i).getTCPID()+":"+arealist.get(i).getWTYPE();
+                for (int i = 0; i < arealist.size(); i++) {
+                    if (arealist.get(i).getStatus().equalsIgnoreCase("active")) {
+                        areaname = arealist.get(i).getTOWN() + " / " + arealist.get(i).getTOWNID();
+                        Global.workingareaid = arealist.get(i).getTCPID() + ":" + arealist.get(i).getWTYPE();
                         areanameid = i;
                     }
 
-                    String key = arealist.get(i).getTOWN()+" / "+arealist.get(i).getTOWNID();
+                    String key = arealist.get(i).getTOWN() + " / " + arealist.get(i).getTOWNID();
                     arrayList.add(key);
-                    String value = arealist.get(i).getTCPID()+":"+arealist.get(i).getWTYPE();
-                    workingarea.put(key,value);
+                    String value = arealist.get(i).getTCPID() + ":" + arealist.get(i).getWTYPE();
+                    workingarea.put(key, value);
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(ChemistData.this,  android.R.layout.simple_spinner_item, arrayList);
-                adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(ChemistData.this, android.R.layout.simple_spinner_item, arrayList);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
                 area.setAdapter(adapter);
                 area.setSelection(adapter.getPosition(areaname));
 
-                if(Global.dcrno != null){
+                if (Global.dcrno != null) {
                     apicall3();
                 }
             }
@@ -332,14 +358,14 @@ public class ChemistData extends AppCompatActivity {
         progressDialoge.show();
 
         retrofit2.Call<DCRDChemListRes> call1 = RetrofitClient
-                .getInstance().getApi().getDCRDChem(Global.dcrno,Global.dbprefix);
+                .getInstance().getApi().getDCRDChem(Global.dcrno, Global.dbprefix);
         call1.enqueue(new Callback<DCRDChemListRes>() {
             @Override
             public void onResponse(retrofit2.Call<DCRDChemListRes> call1, Response<DCRDChemListRes> response) {
                 DCRDChemListRes res = response.body();
                 progressDialoge.dismiss();
                 dcrdlst.clear();
-                if(!res.isError()){
+                if (!res.isError()) {
                     selchaw.clear();
 
                     dcrdlst = res.getDcrdchlst();
@@ -381,7 +407,7 @@ public class ChemistData extends AppCompatActivity {
                         nestedsv.setVisibility(View.VISIBLE);
                     }
 
-                }else{
+                } else {
                     Snackbar snackbar = Snackbar.make(sv, "Chemist not addded !", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
@@ -407,9 +433,9 @@ public class ChemistData extends AppCompatActivity {
         chementry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(seljntwrklst.size()>0) {
+                if (seljntwrklst.size() > 0) {
                     apicall2();
-                }else{
+                } else {
                     Snackbar snackbar = Snackbar.make(sv, "Please select independent or joint working !", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
@@ -421,11 +447,11 @@ public class ChemistData extends AppCompatActivity {
         int selectedId = rdgrp.getCheckedRadioButtonId();
         RadioButton radioButton = findViewById(selectedId);
         String stype = "";
-        if(radioButton.getText().toString().equalsIgnoreCase("Area Wise")){
+        if (radioButton.getText().toString().equalsIgnoreCase("Area Wise")) {
             stype = "aw";
-        }else if(radioButton.getText().toString().equalsIgnoreCase("Wildcard Search")){
+        } else if (radioButton.getText().toString().equalsIgnoreCase("Wildcard Search")) {
             stype = "wc";
-        }else{
+        } else {
             stype = "al";
         }
         progressDialoge.show();
@@ -436,17 +462,17 @@ public class ChemistData extends AppCompatActivity {
         Global.wrktype = valspt[1];
 
         retrofit2.Call<ChemistListAWRes> call1 = RetrofitClient
-                .getInstance().getApi().getChemistDataList(Global.ecode,Global.netid, Global.tcpid,Global.dcrdate,Global.dcrdatemonth,Global.dcrdateyear,stype,Global.dbprefix);
+                .getInstance().getApi().getChemistDataList(Global.ecode, Global.netid, Global.tcpid, Global.dcrdate, Global.dcrdatemonth, Global.dcrdateyear, stype, Global.dbprefix);
         call1.enqueue(new Callback<ChemistListAWRes>() {
             @Override
             public void onResponse(retrofit2.Call<ChemistListAWRes> call1, Response<ChemistListAWRes> response) {
                 progressDialoge.dismiss();
                 ChemistListAWRes res = response.body();
-                if(!res.isError()) {
+                if (!res.isError()) {
                     chlstawlist = res.getCheminaw();
                     //Log.d("list size-->", Integer.toString(dclstawlist.size()));
                     showPopup();
-                }else{
+                } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(ChemistData.this);
                     builder.setCancelable(true);
                     //builder.setTitle("LOGOUT ?");
@@ -478,7 +504,7 @@ public class ChemistData extends AppCompatActivity {
         });
     }
 
-    public void showPopup(){
+    public void showPopup() {
         final Dialog dialog = new Dialog(ChemistData.this);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -492,48 +518,61 @@ public class ChemistData extends AppCompatActivity {
         rv_list_popup.setNestedScrollingEnabled(false);
         rv_list_popup.setLayoutManager(new LinearLayoutManager(ChemistData.this));
         rv_list_popup.setAdapter(new RecyclerView.Adapter() {
-            @NonNull
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                View view= LayoutInflater.from(ChemistData.this).inflate(R.layout.jointwrkpopuplst_adapter, viewGroup,false);
-                Holder holder=new Holder(view);
-                return holder;
-            }
+                                     @NonNull
+                                     @Override
+                                     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                                         View view = LayoutInflater.from(ChemistData.this).inflate(R.layout.jointwrkpopuplst_adapter, viewGroup, false);
+                                         Holder holder = new Holder(view);
+                                         return holder;
+                                     }
 
-            @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-                final Holder myHolder= (Holder) viewHolder;
-                final CheminawItem model = chlstawlist.get(i);
-                myHolder.drname.setText(model.getSTCD()+" - "+model.getSTNAME());
-                if(selchaw.size()>0 && selchaw.contains(model.getCNTCD())){
-                    myHolder.ckb.setChecked(true);
-                }
-                myHolder.ckb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if(isChecked){
-                            selchaw.add(model.getCNTCD());
-                        }else{
-                            selchaw.remove(model.getCNTCD());
-                        }
-                    }
-                });
+                                     @Override
+                                     public long getItemId(int position) {
+                                         return position;
+                                     }
 
-            }
+                                     @Override
+                                     public int getItemViewType(int position) {
+                                         return position;
+                                     }
 
-            @Override
-            public int getItemCount() {
-                return chlstawlist.size();
-            }
-            class Holder extends RecyclerView.ViewHolder {
-                TextView drname;
-                AppCompatCheckBox ckb;
-                public Holder(@NonNull View itemView) {
-                    super(itemView);
-                    drname = itemView.findViewById(R.id.jnempname);
-                    ckb = itemView.findViewById(R.id.jnwrkchkbx);
-                }
-            } }
+                                     @Override
+                                     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                                         final Holder myHolder = (Holder) viewHolder;
+                                         final CheminawItem model = chlstawlist.get(i);
+                                         myHolder.drname.setText(model.getSTCD() + " - " + model.getSTNAME());
+                                         if (selchaw.size() > 0 && selchaw.contains(model.getCNTCD())) {
+                                             myHolder.ckb.setChecked(true);
+                                         }
+                                         myHolder.ckb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                             @Override
+                                             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                                 if (isChecked) {
+                                                     selchaw.add(model.getCNTCD());
+                                                 } else {
+                                                     selchaw.remove(model.getCNTCD());
+                                                 }
+                                             }
+                                         });
+
+                                     }
+
+                                     @Override
+                                     public int getItemCount() {
+                                         return chlstawlist.size();
+                                     }
+
+                                     class Holder extends RecyclerView.ViewHolder {
+                                         TextView drname;
+                                         AppCompatCheckBox ckb;
+
+                                         public Holder(@NonNull View itemView) {
+                                             super(itemView);
+                                             drname = itemView.findViewById(R.id.jnempname);
+                                             ckb = itemView.findViewById(R.id.jnwrkchkbx);
+                                         }
+                                     }
+                                 }
         );
 
         rv_list_popup.getAdapter().notifyDataSetChanged();
@@ -559,89 +598,102 @@ public class ChemistData extends AppCompatActivity {
 
     }
 
-    public void setDcrdChemAdapter(){
+    public void setDcrdChemAdapter() {
         chemistlist.setNestedScrollingEnabled(false);
         chemistlist.setLayoutManager(new LinearLayoutManager(ChemistData.this));
         chemistlist.setAdapter(new RecyclerView.Adapter() {
-            @NonNull
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                View view=LayoutInflater.from(ChemistData.this).inflate(R.layout.chem_det_chem_list_adapter, viewGroup,false);
-                Holder holder=new Holder(view);
-                return holder;
-            }
+                                   @NonNull
+                                   @Override
+                                   public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                                       View view = LayoutInflater.from(ChemistData.this).inflate(R.layout.chem_det_chem_list_adapter, viewGroup, false);
+                                       Holder holder = new Holder(view);
+                                       return holder;
+                                   }
 
-            @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
-                final Holder myHolder= (Holder) viewHolder;
-                final DcrdchlstItem model = dcrdlst.get(i);
-                myHolder.stname.setText(model.getStname());
+                                   @Override
+                                   public long getItemId(int position) {
+                                       return position;
+                                   }
 
-                myHolder.deletechem.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showconfirmationdialog(model.getSerial());
-                    }
-                });
+                                   @Override
+                                   public int getItemViewType(int position) {
+                                       return position;
+                                   }
 
-                myHolder.giftentry.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(ChemistData.this,ChemDCRGift.class);
-                        intent.putExtra("serial", "CH"+model.getSerial());
-                        intent.putExtra("oserial", model.getSerial());
-                        intent.putExtra("cntcd", model.getCntCD());
-                        intent.putExtra("wnetid", model.getWNetID());
-                        intent.putExtra("pob", model.getPOB());
-                        intent.putExtra("position", Integer.toString(i));
-                        intent.putExtra("chname", "Name - "+model.getStname());
-                        Bundle bndlanimation = ActivityOptions.makeCustomAnimation(ChemistData.this, R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
-                        startActivity(intent,bndlanimation);
-                    }
-                });
+                                   @Override
+                                   public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
+                                       final Holder myHolder = (Holder) viewHolder;
+                                       final DcrdchlstItem model = dcrdlst.get(i);
+                                       myHolder.stname.setText(model.getStname());
 
-            }
+                                       myHolder.deletechem.setOnClickListener(new View.OnClickListener() {
+                                           @Override
+                                           public void onClick(View v) {
+                                               showconfirmationdialog(model.getSerial());
+                                           }
+                                       });
 
-            @Override
-            public int getItemCount() {
-                return dcrdlst.size();
-            }
-            class Holder extends RecyclerView.ViewHolder {
-                TextView stname;
-                ImageButton giftentry,deletechem;
-                public Holder(@NonNull View itemView) {
-                    super(itemView);
-                    stname = itemView.findViewById(R.id.stname);
-                    giftentry = itemView.findViewById(R.id.giftentry);
-                    deletechem = itemView.findViewById(R.id.deletechem);
-                }
-            } }
+                                       myHolder.giftentry.setOnClickListener(new View.OnClickListener() {
+                                           @Override
+                                           public void onClick(View v) {
+                                               Intent intent = new Intent(ChemistData.this, ChemDCRGift.class);
+                                               intent.putExtra("serial", "CH" + model.getSerial());
+                                               intent.putExtra("oserial", model.getSerial());
+                                               intent.putExtra("cntcd", model.getCntCD());
+                                               intent.putExtra("wnetid", model.getWNetID());
+                                               intent.putExtra("pob", model.getPOB());
+                                               intent.putExtra("position", Integer.toString(i));
+                                               intent.putExtra("chname", "Name - " + model.getStname());
+                                               Bundle bndlanimation = ActivityOptions.makeCustomAnimation(ChemistData.this, R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
+                                               startActivity(intent, bndlanimation);
+                                           }
+                                       });
+
+                                   }
+
+                                   @Override
+                                   public int getItemCount() {
+                                       return dcrdlst.size();
+                                   }
+
+                                   class Holder extends RecyclerView.ViewHolder {
+                                       TextView stname;
+                                       ImageButton giftentry, deletechem;
+
+                                       public Holder(@NonNull View itemView) {
+                                           super(itemView);
+                                           stname = itemView.findViewById(R.id.stname);
+                                           giftentry = itemView.findViewById(R.id.giftentry);
+                                           deletechem = itemView.findViewById(R.id.deletechem);
+                                       }
+                                   }
+                               }
         );
     }
 
     private void saveSelChemInDB() {
         //progressDialoge.show();
-        String ww0="",ww1="",ww2="",ww3="";
-        for(int i=0;i<seljntwrklst.size();i++){
-            if(i==0){
-                ww0=seljntwrklst.get(i).getEcode();
-            }else if(i==1){
-                ww1=seljntwrklst.get(i).getEcode();
-            }else if(i==2){
-                ww2=seljntwrklst.get(i).getEcode();
-            }else if(i==3){
-                ww3=seljntwrklst.get(i).getEcode();
+        String ww0 = "", ww1 = "", ww2 = "", ww3 = "";
+        for (int i = 0; i < seljntwrklst.size(); i++) {
+            if (i == 0) {
+                ww0 = seljntwrklst.get(i).getEcode();
+            } else if (i == 1) {
+                ww1 = seljntwrklst.get(i).getEcode();
+            } else if (i == 2) {
+                ww2 = seljntwrklst.get(i).getEcode();
+            } else if (i == 3) {
+                ww3 = seljntwrklst.get(i).getEcode();
             }
         }
 
-        String tempdcrno="";
-        if(Global.dcrno==null)
-            tempdcrno="";
+        String tempdcrno = "";
+        if (Global.dcrno == null)
+            tempdcrno = "";
         else
-            tempdcrno=Global.dcrno;
+            tempdcrno = Global.dcrno;
 
-        new ChemistData.addSelChemInDB().execute(Global.ecode,Global.netid, Global.tcpid,Global.dcrdate,Global.dcrdatemonth,
-                Global.dcrdateyear,tempdcrno,Global.wrktype,ww0,ww1,ww2,ww3,selchaw.toString(),Global.dbprefix);
+        new ChemistData.addSelChemInDB().execute(Global.ecode, Global.netid, Global.tcpid, Global.dcrdate, Global.dcrdatemonth,
+                Global.dcrdateyear, tempdcrno, Global.wrktype, ww0, ww1, ww2, ww3, selchaw.toString(), Global.dbprefix);
 
     }
 
@@ -656,12 +708,13 @@ public class ChemistData extends AppCompatActivity {
             progressDialoge.show();
 
         }
+
         @Override
         protected String doInBackground(String... params) {
             try {
 
                 // Enter URL address where your php file resides
-                url = new URL(RetrofitClient.BASE_URL+"chemistdataaddsel.php");
+                url = new URL(RetrofitClient.BASE_URL + "chemistdataaddsel.php");
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
@@ -670,7 +723,7 @@ public class ChemistData extends AppCompatActivity {
             }
             try {
                 // Setup HttpURLConnection class to send and receive data from php and mysql
-                conn = (HttpURLConnection)url.openConnection();
+                conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(READ_TIMEOUT);
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
                 conn.setRequestMethod("POST");
@@ -680,20 +733,20 @@ public class ChemistData extends AppCompatActivity {
                 conn.setDoOutput(true);
                 // Append parameters to URL
                 Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("emp",params[0])
-                        .appendQueryParameter("netid",params[1])
-                        .appendQueryParameter("tcpid",params[2])
-                        .appendQueryParameter("dcrdate",params[3])
-                        .appendQueryParameter("dcrmth",params[4])
-                        .appendQueryParameter("dcryr",params[5])
-                        .appendQueryParameter("dcrno",params[6])
-                        .appendQueryParameter("wrkflg",params[7])
-                        .appendQueryParameter("WWITH",params[8])
-                        .appendQueryParameter("WWITH2",params[9])
-                        .appendQueryParameter("WWITH3",params[10])
-                        .appendQueryParameter("WWITH4",params[11])
-                        .appendQueryParameter("selcntcd",params[12])
-                        .appendQueryParameter("DBPrefix",params[13]);
+                        .appendQueryParameter("emp", params[0])
+                        .appendQueryParameter("netid", params[1])
+                        .appendQueryParameter("tcpid", params[2])
+                        .appendQueryParameter("dcrdate", params[3])
+                        .appendQueryParameter("dcrmth", params[4])
+                        .appendQueryParameter("dcryr", params[5])
+                        .appendQueryParameter("dcrno", params[6])
+                        .appendQueryParameter("wrkflg", params[7])
+                        .appendQueryParameter("WWITH", params[8])
+                        .appendQueryParameter("WWITH2", params[9])
+                        .appendQueryParameter("WWITH3", params[10])
+                        .appendQueryParameter("WWITH4", params[11])
+                        .appendQueryParameter("selcntcd", params[12])
+                        .appendQueryParameter("DBPrefix", params[13]);
 
                 String query = builder.build().getEncodedQuery();
 
@@ -731,11 +784,11 @@ public class ChemistData extends AppCompatActivity {
                     }
 
                     // Pass data to onPostExecute method
-                    return(result.toString());
+                    return (result.toString());
 
-                }else{
+                } else {
 
-                    return("unsuccessful");
+                    return ("unsuccessful");
                 }
 
             } catch (IOException e) {
@@ -757,14 +810,13 @@ public class ChemistData extends AppCompatActivity {
             try {
                 JSONObject jobj = new JSONObject(result);
 
-                if(!jobj.getBoolean("error"))
-                {
+                if (!jobj.getBoolean("error")) {
                     // Log.d("error msg",jobj.getString("errormsg"));
                     Global.dcrno = jobj.getString("errormsg");
                     Snackbar snackbar = Snackbar.make(sv, "Chemist's added successfully.", Snackbar.LENGTH_LONG);
                     snackbar.show();
                     apicall3();
-                }else {
+                } else {
                     Snackbar snackbar = Snackbar.make(sv, "Failed to process your request !", Snackbar.LENGTH_SHORT);
                     snackbar.show();
                 }
@@ -784,7 +836,7 @@ public class ChemistData extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new ChemistData.deleteDRfromDCR().execute(Global.ecode,Global.netid,Global.tcpid,Global.dcrno,drserial,finyear,Global.dcrdate,Global.emplevel,field,Global.dbprefix);
+                        new ChemistData.deleteDRfromDCR().execute(Global.ecode, Global.netid, Global.tcpid, Global.dcrno, drserial, finyear, Global.dcrdate, Global.emplevel, field, Global.dbprefix);
                         //apicall4(drserial);
                     }
                 });
@@ -810,12 +862,13 @@ public class ChemistData extends AppCompatActivity {
             progressDialoge.show();
 
         }
+
         @Override
         protected String doInBackground(String... params) {
             try {
 
                 // Enter URL address where your php file resides
-                url = new URL(RetrofitClient.BASE_URL+"deleteDRCHfromDCR.php");
+                url = new URL(RetrofitClient.BASE_URL + "deleteDRCHfromDCR.php");
 
             } catch (MalformedURLException e) {
 
@@ -824,7 +877,7 @@ public class ChemistData extends AppCompatActivity {
             }
             try {
                 // Setup HttpURLConnection class to send and receive data from php and mysql
-                conn = (HttpURLConnection)url.openConnection();
+                conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(READ_TIMEOUT);
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
                 conn.setRequestMethod("POST");
@@ -834,16 +887,16 @@ public class ChemistData extends AppCompatActivity {
                 conn.setDoOutput(true);
                 // Append parameters to URL
                 Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("ecode",params[0])
-                        .appendQueryParameter("netid",params[1])
-                        .appendQueryParameter("dcrhtcpid",params[2])
-                        .appendQueryParameter("dcrno",params[3])
-                        .appendQueryParameter("serial",params[4])
-                        .appendQueryParameter("finyear",params[5])
-                        .appendQueryParameter("dcrdate",params[6])
-                        .appendQueryParameter("emplvl",params[7])
-                        .appendQueryParameter("field",params[8])
-                        .appendQueryParameter("DBPrefix",params[9]);
+                        .appendQueryParameter("ecode", params[0])
+                        .appendQueryParameter("netid", params[1])
+                        .appendQueryParameter("dcrhtcpid", params[2])
+                        .appendQueryParameter("dcrno", params[3])
+                        .appendQueryParameter("serial", params[4])
+                        .appendQueryParameter("finyear", params[5])
+                        .appendQueryParameter("dcrdate", params[6])
+                        .appendQueryParameter("emplvl", params[7])
+                        .appendQueryParameter("field", params[8])
+                        .appendQueryParameter("DBPrefix", params[9]);
 
                 String query = builder.build().getEncodedQuery();
 
@@ -881,11 +934,11 @@ public class ChemistData extends AppCompatActivity {
                     }
 
                     // Pass data to onPostExecute method
-                    return(result.toString());
+                    return (result.toString());
 
-                }else{
+                } else {
 
-                    return("unsuccessful");
+                    return ("unsuccessful");
                 }
 
             } catch (IOException e) {
@@ -911,15 +964,15 @@ public class ChemistData extends AppCompatActivity {
                     Toast.makeText(ChemistData.this,"Chemist deleted successfully",Toast.LENGTH_LONG).show();
                     apicall3();
                 }*/
-                if(!jobj.getBoolean("error") && jobj.getString("errormsg").equalsIgnoreCase("Y")) {
-                    Toast.makeText(ChemistData.this,"Chemist deleted successfully",Toast.LENGTH_LONG).show();
+                if (!jobj.getBoolean("error") && jobj.getString("errormsg").equalsIgnoreCase("Y")) {
+                    Toast.makeText(ChemistData.this, "Chemist deleted successfully", Toast.LENGTH_LONG).show();
                     dcrdlst.clear();
                     selchaw.clear();
                     chemistlist.getAdapter().notifyDataSetChanged();
                     Global.dcrno = null;
                     //recreate();
-                }else if(!jobj.getBoolean("error") && jobj.getString("errormsg").equalsIgnoreCase("N")) {
-                    Toast.makeText(ChemistData.this,"Chemist deleted successfully",Toast.LENGTH_LONG).show();
+                } else if (!jobj.getBoolean("error") && jobj.getString("errormsg").equalsIgnoreCase("N")) {
+                    Toast.makeText(ChemistData.this, "Chemist deleted successfully", Toast.LENGTH_LONG).show();
                     dcrdlst.clear();
                     selchaw.clear();
                     chemistlist.getAdapter().notifyDataSetChanged();
@@ -938,12 +991,13 @@ public class ChemistData extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 break;
-        } return true;
+        }
+        return true;
     }
 
     @Override
     public void onBackPressed() {
         finish();
-        ChemistData.this.overridePendingTransition(R.anim.trans_right_in,R.anim.trans_right_out);
+        ChemistData.this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }
 }

@@ -75,29 +75,30 @@ public class DCREntry extends Fragment {
 
     View view;
     ViewDialog progressDialoge;
-    ScrollView sv ;
-    public MaterialCardView m1,m2,m3;
-    public CardView dd,cd,ed,nond;
-    LinearLayout l1,l2,l3;
+    ScrollView sv;
+    public MaterialCardView m1, m2, m3;
+    public CardView dd, cd, ed, nond;
+    LinearLayout l1, l2, l3;
     TextView dcrdate;
     Spinner spinnerHolDates;
     EditText remark;
-    MaterialButton submitdcrdate,condcrent;
+    MaterialButton submitdcrdate, condcrent;
     List<String> arrayList;
     List<SampleAndGiftReceiptItem> samplegift = new ArrayList<>();
-    public int mn=0;
+    public int mn = 0;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getActivity().setTitle("DCR Entry");
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_dcrentry, container, false);
-        progressDialoge=new ViewDialog(getActivity());
+        progressDialoge = new ViewDialog(getActivity());
         sv = view.findViewById(R.id.sv);
         m1 = view.findViewById(R.id.carddcrdate);
         remark = view.findViewById(R.id.remark);
@@ -126,8 +127,8 @@ public class DCREntry extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), DoctorsData.class);
-                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
-                startActivity(intent,bndlanimation);
+                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
+                startActivity(intent, bndlanimation);
             }
         });
 
@@ -135,8 +136,8 @@ public class DCREntry extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ChemistData.class);
-                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
-                startActivity(intent,bndlanimation);
+                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
+                startActivity(intent, bndlanimation);
             }
         });
 
@@ -144,8 +145,8 @@ public class DCREntry extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ExpenseData.class);
-                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
-                startActivity(intent,bndlanimation);
+                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
+                startActivity(intent, bndlanimation);
             }
         });
 
@@ -153,8 +154,8 @@ public class DCREntry extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), NonFieldWork.class);
-                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
-                startActivity(intent,bndlanimation);
+                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
+                startActivity(intent, bndlanimation);
             }
         });
 
@@ -164,13 +165,13 @@ public class DCREntry extends Fragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setCancelable(true);
                 builder.setTitle("DCR ENTRY");
-                builder.setMessage("Are you sure want to fill DCR of date - "+spinnerHolDates.getSelectedItem().toString().trim());
+                builder.setMessage("Are you sure want to fill DCR of date - " + spinnerHolDates.getSelectedItem().toString().trim());
                 builder.setPositiveButton("Yes",
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //it stores selected dcrdate in global variables
-                                if(Global.dcrno == null) {
+                                if (Global.dcrno == null) {
                                     String[] detsplt = spinnerHolDates.getSelectedItem().toString().trim().split("-");
                                     Global.dcrdate = detsplt[2] + "-" + detsplt[1] + "-" + detsplt[0];
                                     Global.dcrdateday = detsplt[0];
@@ -183,13 +184,13 @@ public class DCREntry extends Fragment {
 
                                     Snackbar.make(sv, "DCR date changed successfully.", Snackbar.LENGTH_LONG).show();
                                     m2.setVisibility(View.GONE);
-                                }else{
+                                } else {
                                     Snackbar.make(sv, "Please wait.....", Snackbar.LENGTH_LONG).show();
                                     final String[] detsplt = spinnerHolDates.getSelectedItem().toString().trim().split("-");
                                     final String newdcrdate = detsplt[2] + "-" + detsplt[1] + "-" + detsplt[0];
                                     progressDialoge.show();
                                     Call<DefaultResponse> call1 = RetrofitClient
-                                            .getInstance().getApi().changeDCRDate(Global.ecode,Global.netid, newdcrdate,Global.dcrno,Global.dbprefix);
+                                            .getInstance().getApi().changeDCRDate(Global.ecode, Global.netid, newdcrdate, Global.dcrno, Global.dbprefix);
                                     call1.enqueue(new Callback<DefaultResponse>() {
                                         @Override
                                         public void onResponse(Call<DefaultResponse> call1, Response<DefaultResponse> response) {
@@ -204,7 +205,7 @@ public class DCREntry extends Fragment {
                                                 arrayList.remove(spinnerHolDates.getSelectedItem().toString().trim());
                                                 m2.setVisibility(View.GONE);
                                                 Snackbar.make(sv, res.getErrormsg(), Snackbar.LENGTH_LONG).show();
-                                            }else{
+                                            } else {
                                                 Snackbar.make(sv, res.getErrormsg(), Snackbar.LENGTH_LONG).show();
                                             }
                                         }
@@ -244,9 +245,9 @@ public class DCREntry extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //it stores selected dcrdate in global variables
-                                if(Global.dcrno == null) {
+                                if (Global.dcrno == null) {
                                     Snackbar.make(sv, "DCR IS EMPTY !", Snackbar.LENGTH_LONG).show();
-                                }else{
+                                } else {
                                     checkDCRIsPerfectlyFilledOrNot();
                                    /*Intent intent = new Intent(getActivity(), CheckDCRSummary.class);
                                    intent.putExtra("remark", remark.getText().toString());
@@ -274,30 +275,30 @@ public class DCREntry extends Fragment {
 
         progressDialoge.show();
         Call<IsDCRCorrectRes> call1 = RetrofitClient
-                .getInstance().getApi().isDCRCorrectlyFilled(Global.dcrno,Global.dbprefix);
+                .getInstance().getApi().isDCRCorrectlyFilled(Global.dcrno, Global.dbprefix);
         call1.enqueue(new Callback<IsDCRCorrectRes>() {
             @Override
             public void onResponse(Call<IsDCRCorrectRes> call1, Response<IsDCRCorrectRes> response) {
                 progressDialoge.dismiss();
                 IsDCRCorrectRes res = response.body();
                 String stmsg = "";
-                if(!res.isChem()){
+                if (!res.isChem()) {
                     stmsg = "Please select at least one chemist !";
                     showAlert(stmsg);
-                }else if(!res.isDoc()){
+                } else if (!res.isDoc()) {
                     stmsg = "Please select at least one doctor !";
                     showAlert(stmsg);
-                }else if(!res.isDocsmp()){
-                    stmsg = "No sample selected for "+res.getDocsmpnames()+".";
+                } else if (!res.isDocsmp()) {
+                    stmsg = "No sample selected for " + res.getDocsmpnames() + ".";
                     showAlert(stmsg);
-                }else if(!res.isDocgift()){
-                    stmsg = "No gift selected for "+res.getDocgiftnames()+".";
+                } else if (!res.isDocgift()) {
+                    stmsg = "No gift selected for " + res.getDocgiftnames() + ".";
                     showAlert(stmsg);
-                }else{
+                } else {
                     Intent intent = new Intent(getActivity(), CheckDCRSummary.class);
                     intent.putExtra("remark", remark.getText().toString());
-                    Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
-                    startActivity(intent,bndlanimation);
+                    Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
+                    startActivity(intent, bndlanimation);
                 }
 
             }
@@ -335,11 +336,11 @@ public class DCREntry extends Fragment {
         dialog.show();
     }
 
-    public void getdcrdate(){
+    public void getdcrdate() {
         progressDialoge.show();
         //Log.d("progress 4-->",ecode);
         Call<GetDcrDateRes> call1 = RetrofitClient
-                .getInstance().getApi().getDcrdate(Global.ecode,Global.netid,Global.dbprefix);
+                .getInstance().getApi().getDcrdate(Global.ecode, Global.netid, Global.dbprefix);
         call1.enqueue(new Callback<GetDcrDateRes>() {
             @Override
             public void onResponse(Call<GetDcrDateRes> call1, Response<GetDcrDateRes> response) {
@@ -348,8 +349,8 @@ public class DCREntry extends Fragment {
                 //Log.d("progress 5-->",ecode);
                 if (res.isError()) {
                     progressDialoge.dismiss();
-                    dialogCloseTypeError(getContext(),res.getErrormsg());
-                }else{
+                    dialogCloseTypeError(getContext(), res.getErrormsg());
+                } else {
                     Global.dcrdate = res.getDcrdate();
                     String[] datespt = res.getDcrdate().split("-");
                     Global.dcrdateday = datespt[2];
@@ -357,15 +358,15 @@ public class DCREntry extends Fragment {
                     Global.dcrdateyear = datespt[0];
                     Global.dcrdatestatus = res.isNewflg();
 
-                    if(!Global.dcrdatestatus){
+                    if (!Global.dcrdatestatus) {
                         Global.dcrno = res.getErrormsg();
                     }
 
-                    if(res.getRemark() != null && !res.getRemark().equalsIgnoreCase("")){
+                    if (res.getRemark() != null && !res.getRemark().equalsIgnoreCase("")) {
                         remark.setText(res.getRemark());
                     }
 
-                    dcrdate.setText("DCR DATE : "+Global.dcrdateday+"-"+Global.dcrdatemonth+"-"+Global.dcrdateyear);
+                    dcrdate.setText("DCR DATE : " + Global.dcrdateday + "-" + Global.dcrdatemonth + "-" + Global.dcrdateyear);
                     m1.setVisibility(View.VISIBLE);
                     checkmtp();
                 }
@@ -386,9 +387,9 @@ public class DCREntry extends Fragment {
         });
     }
 
-    public  void checkmtp(){
+    public void checkmtp() {
         Call<DefaultResponse> call1 = RetrofitClient
-                .getInstance().getApi().checkMTP(Global.ecode,Global.netid,Global.dcrdatemonth,Global.dcrdateyear,Global.dbprefix);
+                .getInstance().getApi().checkMTP(Global.ecode, Global.netid, Global.dcrdatemonth, Global.dcrdateyear, Global.dbprefix);
         call1.enqueue(new Callback<DefaultResponse>() {
             @Override
             public void onResponse(Call<DefaultResponse> call1, Response<DefaultResponse> response) {
@@ -397,8 +398,8 @@ public class DCREntry extends Fragment {
                 //Log.d("progress 5-->",ecode);
                 if (res.isError()) {
                     progressDialoge.dismiss();
-                    dialogCloseTypeError(getContext(),res.getErrormsg());
-                }else{
+                    dialogCloseTypeError(getContext(), res.getErrormsg());
+                } else {
                     //todo add ckeckblock here
                     checkblock();
                 }
@@ -419,9 +420,9 @@ public class DCREntry extends Fragment {
         });
     }
 
-    public void checkblock(){
+    public void checkblock() {
         Call<DefaultResponse> call1 = RetrofitClient
-                .getInstance().getApi().DCRBlockCheck(Global.ecode,Global.netid,Global.dcrdate,Global.dbprefix);
+                .getInstance().getApi().DCRBlockCheck(Global.ecode, Global.netid, Global.dcrdate, Global.dbprefix);
         call1.enqueue(new Callback<DefaultResponse>() {
             @Override
             public void onResponse(Call<DefaultResponse> call1, Response<DefaultResponse> response) {
@@ -430,8 +431,8 @@ public class DCREntry extends Fragment {
                 //Log.d("progress 5-->",ecode);
                 if (res.isError()) {
                     progressDialoge.dismiss();
-                    dialogCloseTypeError(getContext(),res.getErrormsg());
-                }else{
+                    dialogCloseTypeError(getContext(), res.getErrormsg());
+                } else {
                     checksamplegift();
                 }
             }
@@ -451,9 +452,9 @@ public class DCREntry extends Fragment {
         });
     }
 
-    public void checksamplegift(){
+    public void checksamplegift() {
         Call<DefaultResponse> call1 = RetrofitClient
-                .getInstance().getApi().checkSampleGift(Global.ecode,Global.dbprefix);
+                .getInstance().getApi().checkSampleGift(Global.ecode, Global.dbprefix);
         call1.enqueue(new Callback<DefaultResponse>() {
             @Override
             public void onResponse(Call<DefaultResponse> call1, Response<DefaultResponse> response) {
@@ -466,8 +467,8 @@ public class DCREntry extends Fragment {
                     l1.setVisibility(View.VISIBLE);
                     l2.setVisibility(View.VISIBLE);
                     l3.setVisibility(View.VISIBLE);
-                    dialogYesNoTypeQuestion(getContext(),res.getErrormsg());
-                }else{
+                    dialogYesNoTypeQuestion(getContext(), res.getErrormsg());
+                } else {
                     m3.setVisibility(View.VISIBLE);
                     l1.setVisibility(View.VISIBLE);
                     l2.setVisibility(View.VISIBLE);
@@ -491,9 +492,9 @@ public class DCREntry extends Fragment {
         });
     }
 
-    public void checkholidays(){
+    public void checkholidays() {
         Call<DefaultResponse> call1 = RetrofitClient
-                .getInstance().getApi().getHolidayDcrdates(Global.ecode,Global.netid,Global.dcrdate,Global.dbprefix);
+                .getInstance().getApi().getHolidayDcrdates(Global.ecode, Global.netid, Global.dcrdate, Global.dbprefix);
         call1.enqueue(new Callback<DefaultResponse>() {
             @Override
             public void onResponse(Call<DefaultResponse> call1, Response<DefaultResponse> response) {
@@ -501,22 +502,22 @@ public class DCREntry extends Fragment {
                 //progressDialoge.dismiss();
                 //Log.d("progress 5-->",ecode);
                 if (res.isError()) {
-                    arrayList =new ArrayList<>();
-                    if(res.getErrormsg().length() > 10){
+                    arrayList = new ArrayList<>();
+                    if (res.getErrormsg().length() > 10) {
                         String[] datelist = res.getErrormsg().split(",");
-                        for (String s: datelist) {
+                        for (String s : datelist) {
 
                             arrayList.add(s);
                         }
-                    }else{
+                    } else {
                         arrayList.add(res.getErrormsg());
                     }
 
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),  android.R.layout.simple_spinner_item, arrayList);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, arrayList);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinnerHolDates.setAdapter(adapter);
                     //if(Global.dcrno == null) {
-                        m2.setVisibility(View.VISIBLE);
+                    m2.setVisibility(View.VISIBLE);
                     /*}else{
                         m2.setVisibility(View.GONE);
                     }*/
@@ -541,18 +542,18 @@ public class DCREntry extends Fragment {
     }
 
     private void checkPendingStockandSalesEntry() {
-        String d1d2="";
-        if(Global.hname.contains("(A)")){
+        String d1d2 = "";
+        if (Global.hname.contains("(A)")) {
             d1d2 = "A";
-        }else if(Global.hname.contains("(B)")){
+        } else if (Global.hname.contains("(B)")) {
             d1d2 = "B";
-        }else if(Global.hname.contains("(C)")){
+        } else if (Global.hname.contains("(C)")) {
             d1d2 = "C";
-        }else if(Global.hname.contains("(D)")){
+        } else if (Global.hname.contains("(D)")) {
             d1d2 = "D";
         }
         Call<DefaultResponse> call1 = RetrofitClient
-                .getInstance().getApi().checkSalesEntryNotFilled(Global.netid,d1d2,Global.dbprefix);
+                .getInstance().getApi().checkSalesEntryNotFilled(Global.netid, d1d2, Global.dbprefix);
         call1.enqueue(new Callback<DefaultResponse>() {
             @Override
             public void onResponse(Call<DefaultResponse> call1, Response<DefaultResponse> response) {
@@ -560,7 +561,7 @@ public class DCREntry extends Fragment {
                 progressDialoge.dismiss();
                 //Log.d("progress 5-->",ecode);
                 if (!res.isError()) {
-                    Log.d("error msg-->",res.getErrormsg());
+                    Log.d("error msg-->", res.getErrormsg());
                     salesEntryRemainingAlert(res.getErrormsg());
                 }
             }
@@ -580,7 +581,7 @@ public class DCREntry extends Fragment {
         });
     }
 
-    public void dialogCloseTypeError(final Context context, final String errormsg){
+    public void dialogCloseTypeError(final Context context, final String errormsg) {
         final Dialog dialog = new Dialog(context);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -588,7 +589,7 @@ public class DCREntry extends Fragment {
         dialog.setContentView(R.layout.mtperror);
         CardView button = dialog.findViewById(R.id.close);
         TextView closebtn = dialog.findViewById(R.id.closebtn);
-        if(errormsg.equalsIgnoreCase("Next month MTP is not \nconfirmed or approved.")){
+        if (errormsg.equalsIgnoreCase("Next month MTP is not \nconfirmed or approved.")) {
             closebtn.setText("VIEW MTP");
         }
         TextView textView = dialog.findViewById(R.id.questiontxt);
@@ -596,14 +597,14 @@ public class DCREntry extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(errormsg.equalsIgnoreCase("Next month MTP is not \nconfirmed or approved.")){
+                if (errormsg.equalsIgnoreCase("Next month MTP is not \nconfirmed or approved.")) {
                     Global.whichmth = "NEXT";
                     Intent intent = new Intent(getActivity(), HomeActivity.class);
                     intent.putExtra("openfrag", "mtp");
                     Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_right_in, R.anim.trans_right_out).toBundle();
                     startActivity(intent, bndlanimation);
                     getActivity().finish();
-                }else {
+                } else {
                     Intent intent = new Intent(getActivity(), HomeActivity.class);
                     intent.putExtra("openfrag", "home");
                     Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_right_in, R.anim.trans_right_out).toBundle();
@@ -620,7 +621,7 @@ public class DCREntry extends Fragment {
         dialog.getWindow().setAttributes(lp);
     }
 
-    public void dialogYesNoTypeQuestion(final Context context , String result) {
+    public void dialogYesNoTypeQuestion(final Context context, String result) {
         final Dialog dialog = new Dialog(context);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -656,14 +657,14 @@ public class DCREntry extends Fragment {
     private void fetchSampleGiftForm() {
         progressDialoge.show();
         Call<SampleAndGiftReceiptRes> call1 = RetrofitClient
-                .getInstance().getApi().SampleAndGiftReceipt(Global.ecode,Global.dbprefix);
+                .getInstance().getApi().SampleAndGiftReceipt(Global.ecode, Global.dbprefix);
         call1.enqueue(new Callback<SampleAndGiftReceiptRes>() {
             @Override
             public void onResponse(Call<SampleAndGiftReceiptRes> call1, Response<SampleAndGiftReceiptRes> response) {
                 SampleAndGiftReceiptRes res = response.body();
                 progressDialoge.dismiss();
                 samplegift = res.getSampleAndGiftReceipt();
-                if(samplegift.size()>0){
+                if (samplegift.size() > 0) {
                     showSampleAndGiftPopup(getActivity());
                 }
             }
@@ -694,17 +695,17 @@ public class DCREntry extends Fragment {
         final RecyclerView recyclerView = dialog.findViewById(R.id.rectable);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(new RecyclerView.Adapter() {
-            @NonNull
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                View view= LayoutInflater.from(context).inflate(R.layout.table_list_item, viewGroup,false);
-                Holder holder=new Holder(view);
-                return holder;
-            }
+                                    @NonNull
+                                    @Override
+                                    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                                        View view = LayoutInflater.from(context).inflate(R.layout.table_list_item, viewGroup, false);
+                                        Holder holder = new Holder(view);
+                                        return holder;
+                                    }
 
-            @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-                final Holder rowViewHolder= (Holder) viewHolder;
+                                    @Override
+                                    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                                        final Holder rowViewHolder = (Holder) viewHolder;
                 /*int rowPos = rowViewHolder.getAdapterPosition();
 
                 if (rowPos == 0) {
@@ -764,7 +765,7 @@ public class DCREntry extends Fragment {
                     rowViewHolder.recqtySE.setText("");
                     rowViewHolder.recdate.setText("");
                 }*/
-                final SampleAndGiftReceiptItem model = samplegift.get(i);
+                                        final SampleAndGiftReceiptItem model = samplegift.get(i);
 
                 /*rowViewHolder.srno.setBackgroundResource(R.drawable.tableitembg);
                 rowViewHolder.pname.setBackgroundResource(R.drawable.tableitembg);
@@ -779,169 +780,171 @@ public class DCREntry extends Fragment {
                 rowViewHolder.recqtySE.setBackgroundResource(R.drawable.tableitembg);
                 rowViewHolder.recdate.setBackgroundResource(R.drawable.tableitembg);*/
 
-                //rowViewHolder.srno.setText(""+(i+1));
-                rowViewHolder.pname.setText(model.getPNAME());
-                rowViewHolder.itype.setText(model.getPtype().equals("1") ? "Sample" : "Gift");
-                rowViewHolder.idate.setText(model.getLrdatedocdate());
-                rowViewHolder.cname.setText(model.getTcname());
-                rowViewHolder.docketno.setText(model.getLrnodocno());
-                rowViewHolder.dispatchqty.setText(model.getDispatchQty());
-                rowViewHolder.recqtydr.setText(model.getRecQtyD());
-                rowViewHolder.recqtyself.setText(model.getRecQtyS());
-                rowViewHolder.total.setText(model.getTRecQty());
-                rowViewHolder.recqtySE.setText(model.getRecQtySE());
-                if(model.getRecQtyDate().equalsIgnoreCase("")) {
-                    rowViewHolder.recdate.setText("Enter date here");
-                }else{
-                    rowViewHolder.recdate.setText(model.getRecQtyDate());
-                }
-                rowViewHolder.recqtydr.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View view, boolean hasFocus) {
-                        if (!hasFocus) {
-
-                            int D = Integer.parseInt(rowViewHolder.recqtydr.getText().toString().equalsIgnoreCase("") ? "0" : rowViewHolder.recqtydr.getText().toString());
-                            int S = Integer.parseInt(rowViewHolder.recqtyself.getText().toString().equalsIgnoreCase("") ? "0" : rowViewHolder.recqtyself.getText().toString());
-                            int T = D + S;
-                            int M = Integer.parseInt(rowViewHolder.dispatchqty.getText().toString().equalsIgnoreCase("") ? "0" : rowViewHolder.dispatchqty.getText().toString());
-                            int TM = T - M;
-                            //Log.d("D/S",D+"/"+S);
-                            if(S == 0){
-                                model.setRecQtyS("");
-                            }else{
-                                model.setRecQtyS(Integer.toString(S));
-                            }
-                            if(D == 0){
-                                model.setRecQtyD("");
-                            }else{
-                                model.setRecQtyD(Integer.toString(D));
-                            }
-                            String curdate="";
-                            if(T == 0){
-                                model.setTRecQty("");
-                                model.setRecQtySE("");
-                                model.setRecQtyDate(curdate);
-                            }else {
-                                model.setTRecQty(Integer.toString(T));
-                                model.setRecQtySE(Integer.toString(TM));
-                                curdate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-                                model.setRecQtyDate(curdate);
-                            }
-                            //Log.d("MD/MS",model.getRecQtyD()+"/"+model.getRecQtyS());
-                            rowViewHolder.recqtydr.setText(model.getRecQtyD());
-                            rowViewHolder.recqtyself.setText(model.getRecQtyS());
-                            rowViewHolder.total.setText(model.getTRecQty());
-                            rowViewHolder.recqtySE.setText(model.getRecQtySE());
-                            rowViewHolder.recdate.setText(model.getRecQtyDate());
-
-
-                            InputMethodManager imm =  (InputMethodManager) getActivity().getSystemService(context.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(sv.getWindowToken(), 0);
-                            recyclerView.getAdapter().notifyDataSetChanged();
-                        }
-                    }
-                });
-
-                rowViewHolder.recqtyself.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View view, boolean hasFocus) {
-                        if (!hasFocus) {
-
-                            int D = Integer.parseInt(rowViewHolder.recqtydr.getText().toString().equalsIgnoreCase("") ? "0" : rowViewHolder.recqtydr.getText().toString());
-                            int S = Integer.parseInt(rowViewHolder.recqtyself.getText().toString().equalsIgnoreCase("") ? "0" : rowViewHolder.recqtyself.getText().toString());
-                            int T = D + S;
-                            int M = Integer.parseInt(rowViewHolder.dispatchqty.getText().toString().equalsIgnoreCase("") ? "0" : rowViewHolder.dispatchqty.getText().toString());
-                            int TM = T - M;
-                            //Log.d("D/S",D+"/"+S);
-                            if(S == 0){
-                                model.setRecQtyS("");
-                            }else{
-                                model.setRecQtyS(Integer.toString(S));
-                            }
-                            if(D == 0){
-                                model.setRecQtyD("");
-                            }else{
-                                model.setRecQtyD(Integer.toString(D));
-                            }
-                            String curdate="";
-                            if(T == 0){
-                                model.setTRecQty("");
-                                model.setRecQtySE("");
-                                model.setRecQtyDate(curdate);
-                            }else {
-                                model.setTRecQty(Integer.toString(T));
-                                model.setRecQtySE(Integer.toString(TM));
-                                curdate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-                                model.setRecQtyDate(curdate);
-                            }
-                            //Log.d("MD/MS",model.getRecQtyD()+"/"+model.getRecQtyS());
-                            rowViewHolder.recqtydr.setText(model.getRecQtyD());
-                            rowViewHolder.recqtyself.setText(model.getRecQtyS());
-                            rowViewHolder.total.setText(model.getTRecQty());
-                            rowViewHolder.recqtySE.setText(model.getRecQtySE());
-                            rowViewHolder.recdate.setText(model.getRecQtyDate());
-
-
-                            InputMethodManager imm =  (InputMethodManager) getActivity().getSystemService(context.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(sv.getWindowToken(), 0);
-                            //recyclerView.getAdapter().notifyDataSetChanged();
-                        }
-                    }
-                });
-
-                rowViewHolder.recdate.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(!model.getRecQtyDate().equalsIgnoreCase("") && !model.getRecQtyDate().equalsIgnoreCase("Enter date here")){
-                            final Calendar c = Calendar.getInstance();
-                            int mYear = c.get(Calendar.YEAR); // current year
-                            int mMonth = c.get(Calendar.MONTH); // current month
-                            int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
-                            // date picker dialog
-                            DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
-                                    new DatePickerDialog.OnDateSetListener() {
-
-                                        @Override
-                                        public void onDateSet(DatePicker view, int year,
-                                                              int monthOfYear, int dayOfMonth) {
-                                            // set day of month , month and year value in the edit text
-                                            //date.setText(String.format("%02d", dayOfMonth) + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + year);
-                                            model.setRecQtyDate(year + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + String.format("%02d", dayOfMonth));
-                                            rowViewHolder.recdate.setText(year + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + String.format("%02d", dayOfMonth));
-
+                                        //rowViewHolder.srno.setText(""+(i+1));
+                                        rowViewHolder.pname.setText(model.getPNAME());
+                                        rowViewHolder.itype.setText(model.getPtype().equals("1") ? "Sample" : "Gift");
+                                        rowViewHolder.idate.setText(model.getLrdatedocdate());
+                                        rowViewHolder.cname.setText(model.getTcname());
+                                        rowViewHolder.docketno.setText(model.getLrnodocno());
+                                        rowViewHolder.dispatchqty.setText(model.getDispatchQty());
+                                        rowViewHolder.recqtydr.setText(model.getRecQtyD());
+                                        rowViewHolder.recqtyself.setText(model.getRecQtyS());
+                                        rowViewHolder.total.setText(model.getTRecQty());
+                                        rowViewHolder.recqtySE.setText(model.getRecQtySE());
+                                        if (model.getRecQtyDate().equalsIgnoreCase("")) {
+                                            rowViewHolder.recdate.setText("Enter date here");
+                                        } else {
+                                            rowViewHolder.recdate.setText(model.getRecQtyDate());
                                         }
-                                    }, mYear, mMonth, mDay);
-                            datePickerDialog.show();
-                            recyclerView.getAdapter().notifyDataSetChanged();
-                        }
-                    }
-                });
-            }
+                                        rowViewHolder.recqtydr.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                                            @Override
+                                            public void onFocusChange(View view, boolean hasFocus) {
+                                                if (!hasFocus) {
 
-            @Override
-            public int getItemCount() {
-                return samplegift.size();
-            }
-            class Holder extends RecyclerView.ViewHolder {
-                public TextView srno,pname,itype,idate,cname,docketno,dispatchqty,total,recqtySE,recdate;
-                public AppCompatEditText recqtydr,recqtyself;
+                                                    int D = Integer.parseInt(rowViewHolder.recqtydr.getText().toString().equalsIgnoreCase("") ? "0" : rowViewHolder.recqtydr.getText().toString());
+                                                    int S = Integer.parseInt(rowViewHolder.recqtyself.getText().toString().equalsIgnoreCase("") ? "0" : rowViewHolder.recqtyself.getText().toString());
+                                                    int T = D + S;
+                                                    int M = Integer.parseInt(rowViewHolder.dispatchqty.getText().toString().equalsIgnoreCase("") ? "0" : rowViewHolder.dispatchqty.getText().toString());
+                                                    int TM = T - M;
+                                                    //Log.d("D/S",D+"/"+S);
+                                                    if (S == 0) {
+                                                        model.setRecQtyS("");
+                                                    } else {
+                                                        model.setRecQtyS(Integer.toString(S));
+                                                    }
+                                                    if (D == 0) {
+                                                        model.setRecQtyD("");
+                                                    } else {
+                                                        model.setRecQtyD(Integer.toString(D));
+                                                    }
+                                                    String curdate = "";
+                                                    if (T == 0) {
+                                                        model.setTRecQty("");
+                                                        model.setRecQtySE("");
+                                                        model.setRecQtyDate(curdate);
+                                                    } else {
+                                                        model.setTRecQty(Integer.toString(T));
+                                                        model.setRecQtySE(Integer.toString(TM));
+                                                        curdate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                                                        model.setRecQtyDate(curdate);
+                                                    }
+                                                    //Log.d("MD/MS",model.getRecQtyD()+"/"+model.getRecQtyS());
+                                                    rowViewHolder.recqtydr.setText(model.getRecQtyD());
+                                                    rowViewHolder.recqtyself.setText(model.getRecQtyS());
+                                                    rowViewHolder.total.setText(model.getTRecQty());
+                                                    rowViewHolder.recqtySE.setText(model.getRecQtySE());
+                                                    rowViewHolder.recdate.setText(model.getRecQtyDate());
 
-                public Holder(@NonNull View itemView) {
-                    super(itemView);
-                    //srno = itemView.findViewById(R.id.txtsrno);
-                    pname = itemView.findViewById(R.id.txtpname);
-                    itype = itemView.findViewById(R.id.txtit);
-                    idate = itemView.findViewById(R.id.txtdd);
-                    cname = itemView.findViewById(R.id.txtcname);
-                    docketno = itemView.findViewById(R.id.txtdno);
-                    dispatchqty = itemView.findViewById(R.id.txtdqty);
-                    recqtydr = itemView.findViewById(R.id.txtrqtyd);
-                    recqtyself = itemView.findViewById(R.id.txtrqtys);
-                    total = itemView.findViewById(R.id.txttqty);
-                    recqtySE = itemView.findViewById(R.id.txtrqtyse);
-                    recdate = itemView.findViewById(R.id.txtrqtydate);
-                }
-            } }
+
+                                                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(context.INPUT_METHOD_SERVICE);
+                                                    imm.hideSoftInputFromWindow(sv.getWindowToken(), 0);
+                                                    recyclerView.getAdapter().notifyDataSetChanged();
+                                                }
+                                            }
+                                        });
+
+                                        rowViewHolder.recqtyself.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                                            @Override
+                                            public void onFocusChange(View view, boolean hasFocus) {
+                                                if (!hasFocus) {
+
+                                                    int D = Integer.parseInt(rowViewHolder.recqtydr.getText().toString().equalsIgnoreCase("") ? "0" : rowViewHolder.recqtydr.getText().toString());
+                                                    int S = Integer.parseInt(rowViewHolder.recqtyself.getText().toString().equalsIgnoreCase("") ? "0" : rowViewHolder.recqtyself.getText().toString());
+                                                    int T = D + S;
+                                                    int M = Integer.parseInt(rowViewHolder.dispatchqty.getText().toString().equalsIgnoreCase("") ? "0" : rowViewHolder.dispatchqty.getText().toString());
+                                                    int TM = T - M;
+                                                    //Log.d("D/S",D+"/"+S);
+                                                    if (S == 0) {
+                                                        model.setRecQtyS("");
+                                                    } else {
+                                                        model.setRecQtyS(Integer.toString(S));
+                                                    }
+                                                    if (D == 0) {
+                                                        model.setRecQtyD("");
+                                                    } else {
+                                                        model.setRecQtyD(Integer.toString(D));
+                                                    }
+                                                    String curdate = "";
+                                                    if (T == 0) {
+                                                        model.setTRecQty("");
+                                                        model.setRecQtySE("");
+                                                        model.setRecQtyDate(curdate);
+                                                    } else {
+                                                        model.setTRecQty(Integer.toString(T));
+                                                        model.setRecQtySE(Integer.toString(TM));
+                                                        curdate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                                                        model.setRecQtyDate(curdate);
+                                                    }
+                                                    //Log.d("MD/MS",model.getRecQtyD()+"/"+model.getRecQtyS());
+                                                    rowViewHolder.recqtydr.setText(model.getRecQtyD());
+                                                    rowViewHolder.recqtyself.setText(model.getRecQtyS());
+                                                    rowViewHolder.total.setText(model.getTRecQty());
+                                                    rowViewHolder.recqtySE.setText(model.getRecQtySE());
+                                                    rowViewHolder.recdate.setText(model.getRecQtyDate());
+
+
+                                                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(context.INPUT_METHOD_SERVICE);
+                                                    imm.hideSoftInputFromWindow(sv.getWindowToken(), 0);
+                                                    //recyclerView.getAdapter().notifyDataSetChanged();
+                                                }
+                                            }
+                                        });
+
+                                        rowViewHolder.recdate.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                if (!model.getRecQtyDate().equalsIgnoreCase("") && !model.getRecQtyDate().equalsIgnoreCase("Enter date here")) {
+                                                    final Calendar c = Calendar.getInstance();
+                                                    int mYear = c.get(Calendar.YEAR); // current year
+                                                    int mMonth = c.get(Calendar.MONTH); // current month
+                                                    int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+                                                    // date picker dialog
+                                                    DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                                                            new DatePickerDialog.OnDateSetListener() {
+
+                                                                @Override
+                                                                public void onDateSet(DatePicker view, int year,
+                                                                                      int monthOfYear, int dayOfMonth) {
+                                                                    // set day of month , month and year value in the edit text
+                                                                    //date.setText(String.format("%02d", dayOfMonth) + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + year);
+                                                                    model.setRecQtyDate(year + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + String.format("%02d", dayOfMonth));
+                                                                    rowViewHolder.recdate.setText(year + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + String.format("%02d", dayOfMonth));
+
+                                                                }
+                                                            }, mYear, mMonth, mDay);
+                                                    datePickerDialog.show();
+                                                    recyclerView.getAdapter().notifyDataSetChanged();
+                                                }
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public int getItemCount() {
+                                        return samplegift.size();
+                                    }
+
+                                    class Holder extends RecyclerView.ViewHolder {
+                                        public TextView srno, pname, itype, idate, cname, docketno, dispatchqty, total, recqtySE, recdate;
+                                        public AppCompatEditText recqtydr, recqtyself;
+
+                                        public Holder(@NonNull View itemView) {
+                                            super(itemView);
+                                            //srno = itemView.findViewById(R.id.txtsrno);
+                                            pname = itemView.findViewById(R.id.txtpname);
+                                            itype = itemView.findViewById(R.id.txtit);
+                                            idate = itemView.findViewById(R.id.txtdd);
+                                            cname = itemView.findViewById(R.id.txtcname);
+                                            docketno = itemView.findViewById(R.id.txtdno);
+                                            dispatchqty = itemView.findViewById(R.id.txtdqty);
+                                            recqtydr = itemView.findViewById(R.id.txtrqtyd);
+                                            recqtyself = itemView.findViewById(R.id.txtrqtys);
+                                            total = itemView.findViewById(R.id.txttqty);
+                                            recqtySE = itemView.findViewById(R.id.txtrqtyse);
+                                            recdate = itemView.findViewById(R.id.txtrqtydate);
+                                        }
+                                    }
+                                }
         );
 
         recyclerView.getAdapter().notifyDataSetChanged();
@@ -955,9 +958,9 @@ public class DCREntry extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), HomeActivity.class);
-                intent.putExtra("openfrag","home");
-                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_right_in,R.anim.trans_right_out).toBundle();
-                startActivity(intent,bndlanimation);
+                intent.putExtra("openfrag", "home");
+                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_right_in, R.anim.trans_right_out).toBundle();
+                startActivity(intent, bndlanimation);
                 getActivity().finish();
                 dialog.dismiss();
             }
@@ -982,26 +985,26 @@ public class DCREntry extends Fragment {
     }
 
     private void updateSampleGift(final String myCustomArray) {
-        String finyr = Global.getFinancialYr(Global.dcrdatemonth,Global.dcrdateyear);
+        String finyr = Global.getFinancialYr(Global.dcrdatemonth, Global.dcrdateyear);
         progressDialoge.show();
-        Call<DefaultResponse> call = RetrofitClient.getInstance().getApi().UpdateSampleGiftAcceptance(Global.ecode,Global.netid,finyr,myCustomArray,Global.dbprefix);
+        Call<DefaultResponse> call = RetrofitClient.getInstance().getApi().UpdateSampleGiftAcceptance(Global.ecode, Global.netid, finyr, myCustomArray, Global.dbprefix);
         call.enqueue(new Callback<DefaultResponse>() {
             @Override
             public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
 
                 DefaultResponse dres = response.body();
                 progressDialoge.dismiss();
-                if(!dres.isError()){
-                    Toast.makeText(getActivity(), dres.getErrormsg(),Toast.LENGTH_LONG).show();
-                }else {
-                    Toast.makeText(getActivity(), dres.getErrormsg(),Toast.LENGTH_LONG).show();
+                if (!dres.isError()) {
+                    Toast.makeText(getActivity(), dres.getErrormsg(), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(), dres.getErrormsg(), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<DefaultResponse> call, Throwable t) {
                 progressDialoge.dismiss();
-                Snackbar.make(sv , "Falied to update data !", Snackbar.LENGTH_LONG)
+                Snackbar.make(sv, "Falied to update data !", Snackbar.LENGTH_LONG)
                         .setAction("Re try", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -1012,7 +1015,7 @@ public class DCREntry extends Fragment {
         });
     }
 
-    public void salesEntryRemainingAlert(String response){
+    public void salesEntryRemainingAlert(String response) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setCancelable(true);
         builder.setTitle("Alert");

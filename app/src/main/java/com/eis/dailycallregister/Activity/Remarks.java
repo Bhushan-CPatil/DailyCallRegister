@@ -31,8 +31,9 @@ public class Remarks extends AppCompatActivity {
     MaterialButton submitbtn;
     AppCompatEditText edtremk;
     LinearLayout llt;
-    public String old_remark="";
+    public String old_remark = "";
     public String serial;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +42,7 @@ public class Remarks extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_black);
 
-        progressDialoge=new ViewDialog(Remarks.this);
+        progressDialoge = new ViewDialog(Remarks.this);
         edtremk = findViewById(R.id.remark);
         submitbtn = findViewById(R.id.submitrem);
         llt = findViewById(R.id.llt);
@@ -108,7 +109,7 @@ public class Remarks extends AppCompatActivity {
     }
 
     private void saveRemarkInDB() {
-        if(edtremk.getText().toString().trim().equalsIgnoreCase(old_remark)){
+        if (edtremk.getText().toString().trim().equalsIgnoreCase(old_remark)) {
             Snackbar snackbar = Snackbar.make(llt, "Saved Successfully", Snackbar.LENGTH_LONG);
             snackbar.show();
             Handler handler = new Handler();
@@ -119,7 +120,7 @@ public class Remarks extends AppCompatActivity {
                 }
             }, 1200);
 
-        }else {
+        } else {
             progressDialoge.show();
             retrofit2.Call<DefaultResponse> call1 = RetrofitClient
                     .getInstance().getApi().saveRemark(Global.dcrno, serial, edtremk.getText().toString().trim(), Global.dbprefix);
@@ -159,18 +160,20 @@ public class Remarks extends AppCompatActivity {
             });
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 break;
-        } return true;
+        }
+        return true;
     }
 
     @Override
     public void onBackPressed() {
         finish();
-        Remarks.this.overridePendingTransition(R.anim.trans_right_in,R.anim.trans_right_out);
+        Remarks.this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }
 }

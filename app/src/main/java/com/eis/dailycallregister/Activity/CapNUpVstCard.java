@@ -53,13 +53,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CapNUpVstCard  extends AppCompatActivity {
+public class CapNUpVstCard extends AppCompatActivity {
 
     // LogCat tag
     private static final String TAG = MainActivity.class.getSimpleName();
-    public LinearLayout ll1,ll2;
+    public LinearLayout ll1, ll2;
     public RelativeLayout rl;
-    public String cntcd,status;
+    public String cntcd, status;
     public boolean isimgcropped = false;
     // Camera activity request codes
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
@@ -71,7 +71,7 @@ public class CapNUpVstCard  extends AppCompatActivity {
     ViewDialog progressDialoge;
     private Uri fileUri; // file url to store image/video
 
-    private ImageView btnCapturePicture,cardpic;
+    private ImageView btnCapturePicture, cardpic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +89,7 @@ public class CapNUpVstCard  extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_black);
         btnCapturePicture = findViewById(R.id.btnCapturePicture);
         cardpic = findViewById(R.id.cardpic);
-        progressDialoge=new ViewDialog(CapNUpVstCard.this);
+        progressDialoge = new ViewDialog(CapNUpVstCard.this);
         ll1 = findViewById(R.id.ll1);
         ll2 = findViewById(R.id.ll2);
         //btnRecordVideo = findViewById(R.id.btnRecordVideo);
@@ -150,10 +150,10 @@ public class CapNUpVstCard  extends AppCompatActivity {
         } else if (id == R.id.edit) {
             captureImage();
             return true;
-        } else if(id == R.id.delete){
+        } else if (id == R.id.delete) {
             deleteUpImage();
             return true;
-        } else if(id == android.R.id.home){
+        } else if (id == android.R.id.home) {
             onBackPressed();
             return true;
         }
@@ -162,7 +162,7 @@ public class CapNUpVstCard  extends AppCompatActivity {
     }
 
     private void deleteUpImage() {
-        if(status.equalsIgnoreCase("A")) {
+        if (status.equalsIgnoreCase("A")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setCancelable(true);
             builder.setTitle("Delete ?");
@@ -189,13 +189,13 @@ public class CapNUpVstCard  extends AppCompatActivity {
                                                 new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
-                                                        Intent intent = new Intent(CapNUpVstCard.this,HomeActivity.class);
+                                                        Intent intent = new Intent(CapNUpVstCard.this, HomeActivity.class);
                                                         intent.putExtra("ecode", Global.ecode);
-                                                        intent.putExtra("date",Global.date);
-                                                        intent.putExtra("dbprefix",Global.dbprefix);
-                                                        intent.putExtra("openfrag","visitingcard");
-                                                        Bundle bndlanimation = ActivityOptions.makeCustomAnimation(CapNUpVstCard.this, R.anim.trans_right_in,R.anim.trans_right_out).toBundle();
-                                                        startActivity(intent,bndlanimation);
+                                                        intent.putExtra("date", Global.date);
+                                                        intent.putExtra("dbprefix", Global.dbprefix);
+                                                        intent.putExtra("openfrag", "visitingcard");
+                                                        Bundle bndlanimation = ActivityOptions.makeCustomAnimation(CapNUpVstCard.this, R.anim.trans_right_in, R.anim.trans_right_out).toBundle();
+                                                        startActivity(intent, bndlanimation);
                                                         finish();
                                                     }
                                                 });
@@ -230,7 +230,7 @@ public class CapNUpVstCard  extends AppCompatActivity {
 
             AlertDialog dialog = builder.create();
             dialog.show();
-        }else{
+        } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setCancelable(true);
             builder.setTitle("Warning !");
@@ -253,13 +253,13 @@ public class CapNUpVstCard  extends AppCompatActivity {
         progressDialoge.show();
 
         retrofit2.Call<DefaultResponse> call1 = RetrofitClient
-                .getInstance().getApi().getAlreadtExistImg(Global.netid, cntcd,Global.dbprefix);
+                .getInstance().getApi().getAlreadtExistImg(Global.netid, cntcd, Global.dbprefix);
         call1.enqueue(new Callback<DefaultResponse>() {
             @Override
             public void onResponse(retrofit2.Call<DefaultResponse> call1, Response<DefaultResponse> response) {
                 DefaultResponse res = response.body();
                 progressDialoge.dismiss();
-                if(!res.isError()){
+                if (!res.isError()) {
                     ll2.setVisibility(View.GONE);
                     ll1.setVisibility(View.VISIBLE);
                     Glide.with(CapNUpVstCard.this).load(res.getErrormsg()).into(cardpic);
@@ -283,7 +283,7 @@ public class CapNUpVstCard  extends AppCompatActivity {
 
     /**
      * Checking device has camera hardware or not
-     * */
+     */
     private boolean isDeviceSupportCamera() {
         if (getApplicationContext().getPackageManager().hasSystemFeature(
                 PackageManager.FEATURE_CAMERA)) {
@@ -310,7 +310,7 @@ public class CapNUpVstCard  extends AppCompatActivity {
                             fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
 
                             intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-                            intent.putExtra("return-data",true);
+                            intent.putExtra("return-data", true);
                             // start the image capture Intent
                             //startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
                             startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
@@ -332,7 +332,7 @@ public class CapNUpVstCard  extends AppCompatActivity {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()) {
-                            Intent pickPhoto = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                             startActivityForResult(pickPhoto, 99);
                         }
                     }
@@ -387,10 +387,9 @@ public class CapNUpVstCard  extends AppCompatActivity {
     }
 
 
-
     /**
      * Receiving activity result method will be called after closing the camera
-     * */
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // if the result is capturing Image
@@ -399,12 +398,11 @@ public class CapNUpVstCard  extends AppCompatActivity {
 
                 //picUri = data.getData();
                 //Log.d("pic uri 1",picUri.toString());
-                    performCrop();
+                performCrop();
 
                 //todo call crop image method
                 // successfully captured the image
                 // launching upload activity
-
 
 
             } else if (resultCode == RESULT_CANCELED) {
@@ -421,20 +419,20 @@ public class CapNUpVstCard  extends AppCompatActivity {
                         .show();
             }
 
-        }else if(requestCode == 98){
+        } else if (requestCode == 98) {
             //picUri = data.getExtras();
             //Log.d("pic uri 2",picUri.toString());
             if (resultCode == RESULT_OK) {
                 isimgcropped = true;
                 launchUploadActivity(true);
-            } else if(resultCode == RESULT_CANCELED){
+            } else if (resultCode == RESULT_CANCELED) {
                 isimgcropped = false;
                 picUri = fileUri;
                 launchUploadActivity(true);
                 Toast.makeText(getApplicationContext(),
                         "Crop operation canceled !", Toast.LENGTH_SHORT)
                         .show();
-            }else{
+            } else {
                 Toast.makeText(getApplicationContext(),
                         "Sorry! Failed to get image !", Toast.LENGTH_SHORT)
                         .show();
@@ -446,14 +444,14 @@ public class CapNUpVstCard  extends AppCompatActivity {
                         "Crop operation canceled !", Toast.LENGTH_SHORT)
                         .show();
             }*/
-        }else if(requestCode == 3){
+        } else if (requestCode == 3) {
             //picUri = data.getExtras();
             //Log.d("pic uri 2",picUri.toString());
             if (resultCode == RESULT_OK) {
                 fileUri = Uri.parse(getRealPathFromURI(fileUri));
                 isimgcropped = true;
                 launchUploadActivity(true);
-            } else if(resultCode == RESULT_CANCELED) {
+            } else if (resultCode == RESULT_CANCELED) {
                 picUri = Uri.parse(getRealPathFromURI(fileUri));
                 fileUri = Uri.parse(getRealPathFromURI(fileUri));
                 isimgcropped = false;
@@ -462,23 +460,23 @@ public class CapNUpVstCard  extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),
                         "Crop operation canceled !", Toast.LENGTH_SHORT)
                         .show();
-            }else{
+            } else {
                 Toast.makeText(getApplicationContext(),
                         "Sorry! Failed to get image !", Toast.LENGTH_SHORT)
                         .show();
             }
-        }else if(requestCode == 99){
+        } else if (requestCode == 99) {
             //picUri = data.getExtras();
             //Log.d("pic uri 2",picUri.toString());
             if (resultCode == RESULT_OK) {
-                fileUri= data.getData();
+                fileUri = data.getData();
                 //Log.d("gallery pic path",fileUri.toString());
                 performCrop2();
-            }else if(requestCode == RESULT_CANCELED){
+            } else if (requestCode == RESULT_CANCELED) {
                 Toast.makeText(getApplicationContext(),
                         "User cancelled image selection !", Toast.LENGTH_SHORT)
                         .show();
-            }else{
+            } else {
                 Toast.makeText(getApplicationContext(),
                         "Sorry! Failed to get image !", Toast.LENGTH_SHORT)
                         .show();
@@ -486,7 +484,7 @@ public class CapNUpVstCard  extends AppCompatActivity {
         }
     }
 
-    private void launchUploadActivity(boolean isImage){
+    private void launchUploadActivity(boolean isImage) {
         Intent i = new Intent(CapNUpVstCard.this, UploadActivity.class);
         i.putExtra("filePath", picUri.getPath());
         i.putExtra("fileUri", fileUri.getPath());
@@ -505,13 +503,13 @@ public class CapNUpVstCard  extends AppCompatActivity {
      * Creating file uri to store image/video
      */
     public Uri getOutputMediaFileUri(int type) {
-        return Uri.fromFile(getOutputMediaFile(type,cntcd));
+        return Uri.fromFile(getOutputMediaFile(type, cntcd));
     }
 
     /**
      * returning image / video
      */
-    private static File getOutputMediaFile(int type,String cntcd) {
+    private static File getOutputMediaFile(int type, String cntcd) {
 
         // External sdcard location
         File mediaStorageDir = new File(
@@ -556,7 +554,7 @@ public class CapNUpVstCard  extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
-        CapNUpVstCard.this.overridePendingTransition(R.anim.trans_right_in,R.anim.trans_right_out);
+        CapNUpVstCard.this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }
 
     private void performCrop() {
@@ -565,39 +563,39 @@ public class CapNUpVstCard  extends AppCompatActivity {
             // call the standard crop action intent (the user device may not
             // support it)
             //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Intent cropIntent = new Intent("com.android.camera.action.CROP");
+            Intent cropIntent = new Intent("com.android.camera.action.CROP");
 
-                //cropIntent.setClassName("com.google.android.gallery3d", "com.android.gallery3d.app.CropImage");
-                //cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-                // indicate image type and Uri
-                //cropIntent.setDataAndType(fileUri, "image/*");
-                //Log.d("fileUri 1",fileUri.toString());
-                cropIntent.setDataAndType(fileUri, "image/*");
+            //cropIntent.setClassName("com.google.android.gallery3d", "com.android.gallery3d.app.CropImage");
+            //cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+            // indicate image type and Uri
+            //cropIntent.setDataAndType(fileUri, "image/*");
+            //Log.d("fileUri 1",fileUri.toString());
+            cropIntent.setDataAndType(fileUri, "image/*");
 
-                // set crop properties
-                cropIntent.putExtra("crop", "true");
+            // set crop properties
+            cropIntent.putExtra("crop", "true");
 
-                // indicate aspect of desired crop
-                cropIntent.putExtra("aspectX", 1);
-                cropIntent.putExtra("aspectY", 1);
-                // indicate output X and Y
-                cropIntent.putExtra("outputX", 300);
-                cropIntent.putExtra("outputY", 300);
-                //cropIntent.putExtra("scaleUpIfNeeded",true);
-                // retrieve data on return
-                cropIntent.putExtra("return-data", true);
+            // indicate aspect of desired crop
+            cropIntent.putExtra("aspectX", 1);
+            cropIntent.putExtra("aspectY", 1);
+            // indicate output X and Y
+            cropIntent.putExtra("outputX", 300);
+            cropIntent.putExtra("outputY", 300);
+            //cropIntent.putExtra("scaleUpIfNeeded",true);
+            // retrieve data on return
+            cropIntent.putExtra("return-data", true);
 
-                File f = createNewFile();
-                try {
-                    f.createNewFile();
-                } catch (IOException ex) {
-                    // Log.e("io", ex.getMessage());
-                }
+            File f = createNewFile();
+            try {
+                f.createNewFile();
+            } catch (IOException ex) {
+                // Log.e("io", ex.getMessage());
+            }
 
-                picUri = Uri.fromFile(f);
-                cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, picUri);
-                // start the activity - we handle returning in onActivityResult
-                startActivityForResult(cropIntent, CROP_PIC);
+            picUri = Uri.fromFile(f);
+            cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, picUri);
+            // start the activity - we handle returning in onActivityResult
+            startActivityForResult(cropIntent, CROP_PIC);
             /*} else {
                 picUri = fileUri;
                 launchUploadActivity(true);
@@ -622,38 +620,38 @@ public class CapNUpVstCard  extends AppCompatActivity {
             // call the standard crop action intent (the user device may not
             // support it)
             //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Intent cropIntent = new Intent("com.android.camera.action.CROP");
+            Intent cropIntent = new Intent("com.android.camera.action.CROP");
 
-                //cropIntent.setClassName("com.google.android.gallery3d", "com.android.gallery3d.app.CropImage");
-                //cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-                // indicate image type and Uri
-                //cropIntent.setDataAndType(fileUri, "image/*");
-                //Log.d("fileUri 1",fileUri.toString());
-                cropIntent.setDataAndType(fileUri, "image/*");
+            //cropIntent.setClassName("com.google.android.gallery3d", "com.android.gallery3d.app.CropImage");
+            //cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+            // indicate image type and Uri
+            //cropIntent.setDataAndType(fileUri, "image/*");
+            //Log.d("fileUri 1",fileUri.toString());
+            cropIntent.setDataAndType(fileUri, "image/*");
 
-                // set crop properties
-                cropIntent.putExtra("crop", "true");
-                // indicate aspect of desired crop
-                cropIntent.putExtra("aspectX", 1);
-                cropIntent.putExtra("aspectY", 1);
-                // indicate output X and Y
-                cropIntent.putExtra("outputX", 300);
-                cropIntent.putExtra("outputY", 300);
-                cropIntent.putExtra("scaleUpIfNeeded",true);
-                // retrieve data on return
-                cropIntent.putExtra("return-data", true);
+            // set crop properties
+            cropIntent.putExtra("crop", "true");
+            // indicate aspect of desired crop
+            cropIntent.putExtra("aspectX", 1);
+            cropIntent.putExtra("aspectY", 1);
+            // indicate output X and Y
+            cropIntent.putExtra("outputX", 300);
+            cropIntent.putExtra("outputY", 300);
+            cropIntent.putExtra("scaleUpIfNeeded", true);
+            // retrieve data on return
+            cropIntent.putExtra("return-data", true);
 
-                File f = createNewFile();
-                try {
-                    f.createNewFile();
-                } catch (IOException ex) {
-                    // Log.e("io", ex.getMessage());
-                }
+            File f = createNewFile();
+            try {
+                f.createNewFile();
+            } catch (IOException ex) {
+                // Log.e("io", ex.getMessage());
+            }
 
-                picUri = Uri.fromFile(f);
-                cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, picUri);
-                // start the activity - we handle returning in onActivityResult
-                startActivityForResult(cropIntent, 3);
+            picUri = Uri.fromFile(f);
+            cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, picUri);
+            // start the activity - we handle returning in onActivityResult
+            startActivityForResult(cropIntent, 3);
             /*} else {
                 picUri = Uri.parse(getRealPathFromURI(fileUri));
                 launchUploadActivity(true);
@@ -698,23 +696,23 @@ public class CapNUpVstCard  extends AppCompatActivity {
         return file;
     }*/
 
-    private File createNewFile(){
+    private File createNewFile() {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
                 Locale.getDefault()).format(new Date());
 
-        String prefix = "CRPIMG_" + Global.netid + "_" + cntcd + "_" + timeStamp +".jpg";
+        String prefix = "CRPIMG_" + Global.netid + "_" + cntcd + "_" + timeStamp + ".jpg";
 
         File newDirectory = new File(Environment
                 .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
                 RetrofitClient.IMAGE_DIRECTORY_NAME);
-        if(!newDirectory.exists()){
-            if(newDirectory.mkdir()){
+        if (!newDirectory.exists()) {
+            if (newDirectory.mkdir()) {
                 //Log.d(CapNUpVstCard.this.getClass().getName(), newDirectory.getAbsolutePath()+" directory created");
             }
         }
 
-        File file = new File(newDirectory,(prefix));
-        if(file.exists()){
+        File file = new File(newDirectory, (prefix));
+        if (file.exists()) {
             //this wont be executed
             file.delete();
             try {
@@ -730,8 +728,8 @@ public class CapNUpVstCard  extends AppCompatActivity {
     public String getRealPathFromURI(Uri contentUri) {
 
         // can post image
-        String [] proj={MediaStore.Images.Media.DATA};
-        Cursor cursor = managedQuery( contentUri,
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = managedQuery(contentUri,
                 proj, // Which columns to return
                 null,       // WHERE clause; which rows to return (all rows)
                 null,       // WHERE clause selection arguments (none)

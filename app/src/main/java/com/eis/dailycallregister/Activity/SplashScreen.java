@@ -65,7 +65,7 @@ public class SplashScreen extends AppCompatActivity {
 
         thread.start();*/
 
-        if(!isOnline()){
+        if (!isOnline()) {
             /*Snackbar skb = Snackbar.make(ci,"No internet access !",Snackbar.LENGTH_INDEFINITE)
                     .setAction("Re-try", new View.OnClickListener() {
                         @Override
@@ -76,7 +76,7 @@ public class SplashScreen extends AppCompatActivity {
             skb.show();*/
             successDilogue();
 
-        }else {
+        } else {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 public void run() {
@@ -94,8 +94,8 @@ public class SplashScreen extends AppCompatActivity {
 
     private void goToNextScreen() {
         Intent intent = new Intent(SplashScreen.this, LoginScreen.class);
-        Bundle bndlanimation = ActivityOptions.makeCustomAnimation(SplashScreen.this, R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
-        startActivity(intent,bndlanimation);
+        Bundle bndlanimation = ActivityOptions.makeCustomAnimation(SplashScreen.this, R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
+        startActivity(intent, bndlanimation);
         finish();
     }
 

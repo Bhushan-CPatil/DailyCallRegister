@@ -9,6 +9,7 @@ import com.eis.dailycallregister.Api.RetrofitClient;
 import com.eis.dailycallregister.Others.Global;
 import com.eis.dailycallregister.Others.ViewDialog;
 import com.eis.dailycallregister.R;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -20,6 +21,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.content.Intent;
@@ -48,12 +50,12 @@ import android.widget.VideoView;
 
 import id.zelory.compressor.Compressor;
 
-public class UploadActivity  extends AppCompatActivity {
+public class UploadActivity extends AppCompatActivity {
     // LogCat tag
     private static final String TAG = MainActivity.class.getSimpleName();
     ViewDialog progressDialoge;
     private ProgressBar progressBar;
-    private String filePath = null,fileUri = null;
+    private String filePath = null, fileUri = null;
     private TextView txtPercentage;
     private AppCompatImageView imgPreview;
     LinearLayout lin1;
@@ -70,7 +72,7 @@ public class UploadActivity  extends AppCompatActivity {
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#00E0C6'>Upload Card</font>"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_black);
-        progressDialoge=new ViewDialog(UploadActivity.this);
+        progressDialoge = new ViewDialog(UploadActivity.this);
         cntcd = getIntent().getStringExtra("cntcd");
         txtPercentage = findViewById(R.id.txtPercentage);
         btnUpload = findViewById(R.id.btnUpload);
@@ -117,18 +119,18 @@ public class UploadActivity  extends AppCompatActivity {
 
     /**
      * Displaying captured image/video on the screen
-     * */
+     */
     private void previewMedia(boolean isImage) {
         // Checking whether captured media is image or video
         //if (isImage) {
 
-            //vidPreview.setVisibility(View.GONE);
-            // bimatp factory
+        //vidPreview.setVisibility(View.GONE);
+        // bimatp factory
 
 
-            // down sizing image as it throws OutOfMemory Exception for larger
-            // images
-            //options.inSampleSize = 8;
+        // down sizing image as it throws OutOfMemory Exception for larger
+        // images
+        //options.inSampleSize = 8;
         /*imgPreview.setVisibility(View.VISIBLE);
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = false;
@@ -151,18 +153,18 @@ public class UploadActivity  extends AppCompatActivity {
         long fileSizeInKB = fileSizeInBytes / 1024;
         if (file.exists() && fileSizeInKB > 5) {
             Glide.with(this).load(filePath).into(imgPreview);
-        }else{
+        } else {
             filePath = fileUri;
             isimgcropped = false;
             Glide.with(this).load(fileUri).into(imgPreview);
-            Toast.makeText(UploadActivity.this,"Croped Image not saved !",Toast.LENGTH_LONG).show();
+            Toast.makeText(UploadActivity.this, "Croped Image not saved !", Toast.LENGTH_LONG).show();
         }
 
     }
 
     /**
      * Uploading the file to server
-     * */
+     */
     private class UploadFileToServer extends AsyncTask<Void, Integer, String> {
         @Override
         protected void onPreExecute() {
@@ -194,7 +196,7 @@ public class UploadActivity  extends AppCompatActivity {
             String responseString = null;
 
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost(RetrofitClient.BASE_URL+"fileUpload.php");
+            HttpPost httppost = new HttpPost(RetrofitClient.BASE_URL + "fileUpload.php");
 
             try {
                 AndroidMultiPartEntity entity = new AndroidMultiPartEntity(
@@ -207,11 +209,11 @@ public class UploadActivity  extends AppCompatActivity {
                         });
                 //Log.d("file path", filePath);
                 File sourceFile = new File(filePath);
-                if(!isimgcropped) {
+                if (!isimgcropped) {
                     File compressedImageFile = new Compressor(UploadActivity.this).compressToFile(sourceFile);
                     // Adding file data to http body
                     entity.addPart("image", new FileBody(compressedImageFile));
-                }else{
+                } else {
                     entity.addPart("image", new FileBody(sourceFile));
                 }
                 // Extra parameters if you want to pass to server
@@ -251,12 +253,11 @@ public class UploadActivity  extends AppCompatActivity {
             progressDialoge.dismiss();
             try {
                 JSONObject jsonObject = new JSONObject(result);
-                if(!jsonObject.getBoolean("error"))
-                {
+                if (!jsonObject.getBoolean("error")) {
                     // showing the server response in an alert dialog
                     showAlert(jsonObject.getString("errormsg"));
 
-                }else{
+                } else {
                     Snackbar snackbar = Snackbar.make(lin1, jsonObject.getString("errormsg"), Snackbar.LENGTH_SHORT);
                     snackbar.show();
                 }
@@ -271,7 +272,7 @@ public class UploadActivity  extends AppCompatActivity {
 
     /**
      * Method to show alert dialog
-     * */
+     */
     private void showAlert(String message) {
         final Dialog dialog = new Dialog(UploadActivity.this);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -286,13 +287,13 @@ public class UploadActivity  extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Intent intent = new Intent(UploadActivity.this,HomeActivity.class);
+                Intent intent = new Intent(UploadActivity.this, HomeActivity.class);
                 intent.putExtra("ecode", Global.ecode);
-                intent.putExtra("date",Global.date);
-                intent.putExtra("dbprefix",Global.dbprefix);
-                intent.putExtra("openfrag","visitingcard");
-                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(UploadActivity.this, R.anim.trans_right_in,R.anim.trans_right_out).toBundle();
-                startActivity(intent,bndlanimation);
+                intent.putExtra("date", Global.date);
+                intent.putExtra("dbprefix", Global.dbprefix);
+                intent.putExtra("openfrag", "visitingcard");
+                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(UploadActivity.this, R.anim.trans_right_in, R.anim.trans_right_out).toBundle();
+                startActivity(intent, bndlanimation);
                 finish();
                 /*finish();
                 UploadActivity.this.overridePendingTransition(R.anim.trans_right_in,R.anim.trans_right_out);*/
@@ -312,12 +313,13 @@ public class UploadActivity  extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 break;
-        } return true;
+        }
+        return true;
     }
 
     @Override
     public void onBackPressed() {
         finish();
-        UploadActivity.this.overridePendingTransition(R.anim.trans_right_in,R.anim.trans_right_out);
+        UploadActivity.this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }
 }

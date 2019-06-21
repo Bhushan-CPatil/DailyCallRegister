@@ -34,8 +34,9 @@ import java.io.IOException;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    TextView ename,hqname,wdate;
+    TextView ename, hqname, wdate;
     String whichmth = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,18 +59,18 @@ public class HomeActivity extends AppCompatActivity
         wdate = headerView.findViewById(R.id.wdate);
 
         ename.setText(Global.ename);
-        hqname.setText("HQ : "+Global.hname);
-        wdate.setText("WRK DATE : "+Global.date);
+        hqname.setText("HQ : " + Global.hname);
+        wdate.setText("WRK DATE : " + Global.date);
 
         //NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        if(getIntent().getStringExtra("openfrag").equalsIgnoreCase("dcr")){
+        if (getIntent().getStringExtra("openfrag").equalsIgnoreCase("dcr")) {
             displaySelectedScreen(R.id.nav_dcr);
-        }else if(getIntent().getStringExtra("openfrag").equalsIgnoreCase("visitingcard")){
+        } else if (getIntent().getStringExtra("openfrag").equalsIgnoreCase("visitingcard")) {
             displaySelectedScreen(R.id.nav_file_upload);
-        }else if(getIntent().getStringExtra("openfrag").equalsIgnoreCase("home")){
+        } else if (getIntent().getStringExtra("openfrag").equalsIgnoreCase("home")) {
             displaySelectedScreen(R.id.nav_home);
-        }else if(getIntent().getStringExtra("openfrag").equalsIgnoreCase("mtp")){
+        } else if (getIntent().getStringExtra("openfrag").equalsIgnoreCase("mtp")) {
             displaySelectedScreen(R.id.nav_mtp);
         }
     }
@@ -157,7 +158,7 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-    public void logoutAlert(){
+    public void logoutAlert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle("LOGOUT ?");
@@ -167,9 +168,9 @@ public class HomeActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Global.password = null;
-                        Intent intent = new Intent(HomeActivity.this,LoginScreen.class);
-                        Bundle bndlanimation = ActivityOptions.makeCustomAnimation(HomeActivity.this, R.anim.trans_right_in,R.anim.trans_right_out).toBundle();
-                        startActivity(intent,bndlanimation);
+                        Intent intent = new Intent(HomeActivity.this, LoginScreen.class);
+                        Bundle bndlanimation = ActivityOptions.makeCustomAnimation(HomeActivity.this, R.anim.trans_right_in, R.anim.trans_right_out).toBundle();
+                        startActivity(intent, bndlanimation);
                         finish();
                     }
                 });
@@ -184,7 +185,7 @@ public class HomeActivity extends AppCompatActivity
         dialog.show();
     }
 
-    public void mtpAlert(){
+    public void mtpAlert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
         builder.setCancelable(true);
         builder.setTitle("Alert ?");

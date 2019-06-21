@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/sv"
     tools:context=".Fragment.UploadVisitingCard">
-<android.support.v4.widget.NestedScrollView
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="16dp">
@@ -15,5 +15,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/visitcarddrlst" />
-</android.support.v4.widget.NestedScrollView>
+</ScrollView>
 </RelativeLayout>

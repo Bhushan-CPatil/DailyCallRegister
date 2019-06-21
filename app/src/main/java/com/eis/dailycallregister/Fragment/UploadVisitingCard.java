@@ -40,9 +40,10 @@ public class UploadVisitingCard extends Fragment {
 
     View view;
     ViewDialog progressDialoge;
-    RelativeLayout sv ;
+    RelativeLayout sv;
     RecyclerView doctorslist;
     public List<VisitingCardDRLstItem> vstdrlst = new ArrayList<>();
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -55,7 +56,7 @@ public class UploadVisitingCard extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_upload_visiting_card, container, false);
 
-        progressDialoge=new ViewDialog(getActivity());
+        progressDialoge = new ViewDialog(getActivity());
         sv = view.findViewById(R.id.sv);
         doctorslist = view.findViewById(R.id.visitcarddrlst);
         setDocLstAdapter();
@@ -67,7 +68,7 @@ public class UploadVisitingCard extends Fragment {
         progressDialoge.show();
 
         retrofit2.Call<VstCardDrLstRes> call1 = RetrofitClient
-                .getInstance().getApi().getVstDrLstFormDB(Global.netid,Global.dbprefix);
+                .getInstance().getApi().getVstDrLstFormDB(Global.netid, Global.dbprefix);
         call1.enqueue(new Callback<VstCardDrLstRes>() {
             @Override
             public void onResponse(retrofit2.Call<VstCardDrLstRes> call1, Response<VstCardDrLstRes> response) {
@@ -94,65 +95,79 @@ public class UploadVisitingCard extends Fragment {
         });
     }
 
-    public void setDocLstAdapter(){
+    public void setDocLstAdapter() {
         doctorslist.setNestedScrollingEnabled(false);
         doctorslist.setLayoutManager(new LinearLayoutManager(getActivity()));
         doctorslist.setAdapter(new RecyclerView.Adapter() {
-            @NonNull
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                View view=LayoutInflater.from(getActivity()).inflate(R.layout.visitingdr_adapter, viewGroup,false);
-                Holder holder=new Holder(view);
-                return holder;
-            }
-            @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
-                final Holder myHolder= (Holder) viewHolder;
-                final VisitingCardDRLstItem model = vstdrlst.get(i);
-                myHolder.drcdndrname.setText(model.getDrcd()+" - "+model.getDrname().toUpperCase());
-                if(model.getStatus().equalsIgnoreCase("A")) {
-                    myHolder.clickimage.setImageResource(R.drawable.ic_check_circle);
-                }else{
-                    myHolder.clickimage.setImageResource(R.drawable.ic_linked_camera);
-                }
-                myHolder.itemView.setTag(i);
-                myHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), CapNUpVstCard.class);
-                        intent.putExtra("cntcd",model.getCntcd());
-                        intent.putExtra("drcd",model.getDrcd());
-                        intent.putExtra("status",model.getStatus());
-                        Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
-                        startActivity(intent,bndlanimation);
-                    }
-                });
-                myHolder.clickimage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), CapNUpVstCard.class);
-                        intent.putExtra("cntcd",model.getCntcd());
-                        intent.putExtra("drcd",model.getDrcd());
-                        intent.putExtra("status",model.getStatus());
-                        Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
-                        startActivity(intent,bndlanimation);
-                    }
-                });
-            }
+                                   @NonNull
+                                   @Override
+                                   public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                                       View view = LayoutInflater.from(getActivity()).inflate(R.layout.visitingdr_adapter, viewGroup, false);
+                                       Holder holder = new Holder(view);
+                                       return holder;
+                                   }
 
-            @Override
-            public int getItemCount() {
-                return vstdrlst.size();
-            }
-            class Holder extends RecyclerView.ViewHolder {
-                TextView drcdndrname;
-                ImageButton clickimage;
-                public Holder(@NonNull View itemView) {
-                    super(itemView);
-                    drcdndrname = itemView.findViewById(R.id.drcdndrname);
-                    clickimage = itemView.findViewById(R.id.clickimage);
-                }
-            } }
+                                   @Override
+                                   public long getItemId(int position) {
+                                       return position;
+                                   }
+
+                                   @Override
+                                   public int getItemViewType(int position) {
+                                       return position;
+                                   }
+
+                                   @Override
+                                   public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
+                                       final Holder myHolder = (Holder) viewHolder;
+                                       final VisitingCardDRLstItem model = vstdrlst.get(i);
+                                       myHolder.drcdndrname.setText(model.getDrcd() + " - " + model.getDrname().toUpperCase());
+                                       if (model.getStatus().equalsIgnoreCase("A")) {
+                                           myHolder.clickimage.setImageResource(R.drawable.ic_check_circle);
+                                       } else {
+                                           myHolder.clickimage.setImageResource(R.drawable.ic_linked_camera);
+                                       }
+                                       myHolder.itemView.setTag(i);
+                                       myHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                                           @Override
+                                           public void onClick(View v) {
+                                               Intent intent = new Intent(getActivity(), CapNUpVstCard.class);
+                                               intent.putExtra("cntcd", model.getCntcd());
+                                               intent.putExtra("drcd", model.getDrcd());
+                                               intent.putExtra("status", model.getStatus());
+                                               Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
+                                               startActivity(intent, bndlanimation);
+                                           }
+                                       });
+                                       myHolder.clickimage.setOnClickListener(new View.OnClickListener() {
+                                           @Override
+                                           public void onClick(View v) {
+                                               Intent intent = new Intent(getActivity(), CapNUpVstCard.class);
+                                               intent.putExtra("cntcd", model.getCntcd());
+                                               intent.putExtra("drcd", model.getDrcd());
+                                               intent.putExtra("status", model.getStatus());
+                                               Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
+                                               startActivity(intent, bndlanimation);
+                                           }
+                                       });
+                                   }
+
+                                   @Override
+                                   public int getItemCount() {
+                                       return vstdrlst.size();
+                                   }
+
+                                   class Holder extends RecyclerView.ViewHolder {
+                                       TextView drcdndrname;
+                                       ImageButton clickimage;
+
+                                       public Holder(@NonNull View itemView) {
+                                           super(itemView);
+                                           drcdndrname = itemView.findViewById(R.id.drcdndrname);
+                                           clickimage = itemView.findViewById(R.id.clickimage);
+                                       }
+                                   }
+                               }
         );
     }
 

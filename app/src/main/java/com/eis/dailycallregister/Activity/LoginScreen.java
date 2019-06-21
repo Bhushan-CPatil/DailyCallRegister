@@ -70,7 +70,7 @@ import retrofit2.Response;
 
 public class LoginScreen extends AppCompatActivity {
 
-    public EditText uid,date;
+    public EditText uid, date;
     public TextInputEditText pass;
     public Button login;
     DatePickerDialog datePickerDialog;
@@ -92,14 +92,14 @@ public class LoginScreen extends AppCompatActivity {
         setContentView(R.layout.activity_login_screen);
         getSupportActionBar().hide();
         new Global().clearGlobal("All");
-        queue= Volley.newRequestQueue(LoginScreen.this);
+        queue = Volley.newRequestQueue(LoginScreen.this);
         checkforUpgrade();
         progress = new ViewDialog(this);
         rl = findViewById(R.id.rl);
         uid = findViewById(R.id.uid);
         pass = findViewById(R.id.pass);
         login = findViewById(R.id.login);
-        spnArea=findViewById(R.id.spnarea);
+        spnArea = findViewById(R.id.spnarea);
         getArea();
 
         // initiate the date picker and a button*/
@@ -159,17 +159,17 @@ public class LoginScreen extends AppCompatActivity {
 
                 try {
 
-                    JSONObject jsonObject =new JSONObject(response);
+                    JSONObject jsonObject = new JSONObject(response);
                     double newverison = Double.parseDouble(jsonObject.getString("version"));
                     double verison = Double.parseDouble(currentversion);
                     final String link = jsonObject.getString("link");
 
-                    if (verison < newverison){
+                    if (verison < newverison) {
                         LayoutInflater layoutInflaterAndroid = LayoutInflater.from(LoginScreen.this);
                         View mView = layoutInflaterAndroid.inflate(R.layout.updateapp, null);
                         android.app.AlertDialog.Builder alertDialogBuilderUserInput = new android.app.AlertDialog.Builder(LoginScreen.this);
                         alertDialogBuilderUserInput.setView(mView);
-                        MaterialButton button=mView.findViewById(R.id.updateappbtn);
+                        MaterialButton button = mView.findViewById(R.id.updateappbtn);
                         button.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -195,12 +195,12 @@ public class LoginScreen extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(LoginScreen.this, "Unable to check updates !", Toast.LENGTH_SHORT).show();
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
 
-                HashMap<String ,String> map = new HashMap<>();
-                map.put("id","0");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("id", "0");
                 return map;
             }
         };
@@ -210,86 +210,85 @@ public class LoginScreen extends AppCompatActivity {
     public void dologin() {
         Vibrator vibrator = (Vibrator) getSystemService(LoginScreen.this.VIBRATOR_SERVICE);
         vibrator.vibrate(100);
-        if(callpermissiongranted){
+        if (callpermissiongranted) {
 
 
-        if(allgranted){
-
+            if (allgranted) {
 
 
 //            Log.d("pass encrypt --->", Global.password);
-            final String lid = uid.getText().toString().trim();
-        String password = pass.getText().toString().trim();
-        String dt = date.getText().toString().trim();
+                final String lid = uid.getText().toString().trim();
+                String password = pass.getText().toString().trim();
+                String dt = date.getText().toString().trim();
 
-        if (lid.isEmpty()) {
-            uid.setError("Login ID is required");
-            uid.requestFocus();
-            return;
-        }
+                if (lid.isEmpty()) {
+                    uid.setError("Login ID is required");
+                    uid.requestFocus();
+                    return;
+                }
 
-        if (lid.length() < 5) {
-            uid.setError("Enter a valid login ID");
-            uid.requestFocus();
-            return;
-        }
+                if (lid.length() < 5) {
+                    uid.setError("Enter a valid login ID");
+                    uid.requestFocus();
+                    return;
+                }
 
-        if (password.isEmpty()) {
-            pass.setError("Password is required");
-            pass.requestFocus();
-            return;
-        }
+                if (password.isEmpty()) {
+                    pass.setError("Password is required");
+                    pass.requestFocus();
+                    return;
+                }
 
-        if(dt.isEmpty()){
-            date.setError("Login date is required");
-            date.requestFocus();
-            return;
-        }
+                if (dt.isEmpty()) {
+                    date.setError("Login date is required");
+                    date.requestFocus();
+                    return;
+                }
 
-        web_url = RetrofitClient.BASE_URL+"hitJSfile.php?password="+password;
-            WebViewFragment webViewFragment = new WebViewFragment();
-            getSupportFragmentManager().beginTransaction().add(R.id.fragmentcont,webViewFragment).commit();
-            progress.show();
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    //Toast.makeText(LoginScreen.this,Global.password,Toast.LENGTH_LONG).show();
-                if(Global.password == null){
-                    progress.dismiss();
-                    notEncryptAlert();
-                }else {
-                    Call<DefaultResponse> call = RetrofitClient
-                            .getInstance().getApi().login(lid, Global.password, date.getText().toString().trim(), spnArea.getSelectedItem().toString().trim());
-                    call.enqueue(new Callback<DefaultResponse>() {
-
-                        @Override
-                        public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
-                            DefaultResponse dResponse = response.body();
-
+                web_url = RetrofitClient.BASE_URL + "hitJSfile.php?password=" + password;
+                WebViewFragment webViewFragment = new WebViewFragment();
+                getSupportFragmentManager().beginTransaction().add(R.id.fragmentcont, webViewFragment).commit();
+                progress.show();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        //Toast.makeText(LoginScreen.this,Global.password,Toast.LENGTH_LONG).show();
+                        if (Global.password == null) {
                             progress.dismiss();
-                            //Log.d("Errrrrrroooooorrrrr", dResponse.getErrormsg());
+                            notEncryptAlert();
+                        } else {
+                            Call<DefaultResponse> call = RetrofitClient
+                                    .getInstance().getApi().login(lid, Global.password, date.getText().toString().trim(), spnArea.getSelectedItem().toString().trim());
+                            call.enqueue(new Callback<DefaultResponse>() {
 
-                            if (!dResponse.isError()) {
-                                // Log.d("message",loginResponse.getMessage());
+                                @Override
+                                public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                                    DefaultResponse dResponse = response.body();
 
-                                Intent intent = new Intent(LoginScreen.this, HomeActivity.class);
-                                intent.putExtra("ecode", uid.getText().toString().trim());
-                                intent.putExtra("date", date.getText().toString().trim());
-                                intent.putExtra("dbprefix", spnArea.getSelectedItem().toString().trim());
-                                Global.ecode = uid.getText().toString().trim();
-                                Global.date = date.getText().toString().trim();
-                                Global.dbprefix = spnArea.getSelectedItem().toString().trim();
-                                String[] msgsplt = dResponse.getErrormsg().split("~");
-                                Global.netid = msgsplt[0];
-                                Global.hname = msgsplt[1];
-                                Global.ename = msgsplt[2];
-                                Global.ecode = msgsplt[3];
-                                intent.putExtra("openfrag", "home");
-                                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(LoginScreen.this, R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
-                                startActivity(intent, bndlanimation);
-                                finish();
+                                    progress.dismiss();
+                                    //Log.d("Errrrrrroooooorrrrr", dResponse.getErrormsg());
 
-                            } else {
+                                    if (!dResponse.isError()) {
+                                        // Log.d("message",loginResponse.getMessage());
+
+                                        Intent intent = new Intent(LoginScreen.this, HomeActivity.class);
+                                        intent.putExtra("ecode", uid.getText().toString().trim());
+                                        intent.putExtra("date", date.getText().toString().trim());
+                                        intent.putExtra("dbprefix", spnArea.getSelectedItem().toString().trim());
+                                        Global.ecode = uid.getText().toString().trim();
+                                        Global.date = date.getText().toString().trim();
+                                        Global.dbprefix = spnArea.getSelectedItem().toString().trim();
+                                        String[] msgsplt = dResponse.getErrormsg().split("~");
+                                        Global.netid = msgsplt[0];
+                                        Global.hname = msgsplt[1];
+                                        Global.ename = msgsplt[2];
+                                        Global.ecode = msgsplt[3];
+                                        intent.putExtra("openfrag", "home");
+                                        Bundle bndlanimation = ActivityOptions.makeCustomAnimation(LoginScreen.this, R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
+                                        startActivity(intent, bndlanimation);
+                                        finish();
+
+                                    } else {
                                 /*if (dResponse.getErrormsg().equalsIgnoreCase("Entered date exceeds current date")) {
                                     Snackbar snackbar = Snackbar.make(rl, dResponse.getErrormsg(), Snackbar.LENGTH_LONG);
                                     snackbar.show();
@@ -303,31 +302,31 @@ public class LoginScreen extends AppCompatActivity {
                                     Snackbar snackbar = Snackbar.make(rl, dResponse.getErrormsg(), Snackbar.LENGTH_LONG);
                                     snackbar.show();
                                 }*/
-                                Snackbar snackbar = Snackbar.make(rl, dResponse.getErrormsg(), Snackbar.LENGTH_LONG);
-                                snackbar.show();
-                            }
-                        }
+                                        Snackbar snackbar = Snackbar.make(rl, dResponse.getErrormsg(), Snackbar.LENGTH_LONG);
+                                        snackbar.show();
+                                    }
+                                }
 
-                        @Override
-                        public void onFailure(Call<DefaultResponse> call, Throwable t) {
-                            progress.dismiss();
-                            if (t instanceof IOException) {
-                                Snackbar snackbar = Snackbar.make(rl, "Internet Issue ! Failed to process your request !", Snackbar.LENGTH_LONG);
-                                snackbar.show();
-                            } else {
-                                Snackbar snackbar = Snackbar.make(rl, "Data Conversion Issue ! Contact to admin", Snackbar.LENGTH_LONG);
-                                snackbar.show();
-                            }
+                                @Override
+                                public void onFailure(Call<DefaultResponse> call, Throwable t) {
+                                    progress.dismiss();
+                                    if (t instanceof IOException) {
+                                        Snackbar snackbar = Snackbar.make(rl, "Internet Issue ! Failed to process your request !", Snackbar.LENGTH_LONG);
+                                        snackbar.show();
+                                    } else {
+                                        Snackbar snackbar = Snackbar.make(rl, "Data Conversion Issue ! Contact to admin", Snackbar.LENGTH_LONG);
+                                        snackbar.show();
+                                    }
+                                }
+                            });
                         }
-                    });
-                }
-                }
-            }, 1200);
+                    }
+                }, 1200);
 
-        }else{
-            requestStoragePermission();
-        }
-        }else{
+            } else {
+                requestStoragePermission();
+            }
+        } else {
             Snackbar snackbar = Snackbar
                     .make(rl, "Field to fetch data !", Snackbar.LENGTH_LONG)
                     .setAction("Re-Load", new View.OnClickListener() {
@@ -353,14 +352,14 @@ public class LoginScreen extends AppCompatActivity {
                 DBList res = response.body();
 
                 progress.dismiss();
-                List<String> arrayList =new ArrayList<>();
+                List<String> arrayList = new ArrayList<>();
                 String[] dblist = res.getDbnames().split(",");
-                for (String s: dblist) {
+                for (String s : dblist) {
                     arrayList.add(s);
                 }
                 callpermissiongranted = true;
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(LoginScreen.this,  R.layout.spinner_item, arrayList);
-                adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(LoginScreen.this, R.layout.spinner_item, arrayList);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spnArea.setAdapter(adapter);
 
             }
@@ -452,7 +451,7 @@ public class LoginScreen extends AppCompatActivity {
         startActivityForResult(intent, 101);
     }
 
-    public void notEncryptAlert(){
+    public void notEncryptAlert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle("Warning !");
@@ -466,4 +465,5 @@ public class LoginScreen extends AppCompatActivity {
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
-    }}
+    }
+}

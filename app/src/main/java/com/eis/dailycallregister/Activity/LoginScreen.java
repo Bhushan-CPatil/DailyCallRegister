@@ -466,4 +466,30 @@ public class LoginScreen extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
+    @Override
+    public void onBackPressed() {
+
+        //super.onBackPressed();
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginScreen.this);
+        builder.setCancelable(true);
+        builder.setTitle("EXIT ?");
+        builder.setMessage("Do you want to Exit ?");
+        builder.setPositiveButton("EXIT", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+                LoginScreen.this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+            }
+        });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        AlertDialog dialog2 = builder.create();
+        dialog2.show();
+
+    }
 }

@@ -81,7 +81,26 @@ public class HomeActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
+            AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+            builder.setCancelable(true);
+            builder.setTitle("EXIT ?");
+            builder.setMessage("Do you want to Exit ?");
+            builder.setPositiveButton("EXIT", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                    HomeActivity.this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+                }
+            });
+            builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            AlertDialog dialog2 = builder.create();
+            dialog2.show();
         }
     }
 

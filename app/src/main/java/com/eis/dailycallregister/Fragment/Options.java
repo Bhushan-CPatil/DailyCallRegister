@@ -79,19 +79,40 @@ public class Options extends Fragment {
         progressDialoge = new ViewDialog(getActivity());
         mTableLayout = view.findViewById(R.id.tableLayout);
         uploadcard = view.findViewById(R.id.uploadcard);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP){
+            // Do something for lollipop and above versions
+            if (Global.ecode.equalsIgnoreCase("01349") || Global.ecode.equalsIgnoreCase("01511") || Global.ecode.equalsIgnoreCase("01723") || Global.ecode.equalsIgnoreCase("01809") || Global.ecode.equalsIgnoreCase("02042") || Global.ecode.equalsIgnoreCase("02712")) {
+
+            }else{
+                dcr.setBackgroundTintList(getActivity().getResources().getColorStateList(R.color.textcolorgray));
+                mtp.setBackgroundTintList(getActivity().getResources().getColorStateList(R.color.textcolorgray));
+            }
+        } else{
+            // do something for phones running an SDK before lollipop
+            if (Global.ecode.equalsIgnoreCase("01349") || Global.ecode.equalsIgnoreCase("01511") || Global.ecode.equalsIgnoreCase("01723") || Global.ecode.equalsIgnoreCase("01809") || Global.ecode.equalsIgnoreCase("02042") || Global.ecode.equalsIgnoreCase("02712")) {
+
+            }else{
+                dcr.setRippleColor(getActivity().getResources().getColorStateList(R.color.textcolorgray));
+                mtp.setRippleColor(getActivity().getResources().getColorStateList(R.color.textcolorgray));
+            }
+        }
         Global.whichmth = null;
         dcr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //new Global().notAllowed(getActivity());
-                Intent intent = new Intent(getActivity(), HomeActivity.class);
-                intent.putExtra("ecode", Global.ecode);
-                intent.putExtra("date", Global.date);
-                intent.putExtra("dbprefix", Global.dbprefix);
-                intent.putExtra("openfrag", "dcr");
-                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
-                startActivity(intent, bndlanimation);
-                getActivity().finish();
+                if (Global.ecode.equalsIgnoreCase("01349") || Global.ecode.equalsIgnoreCase("01511") || Global.ecode.equalsIgnoreCase("01723") || Global.ecode.equalsIgnoreCase("01809") || Global.ecode.equalsIgnoreCase("02042") || Global.ecode.equalsIgnoreCase("02712")) {
+                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                    intent.putExtra("ecode", Global.ecode);
+                    intent.putExtra("date", Global.date);
+                    intent.putExtra("dbprefix", Global.dbprefix);
+                    intent.putExtra("openfrag", "dcr");
+                    Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
+                    startActivity(intent, bndlanimation);
+                    getActivity().finish();
+                } else {
+                    new Global().notAllowed(getActivity());
+                }
             }
         });
 
@@ -147,14 +168,18 @@ public class Options extends Fragment {
                 });
                 AlertDialog dialog2 = builder.create();
                 dialog2.show();*/
-                Intent intent = new Intent(getActivity(), HomeActivity.class);
-                intent.putExtra("ecode", Global.ecode);
-                intent.putExtra("date", Global.date);
-                intent.putExtra("dbprefix", Global.dbprefix);
-                intent.putExtra("openfrag", "mtp");
-                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
-                startActivity(intent, bndlanimation);
-                getActivity().finish();
+                if (Global.ecode.equalsIgnoreCase("01349") || Global.ecode.equalsIgnoreCase("01511") || Global.ecode.equalsIgnoreCase("01723") || Global.ecode.equalsIgnoreCase("01809") || Global.ecode.equalsIgnoreCase("02042") || Global.ecode.equalsIgnoreCase("02712")) {
+                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                    intent.putExtra("ecode", Global.ecode);
+                    intent.putExtra("date", Global.date);
+                    intent.putExtra("dbprefix", Global.dbprefix);
+                    intent.putExtra("openfrag", "mtp");
+                    Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
+                    startActivity(intent, bndlanimation);
+                    getActivity().finish();
+                } else {
+                    new Global().notAllowed(getActivity());
+                }
             }
         });
 
@@ -241,7 +266,7 @@ public class Options extends Fragment {
             public void onResponse(Call<MissCallDocsRes> call, Response<MissCallDocsRes> response) {
                 MissCallDocsRes res = response.body();
                 Global.misscallpopup = 1;
-                if (res.isMtpflg()) {
+                if (res.isMtpflg() && (Global.ecode.equalsIgnoreCase("01349") || Global.ecode.equalsIgnoreCase("01511") || Global.ecode.equalsIgnoreCase("01723") || Global.ecode.equalsIgnoreCase("01809") || Global.ecode.equalsIgnoreCase("02042") || Global.ecode.equalsIgnoreCase("02712"))) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setCancelable(true);
                     builder.setMessage("Next month MTP is ready to view.");

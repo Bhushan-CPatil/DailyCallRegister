@@ -138,15 +138,24 @@ public class HomeActivity extends AppCompatActivity
                 fragment = new Options();
                 break;
             case R.id.nav_dcr:
+
                 //new Global().notAllowed(HomeActivity.this);
-                fragment = new DCREntry();
+                if (Global.ecode.equalsIgnoreCase("01349") || Global.ecode.equalsIgnoreCase("01511") || Global.ecode.equalsIgnoreCase("01723") || Global.ecode.equalsIgnoreCase("01809") || Global.ecode.equalsIgnoreCase("02042") || Global.ecode.equalsIgnoreCase("02712")) {
+                    fragment = new DCREntry();
+                } else {
+                    new Global().notAllowed(HomeActivity.this);
+                }
                 break;
             case R.id.nav_file_upload:
                 fragment = new UploadVisitingCard();
                 break;
             case R.id.nav_mtp:
                 //new Global().notAllowed(HomeActivity.this);
-                fragment = new MTPConfirmation();
+                if (Global.ecode.equalsIgnoreCase("01349") || Global.ecode.equalsIgnoreCase("01511") || Global.ecode.equalsIgnoreCase("01723") || Global.ecode.equalsIgnoreCase("01809") || Global.ecode.equalsIgnoreCase("02042") || Global.ecode.equalsIgnoreCase("02712")) {
+                    fragment = new MTPConfirmation();
+                } else {
+                    new Global().notAllowed(HomeActivity.this);
+                }
                 break;
             case R.id.nav_help:
                 //new Global().notAllowed(HomeActivity.this);

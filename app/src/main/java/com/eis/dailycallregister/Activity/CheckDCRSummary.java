@@ -185,7 +185,7 @@ public class CheckDCRSummary extends AppCompatActivity {
                     AlertDialog.Builder builder = new AlertDialog.Builder(CheckDCRSummary.this);
                     builder.setCancelable(false);
                     builder.setTitle("Success");
-                    builder.setMessage(res.getErrormsg());
+                    builder.setMessage(Html.fromHtml(res.getErrormsg()));
                     builder.setPositiveButton("Next", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -194,6 +194,7 @@ public class CheckDCRSummary extends AppCompatActivity {
                                 String link = res.getPURL();
                                 Intent intent = new Intent(CheckDCRSummary.this, HomeActivity.class);
                                 intent.putExtra("openfrag", "home");
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 Bundle bndlanimation = ActivityOptions.makeCustomAnimation(CheckDCRSummary.this, R.anim.trans_right_in, R.anim.trans_right_out).toBundle();
                                 startActivity(intent, bndlanimation);
                                 finish();
@@ -204,6 +205,7 @@ public class CheckDCRSummary extends AppCompatActivity {
                                 new Global().clearGlobal("DCR");
                                 Intent intent = new Intent(CheckDCRSummary.this, HomeActivity.class);
                                 intent.putExtra("openfrag", "dcr");
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 Bundle bndlanimation = ActivityOptions.makeCustomAnimation(CheckDCRSummary.this, R.anim.trans_right_in, R.anim.trans_right_out).toBundle();
                                 startActivity(intent, bndlanimation);
                                 finish();

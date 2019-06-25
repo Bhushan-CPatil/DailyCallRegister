@@ -145,6 +145,22 @@ public class Global {
         return syr + "" + eyr;
     }
 
+    public static String getFullFinancialYr(String logMth, String logYr) {
+        String finStrtMth = "04";
+
+        int endMth = Integer.parseInt(finStrtMth) - 1;
+        int strtYr = getFinStrtYr(Integer.parseInt(finStrtMth), Integer.parseInt(logMth), Integer.parseInt(logYr));
+        int endYr = 0;
+
+        if (endMth == 0) {
+            endMth = 12;
+            endYr = strtYr;
+        } else {
+            endYr = strtYr + 1;
+        }
+        return strtYr + "-" + endYr;
+    }
+
 
     public static int getFinStrtYr(int strtMth, int logMth, int logYr) {
         if (logMth < strtMth) { //login date=012017 -> (logmth)01 <= (endMth)0

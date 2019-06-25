@@ -186,6 +186,7 @@ public class Options extends Fragment {
         if (Global.misscallpopup == 0) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+            //String datex = new SimpleDateFormat("yyyy-MM-15", Locale.getDefault()).format(new Date());
             String datex = new SimpleDateFormat("yyyy-MM-24", Locale.getDefault()).format(new Date());
             Calendar calendar1 = Calendar.getInstance();
             Calendar calendar2 = Calendar.getInstance();
@@ -266,6 +267,7 @@ public class Options extends Fragment {
             public void onResponse(Call<MissCallDocsRes> call, Response<MissCallDocsRes> response) {
                 MissCallDocsRes res = response.body();
                 Global.misscallpopup = 1;
+                // && (Global.ecode.equalsIgnoreCase("01349") || Global.ecode.equalsIgnoreCase("01511") || Global.ecode.equalsIgnoreCase("01723") || Global.ecode.equalsIgnoreCase("01809") || Global.ecode.equalsIgnoreCase("02042") || Global.ecode.equalsIgnoreCase("02712"))
                 if (res.isMtpflg() && (Global.ecode.equalsIgnoreCase("01349") || Global.ecode.equalsIgnoreCase("01511") || Global.ecode.equalsIgnoreCase("01723") || Global.ecode.equalsIgnoreCase("01809") || Global.ecode.equalsIgnoreCase("02042") || Global.ecode.equalsIgnoreCase("02712"))) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setCancelable(true);

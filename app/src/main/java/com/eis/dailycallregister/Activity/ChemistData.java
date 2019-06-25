@@ -831,7 +831,7 @@ public class ChemistData extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle("Delete ?");
-        builder.setMessage("Are you sure wants to delete ?");
+        builder.setMessage("Are you sure you want to delete ?");
         builder.setPositiveButton("Yes",
                 new DialogInterface.OnClickListener() {
                     @Override

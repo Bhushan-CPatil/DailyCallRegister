@@ -165,7 +165,7 @@ public class DCREntry extends Fragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setCancelable(true);
                 builder.setTitle("DCR ENTRY");
-                builder.setMessage("Are you sure want to fill DCR of date - " + spinnerHolDates.getSelectedItem().toString().trim());
+                builder.setMessage("Are you sure you want to fill DCR of date - " + spinnerHolDates.getSelectedItem().toString().trim());
                 builder.setPositiveButton("Yes",
                         new DialogInterface.OnClickListener() {
                             @Override
@@ -239,7 +239,7 @@ public class DCREntry extends Fragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setCancelable(true);
                 builder.setTitle("CONFIRM DCR ?");
-                builder.setMessage("Are you sure want to confirm DCR ?");
+                builder.setMessage("Are you sure you want to confirm DCR ?");
                 builder.setPositiveButton("Yes",
                         new DialogInterface.OnClickListener() {
                             @Override

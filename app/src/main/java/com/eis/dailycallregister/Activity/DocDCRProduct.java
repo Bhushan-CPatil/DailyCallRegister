@@ -191,6 +191,7 @@ public class DocDCRProduct extends AppCompatActivity {
                     builder.setNeutralButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            qgen = "";
                             submitentry();
                         }
                     });
@@ -257,7 +258,7 @@ public class DocDCRProduct extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(DocDCRProduct.this);
         builder.setCancelable(true);
         builder.setTitle("SUBMIT ?");
-        builder.setMessage("Are you sure want to submit ?");
+        builder.setMessage("Are you sure you want to submit ?");
         builder.setPositiveButton("Yes",
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -276,9 +277,12 @@ public class DocDCRProduct extends AppCompatActivity {
                             } else {
                                 iscompcall = "N";
                             }
-                            //Toast.makeText(DocDCRProduct.this, myCustomArray.toString(), Toast.LENGTH_LONG).show();
+
+
                             new DocDCRProduct.addProductEntry().execute(Global.ecode, Global.netid, serialwp, Global.dcrno, finyr, d1d2, field,
                                     myCustomArray.toString(), qgen, Global.dbprefix, cntcd, Global.dcrdate, compcall, spflag, pflag);
+                        }else{
+                            Toast.makeText(DocDCRProduct.this, "Records not saved !\nPlease go back and re submit the entry." ,Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -698,6 +702,7 @@ public class DocDCRProduct extends AppCompatActivity {
                 }
 
             } catch (JSONException e) {
+                //todo handle exception
                 e.printStackTrace();
             }
         }

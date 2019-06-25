@@ -52,7 +52,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="12"
+            android:layout_weight="11"
             android:id="@+id/llt"
             android:background="@color/textcolorwhite">
             <android.support.v7.widget.RecyclerView
@@ -62,6 +62,27 @@
                 android:id="@+id/mtptownlist">
 
             </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:background="@color/textcolorwhite"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Select Month"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:id="@+id/selmth"
+                android:textColor="@color/textcolorred"
+                android:textSize="18dp"
+                />
+
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

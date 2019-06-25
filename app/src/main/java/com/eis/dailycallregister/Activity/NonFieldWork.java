@@ -156,7 +156,7 @@ public class NonFieldWork extends AppCompatActivity {
                     AlertDialog.Builder builder = new AlertDialog.Builder(NonFieldWork.this);
                     builder.setCancelable(true);
                     builder.setTitle("ADD ?");
-                    builder.setMessage("Are you sure wants to add?");
+                    builder.setMessage("Are you sure you want to add?");
                     builder.setPositiveButton("Yes",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -762,7 +762,7 @@ public class NonFieldWork extends AppCompatActivity {
                                                        AlertDialog.Builder builder = new AlertDialog.Builder(NonFieldWork.this);
                                                        builder.setCancelable(true);
                                                        builder.setTitle("DELETE ?");
-                                                       builder.setMessage("Are you sure wants to Delete ?");
+                                                       builder.setMessage("Are you sure you want to Delete ?");
                                                        builder.setPositiveButton("Yes",
                                                                new DialogInterface.OnClickListener() {
                                                                    @Override

@@ -2,6 +2,7 @@ package com.eis.dailycallregister.Fragment;
 
 import android.app.ActivityOptions;
 import android.graphics.Color;
+import android.support.design.button.MaterialButton;
 import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -71,7 +72,7 @@ public class MTPConfirmation extends Fragment {
 
     View view;
     public RelativeLayout rtl;
-    public TextView confirm, alconf;
+    public TextView confirm, alconf, selmth;
     ViewDialog progressDialoge;
     //AdaptiveTableLayout mTableLayout;
     RecyclerView mtptownlist;
@@ -105,6 +106,7 @@ public class MTPConfirmation extends Fragment {
         llt = view.findViewById(R.id.llt);
         confirm = view.findViewById(R.id.confirm);
         alconf = view.findViewById(R.id.alconf);
+        selmth = view.findViewById(R.id.selmth);
         mtptownlist = view.findViewById(R.id.mtptownlist);
         progressDialoge = new ViewDialog(getActivity());
         //mTableLayout = view.findViewById(R.id.mtptable);
@@ -138,6 +140,7 @@ public class MTPConfirmation extends Fragment {
         //callapi();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        //String datex = new SimpleDateFormat("yyyy-MM-15", Locale.getDefault()).format(new Date());
         String datex = new SimpleDateFormat("yyyy-MM-24", Locale.getDefault()).format(new Date());
         Calendar calendar1 = Calendar.getInstance();
         Calendar calendar2 = Calendar.getInstance();
@@ -157,36 +160,251 @@ public class MTPConfirmation extends Fragment {
         //Toast.makeText(getActivity(),datex +"///"+ date , Toast.LENGTH_LONG).show();
         if (calendar2.compareTo(calendar1) < 0) {
             Global.whichmth = "CURRENT";
-            callnewapi();
+            String[] logdate = Global.date.split("-");
+            callnewapi(logdate[0], logdate[1]);
         } else {
             //Toast.makeText(getActivity(), "show MTP", Toast.LENGTH_LONG).show();
             if (Global.whichmth == null) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setCancelable(true);
                 builder.setTitle("Alert ?");
-                builder.setMessage("Which month of MTP you wants to view ?");
+                builder.setMessage("Which month's MTP do you want to view ?");
                 builder.setPositiveButton("NEXT", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Global.whichmth = "NEXT";
-                        callnewapi();
+                        String[] logdate = Global.date.split("-");
+                        callnewapi(logdate[0], logdate[1]);
                     }
                 });
-                builder.setNeutralButton("CURRENT", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("CURRENT", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //new Global().notAllowed(getActivity());
                         Global.whichmth = "CURRENT";
-                        callnewapi();
+                        String[] logdate = Global.date.split("-");
+                        callnewapi(logdate[0], logdate[1]);
+                    }
+                });
+                builder.setNeutralButton("SELECTED", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String[] logdate = Global.date.split("-");
+                        String finyr = Global.getFullFinancialYr(logdate[1],logdate[0]);
+                        String[] finayr = finyr.split("-");
+                        showMonthPopup(finayr[0],finayr[1],"Financial Year "+finyr,logdate[1]);
                     }
                 });
                 AlertDialog dialog2 = builder.create();
                 dialog2.show();
             } else {
-                callnewapi();
+                String[] logdate = Global.date.split("-");
+                callnewapi(logdate[0], logdate[1]);
             }
         }
+
+        selmth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String[] logdate = Global.date.split("-");
+                String finyr = Global.getFullFinancialYr(logdate[1],logdate[0]);
+                String[] finayr = finyr.split("-");
+                showMonthPopup(finayr[0],finayr[1],"Financial Year "+finyr,logdate[1]);
+            }
+        });
+
         return view;
+    }
+
+    private void showMonthPopup(final String styr, final String endyr, String header, String curmth) {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.monthspopup);
+        MaterialButton jan = dialog.findViewById(R.id.jan);
+        MaterialButton feb = dialog.findViewById(R.id.feb);
+        MaterialButton mar = dialog.findViewById(R.id.mar);
+        MaterialButton apr = dialog.findViewById(R.id.apr);
+        MaterialButton may = dialog.findViewById(R.id.may);
+        MaterialButton jun = dialog.findViewById(R.id.jun);
+        MaterialButton jul = dialog.findViewById(R.id.jul);
+        MaterialButton aug = dialog.findViewById(R.id.aug);
+        MaterialButton sep = dialog.findViewById(R.id.sep);
+        MaterialButton oct = dialog.findViewById(R.id.oct);
+        MaterialButton nov = dialog.findViewById(R.id.nov);
+        MaterialButton dec = dialog.findViewById(R.id.dec);
+        TextView textView = dialog.findViewById(R.id.header);
+        textView.setText(header);
+        //jan.setEnabled(false);
+        if(Integer.parseInt(curmth) == 4){
+            jan.setEnabled(false);
+            feb.setEnabled(false);
+            mar.setEnabled(false);
+            jun.setEnabled(false);
+            jul.setEnabled(false);
+            aug.setEnabled(false);
+            sep.setEnabled(false);
+            oct.setEnabled(false);
+            nov.setEnabled(false);
+            dec.setEnabled(false);
+        }else if(Integer.parseInt(curmth) == 5){
+            jan.setEnabled(false);
+            feb.setEnabled(false);
+            mar.setEnabled(false);
+            jul.setEnabled(false);
+            aug.setEnabled(false);
+            sep.setEnabled(false);
+            oct.setEnabled(false);
+            nov.setEnabled(false);
+            dec.setEnabled(false);
+        }else if(Integer.parseInt(curmth) == 6){
+            jan.setEnabled(false);
+            feb.setEnabled(false);
+            mar.setEnabled(false);
+            aug.setEnabled(false);
+            sep.setEnabled(false);
+            oct.setEnabled(false);
+            nov.setEnabled(false);
+            dec.setEnabled(false);
+        }else if(Integer.parseInt(curmth) == 7){
+            jan.setEnabled(false);
+            feb.setEnabled(false);
+            mar.setEnabled(false);
+            sep.setEnabled(false);
+            oct.setEnabled(false);
+            nov.setEnabled(false);
+            dec.setEnabled(false);
+        }else if(Integer.parseInt(curmth) == 8){
+            jan.setEnabled(false);
+            feb.setEnabled(false);
+            mar.setEnabled(false);
+            oct.setEnabled(false);
+            nov.setEnabled(false);
+            dec.setEnabled(false);
+        }else if(Integer.parseInt(curmth) == 9){
+            jan.setEnabled(false);
+            feb.setEnabled(false);
+            mar.setEnabled(false);
+            nov.setEnabled(false);
+            dec.setEnabled(false);
+        }else if(Integer.parseInt(curmth) == 10){
+            jan.setEnabled(false);
+            feb.setEnabled(false);
+            mar.setEnabled(false);
+            dec.setEnabled(false);
+        }else if(Integer.parseInt(curmth) == 11){
+            jan.setEnabled(false);
+            feb.setEnabled(false);
+            mar.setEnabled(false);
+        }else if(Integer.parseInt(curmth) == 12){
+            feb.setEnabled(false);
+            mar.setEnabled(false);
+        }else if(Integer.parseInt(curmth) == 1){
+            mar.setEnabled(false);
+        }
+
+        jan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Global.whichmth = "SELECTED";
+                callnewapi(endyr, "01");
+                dialog.dismiss();
+            }
+        });
+        feb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Global.whichmth = "SELECTED";
+                callnewapi(endyr, "02");
+                dialog.dismiss();
+            }
+        });
+        mar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Global.whichmth = "SELECTED";
+                callnewapi(endyr, "03");
+                dialog.dismiss();
+            }
+        });
+        apr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Global.whichmth = "SELECTED";
+                callnewapi(styr, "04");
+                dialog.dismiss();
+            }
+        });
+        may.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Global.whichmth = "SELECTED";
+                callnewapi(styr, "05");
+                dialog.dismiss();
+            }
+        });
+        jun.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Global.whichmth = "SELECTED";
+                callnewapi(styr, "06");
+                dialog.dismiss();
+            }
+        });
+        jul.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Global.whichmth = "SELECTED";
+                callnewapi(styr, "07");
+                dialog.dismiss();
+            }
+        });
+        aug.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Global.whichmth = "SELECTED";
+                callnewapi(styr, "08");
+                dialog.dismiss();
+            }
+        });
+        sep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Global.whichmth = "SELECTED";
+                callnewapi(styr, "09");
+                dialog.dismiss();
+            }
+        });
+        oct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Global.whichmth = "SELECTED";
+                callnewapi(styr, "10");
+                dialog.dismiss();
+            }
+        });
+        nov.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Global.whichmth = "SELECTED";
+                callnewapi(styr, "11");
+                dialog.dismiss();
+            }
+        });
+        dec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Global.whichmth = "SELECTED";
+                callnewapi(styr, "12");
+                dialog.dismiss();
+            }
+        });
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 
     private void confmtp() {
@@ -202,8 +420,11 @@ public class MTPConfirmation extends Fragment {
                     if (res.getErrormsg().equalsIgnoreCase("Successfully Confirmed.")) {
                         confirm.setEnabled(false);
                         confirm.setVisibility(View.GONE);
+                        //llt.setVisibility(View.GONE);
+                        mtpconfirmed = true;
                         alconf.setText(res.getErrormsg());
                         alconf.setVisibility(View.VISIBLE);
+                        mtptownlist.getAdapter().notifyDataSetChanged();
                     }
                 }
             }
@@ -384,10 +605,10 @@ public class MTPConfirmation extends Fragment {
         dialog.getWindow().setAttributes(lp);
     }*/
 
-    private void callnewapi() {
-        String[] logdate = Global.date.split("-");
+    private void callnewapi(final String selyr, final String selmth) {
+
         progressDialoge.show();
-        Call<NewMTPListOfMTHRes> call = RetrofitClient.getInstance().getApi().getMTPListOfMth(Global.ecode, Global.netid, logdate[0], logdate[1], Global.whichmth, Global.dbprefix);
+        Call<NewMTPListOfMTHRes> call = RetrofitClient.getInstance().getApi().getMTPListOfMth(Global.ecode, Global.netid, selyr, selmth, Global.whichmth, Global.dbprefix);
         call.enqueue(new Callback<NewMTPListOfMTHRes>() {
             @Override
             public void onResponse(Call<NewMTPListOfMTHRes> call, Response<NewMTPListOfMTHRes> response) {
@@ -397,6 +618,7 @@ public class MTPConfirmation extends Fragment {
                     if (res.isConfirmed()) {
                         mtpconfirmed = res.isConfirmed();
                         alconf.setText(res.getErrormsg());
+                        confirm.setVisibility(View.GONE);
                         alconf.setVisibility(View.VISIBLE);
                         mtplst = res.getMtptownlist();
 
@@ -408,6 +630,7 @@ public class MTPConfirmation extends Fragment {
                     } else {
                         mtpconfirmed = res.isConfirmed();
                         confirm.setText(res.getErrormsg());
+                        alconf.setVisibility(View.GONE);
                         confirm.setVisibility(View.VISIBLE);
                         confirm.setEnabled(true);
                         mtplst = res.getMtptownlist();
@@ -421,6 +644,7 @@ public class MTPConfirmation extends Fragment {
                 } else {
                     alconf.setText(res.getErrormsg());
                     alconf.setVisibility(View.VISIBLE);
+                    confirm.setVisibility(View.GONE);
                     llt.setVisibility(View.GONE);
                 }
             }
@@ -431,7 +655,7 @@ public class MTPConfirmation extends Fragment {
                 Snackbar.make(rtl, "Failed to get MTP details !", Snackbar.LENGTH_LONG).setAction("Try Again", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        callnewapi();
+                        callnewapi(selyr,selmth);
                     }
                 }).show();
             }

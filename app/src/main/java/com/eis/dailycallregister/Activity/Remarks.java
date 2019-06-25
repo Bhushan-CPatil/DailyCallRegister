@@ -54,7 +54,7 @@ public class Remarks extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(Remarks.this);
                 builder.setCancelable(true);
                 builder.setTitle("Save ?");
-                builder.setMessage("Are you sure wants to save remark ?");
+                builder.setMessage("Are you sure you want to save remark ?");
                 builder.setPositiveButton("Yes",
                         new DialogInterface.OnClickListener() {
                             @Override

@@ -122,7 +122,7 @@ public class DocDCRGift extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(DocDCRGift.this);
                 builder.setCancelable(true);
                 builder.setTitle("SUBMIT ?");
-                builder.setMessage("Are you sure want to submit ?");
+                builder.setMessage("Are you sure you want to submit ?");
                 builder.setPositiveButton("Yes",
                         new DialogInterface.OnClickListener() {
                             @Override

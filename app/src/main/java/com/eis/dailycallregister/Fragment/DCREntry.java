@@ -513,22 +513,35 @@ public class DCREntry extends Fragment {
         });
     }
 
-    public void dialogCloseTypeError(final Context context,String errormsg){
+    public void dialogCloseTypeError(final Context context, final String errormsg){
         final Dialog dialog = new Dialog(context);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.mtperror);
         CardView button = dialog.findViewById(R.id.close);
+        TextView closebtn = dialog.findViewById(R.id.closebtn);
+        if(errormsg.equalsIgnoreCase("Next month MTP is not \nconfirmed or approved.")){
+            closebtn.setText("VIEW MTP");
+        }
         TextView textView = dialog.findViewById(R.id.questiontxt);
         textView.setText(errormsg);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), HomeActivity.class);
-                intent.putExtra("openfrag","home");
-                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_right_in,R.anim.trans_right_out).toBundle();
-                startActivity(intent,bndlanimation);
+                if(errormsg.equalsIgnoreCase("Next month MTP is not \nconfirmed or approved.")){
+                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                    intent.putExtra("openfrag", "mtp");
+                    Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_right_in, R.anim.trans_right_out).toBundle();
+                    startActivity(intent, bndlanimation);
+                    getActivity().finish();
+                }else {
+                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                    intent.putExtra("openfrag", "home");
+                    Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_right_in, R.anim.trans_right_out).toBundle();
+                    startActivity(intent, bndlanimation);
+                    getActivity().finish();
+                }
             }
         });
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
@@ -877,6 +890,7 @@ public class DCREntry extends Fragment {
                 intent.putExtra("openfrag","home");
                 Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_right_in,R.anim.trans_right_out).toBundle();
                 startActivity(intent,bndlanimation);
+                getActivity().finish();
                 dialog.dismiss();
             }
         });

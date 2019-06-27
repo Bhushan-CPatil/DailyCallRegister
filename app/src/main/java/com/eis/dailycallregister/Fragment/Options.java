@@ -4,7 +4,6 @@ import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.button.MaterialButton;
 import android.support.design.widget.Snackbar;
@@ -12,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.CardView;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +26,6 @@ import com.cleveroad.adaptivetablelayout.LinkedAdaptiveTableAdapter;
 import com.cleveroad.adaptivetablelayout.OnItemClickListener;
 import com.cleveroad.adaptivetablelayout.OnItemLongClickListener;
 import com.eis.dailycallregister.Activity.HomeActivity;
-import com.eis.dailycallregister.Activity.LoginScreen;
 import com.eis.dailycallregister.Api.RetrofitClient;
 import com.eis.dailycallregister.Others.Global;
 import com.eis.dailycallregister.Others.SampleLinkedTableAdapter;
@@ -106,8 +103,15 @@ public class Options extends  Fragment {
         mtp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Global().notAllowed(getActivity());
-
+                //new Global().notAllowed(getActivity());
+                Intent intent = new Intent(getActivity(),HomeActivity.class);
+                intent.putExtra("ecode", Global.ecode);
+                intent.putExtra("date",Global.date);
+                intent.putExtra("dbprefix",Global.dbprefix);
+                intent.putExtra("openfrag","mtp");
+                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in,R.anim.trans_left_out).toBundle();
+                startActivity(intent,bndlanimation);
+                getActivity().finish();
             }
         });
 

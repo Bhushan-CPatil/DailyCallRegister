@@ -47,6 +47,11 @@ public class SampleLinkedTableAdapter extends LinkedAdaptiveTableAdapter<ViewHol
             mRowHeight = res.getDimensionPixelSize(R.dimen.row_height2);
             mHeaderHeight = res.getDimensionPixelSize(R.dimen.column_header_height2);
             mHeaderWidth = res.getDimensionPixelSize(R.dimen.row_header_width2);
+        }else if(mode.equalsIgnoreCase("3")){
+            mColumnWidth = res.getDimensionPixelSize(R.dimen.column_width3);
+            mRowHeight = res.getDimensionPixelSize(R.dimen.row_height3);
+            mHeaderHeight = res.getDimensionPixelSize(R.dimen.column_header_height3);
+            mHeaderWidth = res.getDimensionPixelSize(R.dimen.row_header_width3);
         }
     }
 

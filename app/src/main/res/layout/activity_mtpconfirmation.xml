@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/rtl"
-    tools:context=".Activity.MTPConfirmation">
+    tools:context=".Fragment.MTPConfirmation">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,6 +16,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="vertical"
+            android:background="@color/charcoal"
             android:padding="8dp">
 
             <TextView
@@ -52,6 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="12"
+            android:id="@+id/llt"
             android:background="@color/medium_jungle_green">
             <com.cleveroad.adaptivetablelayout.AdaptiveTableLayout
                 android:id="@+id/mtptable"

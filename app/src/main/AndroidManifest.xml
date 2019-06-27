@@ -21,7 +21,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.MTPConfirmation"></activity>
         <activity android:name=".Activity.CheckDCRSummary" />
         <activity android:name=".Activity.ChemDCRGift" />
         <activity android:name=".Activity.DocDCRProduct" />

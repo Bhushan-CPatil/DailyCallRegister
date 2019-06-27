@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.eis.dailycallregister.Fragment.DCREntry;
 import com.eis.dailycallregister.Fragment.Help;
+import com.eis.dailycallregister.Fragment.MTPConfirmation;
 import com.eis.dailycallregister.Fragment.Options;
 import com.eis.dailycallregister.Fragment.UploadVisitingCard;
 import com.eis.dailycallregister.Others.Global;
@@ -67,6 +68,8 @@ public class HomeActivity extends AppCompatActivity
             displaySelectedScreen(R.id.nav_file_upload);
         }else if(getIntent().getStringExtra("openfrag").equalsIgnoreCase("home")){
             displaySelectedScreen(R.id.nav_home);
+        }else if(getIntent().getStringExtra("openfrag").equalsIgnoreCase("mtp")){
+            displaySelectedScreen(R.id.nav_mtp);
         }
     }
 
@@ -121,7 +124,8 @@ public class HomeActivity extends AppCompatActivity
                 fragment = new UploadVisitingCard();
                 break;
             case R.id.nav_mtp:
-                new Global().notAllowed(HomeActivity.this);
+                //new Global().notAllowed(HomeActivity.this);
+                fragment = new MTPConfirmation();
                 break;
             case R.id.nav_help:
                 //new Global().notAllowed(HomeActivity.this);

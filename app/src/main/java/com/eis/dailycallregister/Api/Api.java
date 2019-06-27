@@ -19,6 +19,7 @@ import com.eis.dailycallregister.Pojo.GetDCRSummaryMainRes;
 import com.eis.dailycallregister.Pojo.GetDcrDateRes;
 import com.eis.dailycallregister.Pojo.GetPopupQuesRes;
 import com.eis.dailycallregister.Pojo.MissCallDocsRes;
+import com.eis.dailycallregister.Pojo.NextMTPListRes;
 import com.eis.dailycallregister.Pojo.NonFieldWrkRes;
 import com.eis.dailycallregister.Pojo.QseraPopUpRes;
 import com.eis.dailycallregister.Pojo.RedicnePopUpRes;
@@ -503,4 +504,26 @@ public interface Api {
             @Field("logmth") String logmth,
             @Field("DBPrefix") String dbprefix
     );
+
+    @FormUrlEncoded
+    @POST("nextMthMTPConf.php")
+    Call<NextMTPListRes> nextMthMTPConf(
+            @Field("ecode") String ecode,
+            @Field("netid") String netid,
+            @Field("wyr") String wyr,
+            @Field("wmonth") String wmonth,
+            @Field("DBPrefix") String dbprefix
+    );
+
+    @FormUrlEncoded
+    @POST("confirmMTP.php")
+    Call<DefaultResponse> confirmMTP(
+            @Field("ecode") String ecode,
+            @Field("netid") String netid,
+            @Field("yr") String yr,
+            @Field("mth") String mth,
+            @Field("DBPrefix") String dbprefix
+    );
+
+
 }

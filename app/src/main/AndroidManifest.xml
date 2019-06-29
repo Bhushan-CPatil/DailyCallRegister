@@ -21,9 +21,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.CheckDCRSummary" />
-        <activity android:name=".Activity.ChemDCRGift" />
-        <activity android:name=".Activity.DocDCRProduct" />
+        <activity android:name=".Activity.CheckDCRSummary"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.ChemDCRGift"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.DocDCRProduct"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activity.DocDCRGift"
             android:screenOrientation="portrait" />

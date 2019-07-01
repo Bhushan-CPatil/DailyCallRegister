@@ -141,7 +141,7 @@ public class MTPConfirmation extends Fragment {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         //String datex = new SimpleDateFormat("yyyy-MM-15", Locale.getDefault()).format(new Date());
-        String datex = new SimpleDateFormat("yyyy-MM-24", Locale.getDefault()).format(new Date());
+        String datex = new SimpleDateFormat("yyyy-MM-15", Locale.getDefault()).format(new Date());
         Calendar calendar1 = Calendar.getInstance();
         Calendar calendar2 = Calendar.getInstance();
 

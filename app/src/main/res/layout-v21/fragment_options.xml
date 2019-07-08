@@ -94,6 +94,21 @@
         app:cornerRadius="8dp"
         app:rippleColor="@color/textcolorwhite"/>
 
+    <android.support.design.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:text="Visit Plan Summary"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="5sp"
+        android:autoSizeMaxTextSize="18sp"
+        android:autoSizeStepGranularity="1sp"
+        android:id="@+id/vps"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        app:cornerRadius="8dp"
+        app:rippleColor="@color/textcolorwhite"/>
+
     <!--<android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="60dp"

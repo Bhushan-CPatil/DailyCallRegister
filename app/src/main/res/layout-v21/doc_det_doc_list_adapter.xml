@@ -18,14 +18,14 @@
             android:id="@+id/drname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_gravity="center"
             android:textColor="#4D4D4D"
-            android:layout_weight="16"
+            android:layout_weight="15"
             android:singleLine="true"
             android:ellipsize="end"
-            android:textSize="18sp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
+            android:textSize="16sp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
             android:gravity="left"/>
         <ImageButton
             android:layout_width="35dp"
@@ -53,6 +53,15 @@
             android:backgroundTint="@color/transparentcolor"
             android:layout_marginRight="5dp"
             android:src="@drawable/ic_remarks"/>
+
+        <ImageButton
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:id="@+id/rcpa"
+            android:backgroundTint="@color/transparentcolor"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic_rcpa"/>
 
         <ImageButton
             android:layout_width="35dp"

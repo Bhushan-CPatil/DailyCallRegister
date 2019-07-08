@@ -150,6 +150,7 @@
                         android:autoSizeTextType="uniform"
                         android:autoSizeMinTextSize="1sp"
                         android:autoSizeMaxTextSize="14sp"
+                        android:spinnerMode="dialog"
                         android:autoSizeStepGranularity="1sp"
                         android:layout_marginLeft="12dp" />
                 </LinearLayout>

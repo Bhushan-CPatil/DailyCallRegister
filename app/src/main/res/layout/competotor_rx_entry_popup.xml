@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="12"
+        android:focusableInTouchMode="true"
+        android:layout_margin="8dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="9"
+            android:textSize="16sp"
+            android:id="@+id/compname"
+            android:text="Competitor name"
+            android:singleLine="true"
+            android:ellipsize="end"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="RX QTY"
+            android:textSize="15sp"
+            android:id="@+id/comprxqty"
+            android:layout_weight="3"
+            android:layout_marginLeft="5dp"
+            android:digits="0123456789"
+            android:inputType="number"
+            android:maxLength="4" />
+    </LinearLayout>
+
+</android.support.design.card.MaterialCardView>

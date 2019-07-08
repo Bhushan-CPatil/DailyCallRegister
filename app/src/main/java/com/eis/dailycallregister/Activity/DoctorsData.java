@@ -780,6 +780,23 @@ public class DoctorsData extends AppCompatActivity {
                                                startActivity(intent, bndlanimation);
                                            }
                                        });
+
+                                       myHolder.rcpa.setOnClickListener(new View.OnClickListener() {
+                                           @Override
+                                           public void onClick(View v) {
+                                               Intent intent = new Intent(DoctorsData.this, DCRRCPA.class);
+                                               intent.putExtra("serial", "DR" + model.getSerial());
+                                               intent.putExtra("oserial", model.getSerial());
+                                               intent.putExtra("cntcd", model.getCntCD());
+                                               intent.putExtra("wnetid", model.getWNetID());
+                                               intent.putExtra("drname", "Doctor Name - " + model.getDrname());
+                                               intent.putExtra("compcall", model.getCompletecall());
+                                               intent.putExtra("position", Integer.toString(i));
+                                               intent.putExtra("drclass", model.getJsonMemberClass());
+                                               Bundle bndlanimation = ActivityOptions.makeCustomAnimation(DoctorsData.this, R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
+                                               startActivity(intent, bndlanimation);
+                                           }
+                                       });
                                    }
 
                                    @Override
@@ -789,7 +806,7 @@ public class DoctorsData extends AppCompatActivity {
 
                                    class Holder extends RecyclerView.ViewHolder {
                                        TextView drname;
-                                       ImageButton productentry, giftentry, remarks, deletedoc;
+                                       ImageButton productentry, giftentry, remarks, deletedoc, rcpa;
 
                                        public Holder(@NonNull View itemView) {
                                            super(itemView);
@@ -798,6 +815,7 @@ public class DoctorsData extends AppCompatActivity {
                                            giftentry = itemView.findViewById(R.id.giftentry);
                                            remarks = itemView.findViewById(R.id.remarks);
                                            deletedoc = itemView.findViewById(R.id.deletedoc);
+                                           rcpa = itemView.findViewById(R.id.rcpa);
                                        }
                                    }
                                }

@@ -19,6 +19,9 @@ import com.eis.dailycallregister.Pojo.FetchExpdtRes;
 import com.eis.dailycallregister.Pojo.GetDCRSummaryMainRes;
 import com.eis.dailycallregister.Pojo.GetDcrDateRes;
 import com.eis.dailycallregister.Pojo.GetPopupQuesRes;
+import com.eis.dailycallregister.Pojo.GetRCPABrandListRes;
+import com.eis.dailycallregister.Pojo.GetRCPACompProdLstRes;
+import com.eis.dailycallregister.Pojo.GetRCPAPulseChemist;
 import com.eis.dailycallregister.Pojo.IsDCRCorrectRes;
 import com.eis.dailycallregister.Pojo.MissCallDocsRes;
 import com.eis.dailycallregister.Pojo.NewMTPListOfMTHRes;
@@ -570,6 +573,18 @@ public interface Api {
     );
 
     @FormUrlEncoded
+    @POST("addRCPAEntry.php")
+    Call<DefaultResponse> addRCPAEntry(
+            @Field("cntcd") String cntcd,
+            @Field("netid") String netid,
+            @Field("yrmth") String yrmth,
+            @Field("prodid") String prodid,
+            @Field("brdrx") String brdrx,
+            @Field("jsonarray   ") String jsonarray,
+            @Field("DBPrefix") String dbprefix
+    );
+
+    @FormUrlEncoded
     @POST("editMTPEntry.php")
     Call<EditMtpFormResponse> editMTPEntry(
             @Field("ecode") String ecode,
@@ -589,6 +604,33 @@ public interface Api {
             @Field("objctv") String objctv,
             @Field("mngrjtwrk") String mngrjtwrk,
             @Field("prevtcpid") String prevtcpid,
+            @Field("DBPrefix") String dbprefix
+    );
+
+    @FormUrlEncoded
+    @POST("rcpa_chemist.php")
+    Call<GetRCPAPulseChemist> rcpa_chemist(
+            @Field("cntcd") String cntcd,
+            @Field("netid") String netid,
+            @Field("DBPrefix") String dbprefix
+    );
+
+    @FormUrlEncoded
+    @POST("rcpa_brands.php")
+    Call<GetRCPABrandListRes> rcpa_brands(
+            @Field("cntcd") String cntcd,
+            @Field("netid") String netid,
+            @Field("yrmth") String yrmth,
+            @Field("DBPrefix") String dbprefix
+    );
+
+    @FormUrlEncoded
+    @POST("rcpa_comp_prod.php")
+    Call<GetRCPACompProdLstRes> rcpa_comp_prod(
+            @Field("cntcd") String cntcd,
+            @Field("netid") String netid,
+            @Field("yrmth") String yrmth,
+            @Field("prodid") String prodid,
             @Field("DBPrefix") String dbprefix
     );
 

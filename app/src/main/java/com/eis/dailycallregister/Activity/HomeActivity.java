@@ -140,7 +140,7 @@ public class HomeActivity extends AppCompatActivity
             case R.id.nav_dcr:
 
                 //new Global().notAllowed(HomeActivity.this);
-                if (Global.ecode.equalsIgnoreCase("01349") || Global.ecode.equalsIgnoreCase("01511") || Global.ecode.equalsIgnoreCase("01723") || Global.ecode.equalsIgnoreCase("01809") || Global.ecode.equalsIgnoreCase("02042") || Global.ecode.equalsIgnoreCase("02712")) {
+                if (Global.ecode.equalsIgnoreCase("01444") || Global.ecode.equalsIgnoreCase("01349") || Global.ecode.equalsIgnoreCase("01511") || Global.ecode.equalsIgnoreCase("01723") || Global.ecode.equalsIgnoreCase("01809") || Global.ecode.equalsIgnoreCase("02042") || Global.ecode.equalsIgnoreCase("02712")) {
                     fragment = new DCREntry();
                 } else {
                     new Global().notAllowed(HomeActivity.this);

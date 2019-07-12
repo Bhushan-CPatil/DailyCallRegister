@@ -112,7 +112,9 @@ public class VisitPlanSummary extends Fragment {
                                     final VSTPSUMItem model = fullsumm.get(i);
                                     myHolder.drname.setText("DR Name - "+model.getDrname());
                                     myHolder.svlno.setText(model.getDrcd());
-                                    myHolder.latesprec.setText(Html.fromHtml(model.getLatesprec()));
+                                    String[] xda = model.getLatesprec().split("~");
+                                    myHolder.latesprec.setText(Html.fromHtml(xda[0]));
+                                    myHolder.drremark.setText(xda[1]);
                                     myHolder.PD1.setText(model.getMth1());
                                     myHolder.PD2.setText(model.getMth2());
                                     myHolder.PD3.setText(model.getMth3());
@@ -164,7 +166,7 @@ public class VisitPlanSummary extends Fragment {
                                 }
 
                                 class Holder extends RecyclerView.ViewHolder {
-                                    TextView drname,svlno,latesprec,PD1,PD2,PD3,VPD1,VPD2,VPD3,AD1,AD2,AD3,VAD1,VAD2,VAD3;
+                                    TextView drname,svlno,latesprec,PD1,PD2,PD3,VPD1,VPD2,VPD3,AD1,AD2,AD3,VAD1,VAD2,VAD3,drremark;
                                     TextView RD1,RD2,RD3,VRD1,VRD2,VRD3,PC1,PC2,PC3,VPC1,VPC2,VPC3,AC1,AC2,AC3,VAC1,VAC2,VAC3;
                                     TextView RC1,RC2,RC3,VRC1,VRC2,VRC3,pulsechem,noofpatient,fee,noofwrk,result,conday,contime;
 
@@ -173,6 +175,7 @@ public class VisitPlanSummary extends Fragment {
                                         drname = itemView.findViewById(R.id.drname);
                                         svlno = itemView.findViewById(R.id.svlno);
                                         latesprec = itemView.findViewById(R.id.latesprec);
+                                        drremark = itemView.findViewById(R.id.drremark);
                                         PD1 = itemView.findViewById(R.id.PD1);
                                         PD2 = itemView.findViewById(R.id.PD2);
                                         PD3 = itemView.findViewById(R.id.PD3);

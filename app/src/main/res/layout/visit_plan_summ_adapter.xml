@@ -784,6 +784,40 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:text="DR REMARK"
+                    android:layout_gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/drremark"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:paddingRight="8dp"
+                    android:gravity="end"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/textcolorgray"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="NO. OF PATIENTS"
                     android:layout_gravity="center"
                     android:paddingLeft="8dp"

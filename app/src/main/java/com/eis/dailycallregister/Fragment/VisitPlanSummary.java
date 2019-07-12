@@ -285,6 +285,7 @@ public class VisitPlanSummary extends Fragment {
     private void getSummary(String newdate, String finyr, String prevfinyr) {
         date.setText(newdate);
         tourlist.setVisibility(View.GONE);
+        fullsumm.clear();
         progressDialoge.show();
         retrofit2.Call<VstPlnSumRes> call = RetrofitClient.getInstance().getApi().getVisitPlanSummary(Global.netid,prevfinyr,finyr,newdate,Global.dbprefix);
         call.enqueue(new Callback<VstPlnSumRes>() {
@@ -296,6 +297,7 @@ public class VisitPlanSummary extends Fragment {
                     fullsumm = res.getVSTPSUM();
                     tourlist.setVisibility(View.VISIBLE);
                     tourlist.getAdapter().notifyDataSetChanged();
+                    tourlist.smoothScrollToPosition(0);
                 }else{
                     Toast.makeText(getActivity(), res.getErrormsg(), Toast.LENGTH_LONG).show();
                 }

@@ -136,7 +136,7 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                app:rippleColor="@color/textcolorred"
+                android:backgroundTint="@color/textcolorred"
                 android:text="Cancel"
                 android:textStyle="bold" />
         </LinearLayout>

@@ -11,6 +11,7 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,6 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.eis.dailycallregister.Activity.HomeActivity;
 import com.eis.dailycallregister.Api.RetrofitClient;
 import com.eis.dailycallregister.Others.Global;
@@ -30,12 +30,10 @@ import com.eis.dailycallregister.Others.ViewDialog;
 import com.eis.dailycallregister.Pojo.VSTPSUMItem;
 import com.eis.dailycallregister.Pojo.VstPlnSumRes;
 import com.eis.dailycallregister.R;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -73,7 +71,6 @@ public class VisitPlanSummary extends Fragment {
         finyr = Global.getFinancialYr(loggedindate[1], loggedindate[0]);
         int prevyr = Integer.parseInt(loggedindate[0]) - 1;
         prevfinyr = Global.getFinancialYr(loggedindate[1], Integer.toString(prevyr));
-
 
         String gbdate = loggedindate[0]+"/"+loggedindate[1]+"/"+loggedindate[2];
         getSummary(gbdate,finyr,prevfinyr);
@@ -115,7 +112,7 @@ public class VisitPlanSummary extends Fragment {
                                     final VSTPSUMItem model = fullsumm.get(i);
                                     myHolder.drname.setText("DR Name - "+model.getDrname());
                                     myHolder.svlno.setText(model.getDrcd());
-                                    myHolder.latesprec.setText(model.getLatesprec());
+                                    myHolder.latesprec.setText(Html.fromHtml(model.getLatesprec()));
                                     myHolder.PD1.setText(model.getMth1());
                                     myHolder.PD2.setText(model.getMth2());
                                     myHolder.PD3.setText(model.getMth3());
@@ -283,7 +280,7 @@ public class VisitPlanSummary extends Fragment {
     }
 
     private void getSummary(String newdate, String finyr, String prevfinyr) {
-        date.setText(newdate);
+        date.setText("Tour Date - "+newdate);
         tourlist.setVisibility(View.GONE);
         fullsumm.clear();
         progressDialoge.show();

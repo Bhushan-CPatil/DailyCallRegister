@@ -26,6 +26,7 @@ import com.eis.dailycallregister.Fragment.Help;
 import com.eis.dailycallregister.Fragment.MTPConfirmation;
 import com.eis.dailycallregister.Fragment.Options;
 import com.eis.dailycallregister.Fragment.UploadVisitingCard;
+import com.eis.dailycallregister.Fragment.VisitPlanSummary;
 import com.eis.dailycallregister.Others.Global;
 import com.eis.dailycallregister.R;
 
@@ -72,6 +73,8 @@ public class HomeActivity extends AppCompatActivity
             displaySelectedScreen(R.id.nav_home);
         } else if (getIntent().getStringExtra("openfrag").equalsIgnoreCase("mtp")) {
             displaySelectedScreen(R.id.nav_mtp);
+        } else if (getIntent().getStringExtra("openfrag").equalsIgnoreCase("visitplansum")) {
+            displaySelectedScreen(R.id.nav_vps);
         }
     }
 
@@ -156,6 +159,9 @@ public class HomeActivity extends AppCompatActivity
                 } else {
                     new Global().notAllowed(HomeActivity.this);
                 }
+                break;
+            case R.id.nav_vps:
+                fragment = new VisitPlanSummary();
                 break;
             case R.id.nav_help:
                 //new Global().notAllowed(HomeActivity.this);

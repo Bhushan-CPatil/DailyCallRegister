@@ -32,6 +32,7 @@ import com.eis.dailycallregister.Pojo.QseraPopUpRes;
 import com.eis.dailycallregister.Pojo.RedicnePopUpRes;
 import com.eis.dailycallregister.Pojo.SampleAndGiftReceiptRes;
 import com.eis.dailycallregister.Pojo.VstCardDrLstRes;
+import com.eis.dailycallregister.Pojo.VstPlnSumRes;
 
 import java.util.ArrayList;
 
@@ -573,14 +574,12 @@ public interface Api {
     );
 
     @FormUrlEncoded
-    @POST("addRCPAEntry.php")
-    Call<DefaultResponse> addRCPAEntry(
-            @Field("cntcd") String cntcd,
+    @POST("getVisitPlanSummary.php")
+    Call<VstPlnSumRes> getVisitPlanSummary(
             @Field("netid") String netid,
-            @Field("yrmth") String yrmth,
-            @Field("prodid") String prodid,
-            @Field("brdrx") String brdrx,
-            @Field("jsonarray   ") String jsonarray,
+            @Field("prevfinyr") String prevfinyr,
+            @Field("finyr") String finyr,
+            @Field("mtpdate") String mtpdate,
             @Field("DBPrefix") String dbprefix
     );
 

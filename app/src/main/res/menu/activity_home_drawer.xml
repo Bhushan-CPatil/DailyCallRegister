@@ -22,6 +22,10 @@
             android:icon="@drawable/ic_mtp"
             android:title="Monthly Tour Program" />
         <item
+            android:id="@+id/nav_vps"
+            android:icon="@drawable/ic_vps"
+            android:title="Visit Plan Summary" />
+        <item
             android:id="@+id/nav_help"
             android:icon="@drawable/ic_help"
             android:title="Help Center" />

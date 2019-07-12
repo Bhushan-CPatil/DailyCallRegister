@@ -1,0 +1,978 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_marginTop="8dp"
+    android:layout_marginLeft="8dp"
+    android:padding="3dp"
+    android:layout_marginRight="8dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="4dp"
+        android:background="@drawable/head_gradient">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/textcolorwhite"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/head_gradient"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/drname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Doctor Name"
+                    android:paddingRight="8dp"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textColor="@color/textcolorwhite"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:singleLine="true"
+                    android:ellipsize="end"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="SVL NO"
+                    android:layout_gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/svlno"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="035"
+                    android:paddingRight="8dp"
+                    android:gravity="end"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/textcolorgray"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Latest Prec. Prod"
+                    android:paddingLeft="8dp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/latesprec"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="prod"
+                    android:paddingRight="8dp"
+                    android:gravity="end"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/textcolorgray"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="PSR DR VISIT DATE"
+                    android:paddingLeft="8dp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/PD1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="MAY"
+                    android:gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/PD2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="JUN"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/PD3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="JUL"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/VPD1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="12"
+                    android:gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/VPD2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="13"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/VPD3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="14"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/textcolorgray"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="AFM DR VISIT DATE"
+                    android:paddingLeft="8dp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/AD1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="MAY"
+                    android:gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/AD2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="JUN"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/AD3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="JUL"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/VAD1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="12"
+                    android:gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/VAD2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="13"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/VAD3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="14"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/textcolorgray"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="RM DR VISIT DATE"
+                    android:paddingLeft="8dp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/RD1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="MAY"
+                    android:gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/RD2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="JUN"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/RD3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="JUL"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/VRD1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="12"
+                    android:gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/VRD2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="13"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/VRD3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="14"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/textcolorgray"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="PSR CH. VISIT DATE"
+                    android:paddingLeft="8dp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/PC1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="MAY"
+                    android:gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/PC2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="JUN"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/PC3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="JUL"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/VPC1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="12"
+                    android:gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/VPC2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="13"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/VPC3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="14"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/textcolorgray"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="AFM CH. VISIT DATE"
+                    android:paddingLeft="8dp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/AC1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="MAY"
+                    android:gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/AC2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="JUN"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/AC3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="JUL"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/VAC1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="12"
+                    android:gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/VAC2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="13"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/VAC3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="14"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/textcolorgray"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="RM CH. VISIT DATE"
+                    android:paddingLeft="8dp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/RC1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="MAY"
+                    android:gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/RC2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="JUN"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/RC3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="JUL"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/VRC1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="12"
+                    android:gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/VRC2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="13"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/VRC3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="14"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/textcolorgray"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="PULSE CHEMIST 1"
+                    android:layout_gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/pulsechem"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Laxmi Medicals"
+                    android:paddingRight="8dp"
+                    android:gravity="end"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/textcolorgray"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="NO. OF PATIENTS"
+                    android:layout_gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/noofpatient"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="20"
+                    android:paddingRight="8dp"
+                    android:gravity="end"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/textcolorgray"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="FEES"
+                    android:layout_gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/fee"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="300"
+                    android:paddingRight="8dp"
+                    android:gravity="end"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/textcolorgray"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="NO. OF WORKING"
+                    android:layout_gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/noofwrk"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="24"
+                    android:paddingRight="8dp"
+                    android:gravity="end"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/textcolorgray"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="RESULT"
+                    android:layout_gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/result"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="2.83"
+                    android:paddingRight="8dp"
+                    android:gravity="end"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/textcolorgray"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="CONVENIENT DAY"
+                    android:layout_gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/conday"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:paddingRight="8dp"
+                    android:text="All"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/textcolorgray"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="CONVENIENT TIME"
+                    android:paddingLeft="8dp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/contime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="12:30 PM - 01:30 PM"
+                    android:paddingRight="8dp"
+                    android:gravity="end"
+                    android:textColor="@color/textcolordarkgray"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

@@ -100,7 +100,7 @@
     <android.support.design.button.MaterialButton
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:text="Visit Plan SummaryVisit Plan Summary"
+        android:text="Visit Plan Summary"
         android:autoSizeTextType="uniform"
         android:autoSizeMinTextSize="5sp"
         android:autoSizeMaxTextSize="18sp"

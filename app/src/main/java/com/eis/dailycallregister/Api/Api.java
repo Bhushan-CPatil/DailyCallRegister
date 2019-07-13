@@ -581,6 +581,8 @@ public interface Api {
             @Field("prevfinyr") String prevfinyr,
             @Field("finyr") String finyr,
             @Field("mtpdate") String mtpdate,
+            @Field("mode") String mode,
+            @Field("cntcd") String cntcd,
             @Field("DBPrefix") String dbprefix
     );
 

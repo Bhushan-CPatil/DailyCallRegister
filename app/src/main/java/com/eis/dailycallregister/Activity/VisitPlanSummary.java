@@ -1,4 +1,4 @@
-package com.eis.dailycallregister.Fragment;
+package com.eis.dailycallregister.Activity;
 
 import android.app.ActivityOptions;
 import android.app.Dialog;
@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -39,59 +41,62 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class VisitPlanSummary extends Fragment {
+public class VisitPlanSummary extends AppCompatActivity {
 
     TextView date,seldate;
-    View view;
+    //View view;
     public RelativeLayout rtl;
     ViewDialog progressDialoge;
     RecyclerView tourlist;
     String prevfinyr="",finyr="";
     String[] loggedindate;
     List<VSTPSUMItem> fullsumm = new ArrayList<>();
+    String mdate,cntcd="",mode;
+    String gbdate;
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle("Visit Plan Summary");
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_visit_plan_summary, container, false);
-        rtl = view.findViewById(R.id.rtl);
-        date = view.findViewById(R.id.date);
-        seldate = view.findViewById(R.id.seldate);
-        tourlist = view.findViewById(R.id.tourlist);
-        progressDialoge = new ViewDialog(getActivity());
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_visit_plan_summary);
+        getSupportActionBar().setTitle(Html.fromHtml("<font color='#00E0C6'>Visit Plan Summary</font>"));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_black);
+        mode = getIntent().getStringExtra("mode");
+        if(mode.equalsIgnoreCase("SEL")){
+            cntcd = getIntent().getStringExtra("cntcd");
+        }
+        mdate = getIntent().getStringExtra("date");
+        rtl = findViewById(R.id.rtl);
+        date = findViewById(R.id.date);
+        seldate = findViewById(R.id.seldate);
+        tourlist = findViewById(R.id.tourlist);
+        progressDialoge = new ViewDialog(VisitPlanSummary.this);
         setAdapter();
-        loggedindate = Global.date.split("-");
+
+        loggedindate = mdate.split("/");
         finyr = Global.getFinancialYr(loggedindate[1], loggedindate[0]);
         int prevyr = Integer.parseInt(loggedindate[0]) - 1;
         prevfinyr = Global.getFinancialYr(loggedindate[1], Integer.toString(prevyr));
 
-        String gbdate = loggedindate[0]+"/"+loggedindate[1]+"/"+loggedindate[2];
+        gbdate = loggedindate[0]+"/"+loggedindate[1]+"/"+loggedindate[2];
         getSummary(gbdate,finyr,prevfinyr);
 
         seldate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showSelectDatePopup();
+                showSelectDatePopup(gbdate);
             }
         });
-        return view;
     }
 
     private void setAdapter() {
         tourlist.setNestedScrollingEnabled(false);
-        tourlist.setLayoutManager(new LinearLayoutManager(getActivity()));
+        tourlist.setLayoutManager(new LinearLayoutManager(VisitPlanSummary.this));
         tourlist.setAdapter(new RecyclerView.Adapter() {
                                 @NonNull
                                 @Override
                                 public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                                    View view = LayoutInflater.from(getActivity()).inflate(R.layout.visit_plan_summ_adapter, viewGroup, false);
+                                    View view = LayoutInflater.from(VisitPlanSummary.this).inflate(R.layout.visit_plan_summ_adapter, viewGroup, false);
                                     Holder holder = new Holder(view);
                                     return holder;
                                 }
@@ -225,8 +230,8 @@ public class VisitPlanSummary extends Fragment {
         );
     }
 
-    private void showSelectDatePopup() {
-        final String[] xyz = Global.date.split("-");
+    private void showSelectDatePopup(String gbldate) {
+        final String[] xyz = gbldate.split("/");
         Calendar mycal = new GregorianCalendar(Integer.parseInt(xyz[0]), Integer.parseInt(xyz[1])-1, 1);
         int daysInMonth = mycal.getActualMaximum(Calendar.DAY_OF_MONTH);
         List<String> days = new ArrayList<>();
@@ -234,7 +239,7 @@ public class VisitPlanSummary extends Fragment {
             days.add(Integer.toString(z));
         }
 
-        final Dialog dialog = new Dialog(getActivity());
+        final Dialog dialog = new Dialog(VisitPlanSummary.this);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
@@ -244,7 +249,7 @@ public class VisitPlanSummary extends Fragment {
         CardView next = dialog.findViewById(R.id.next);
         final AppCompatSpinner wday = dialog.findViewById(R.id.day);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, days);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(VisitPlanSummary.this, android.R.layout.simple_spinner_item, days);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         wday.setAdapter(adapter);
 
@@ -254,11 +259,12 @@ public class VisitPlanSummary extends Fragment {
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                /*Intent intent = new Intent(VisitPlanSummary.this, HomeActivity.class);
                 intent.putExtra("openfrag", "home");
-                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_right_in, R.anim.trans_right_out).toBundle();
+                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(VisitPlanSummary.this, R.anim.trans_right_in, R.anim.trans_right_out).toBundle();
                 startActivity(intent, bndlanimation);
-                getActivity().finish();
+                finish();*/
+                onBackPressed();
                 dialog.dismiss();
             }
         });
@@ -284,10 +290,11 @@ public class VisitPlanSummary extends Fragment {
 
     private void getSummary(String newdate, String finyr, String prevfinyr) {
         date.setText("Tour Date - "+newdate);
+        gbdate = newdate;
         tourlist.setVisibility(View.GONE);
         fullsumm.clear();
         progressDialoge.show();
-        retrofit2.Call<VstPlnSumRes> call = RetrofitClient.getInstance().getApi().getVisitPlanSummary(Global.netid,prevfinyr,finyr,newdate,Global.dbprefix);
+        retrofit2.Call<VstPlnSumRes> call = RetrofitClient.getInstance().getApi().getVisitPlanSummary(Global.netid,prevfinyr,finyr,newdate, mode, cntcd,Global.dbprefix);
         call.enqueue(new Callback<VstPlnSumRes>() {
             @Override
             public void onResponse(Call<VstPlnSumRes> call, Response<VstPlnSumRes> response) {
@@ -299,15 +306,31 @@ public class VisitPlanSummary extends Fragment {
                     tourlist.getAdapter().notifyDataSetChanged();
                     tourlist.smoothScrollToPosition(0);
                 }else{
-                    Toast.makeText(getActivity(), res.getErrormsg(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(VisitPlanSummary.this, res.getErrormsg(), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<VstPlnSumRes> call, Throwable t) {
                 progressDialoge.dismiss();
-                Toast.makeText(getActivity(), "Failed to process your request !", Toast.LENGTH_LONG).show();
+                Toast.makeText(VisitPlanSummary.this, "Failed to process your request !", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        VisitPlanSummary.this.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }
 }

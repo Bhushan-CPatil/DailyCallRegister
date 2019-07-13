@@ -26,6 +26,9 @@
             android:name=".Activity.CheckDCRSummary"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".Activity.VisitPlanSummary"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".Activity.ChemDCRGift"
             android:screenOrientation="portrait" />
         <activity

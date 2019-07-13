@@ -37,5 +37,4 @@ public class ViewDialog extends MultiDexApplication {
     public void dismiss() {
         dialog.dismiss();
     }
-
 }

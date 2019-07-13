@@ -32,6 +32,7 @@ import com.eis.dailycallregister.Pojo.QseraPopUpRes;
 import com.eis.dailycallregister.Pojo.RedicnePopUpRes;
 import com.eis.dailycallregister.Pojo.SampleAndGiftReceiptRes;
 import com.eis.dailycallregister.Pojo.VstCardDrLstRes;
+import com.eis.dailycallregister.Pojo.VstPlnDocLstRes;
 import com.eis.dailycallregister.Pojo.VstPlnSumRes;
 
 import java.util.ArrayList;
@@ -579,6 +580,14 @@ public interface Api {
             @Field("netid") String netid,
             @Field("prevfinyr") String prevfinyr,
             @Field("finyr") String finyr,
+            @Field("mtpdate") String mtpdate,
+            @Field("DBPrefix") String dbprefix
+    );
+
+    @FormUrlEncoded
+    @POST("getVisitPlanDocList.php")
+    Call<VstPlnDocLstRes> getVisitPlanDocList(
+            @Field("netid") String netid,
             @Field("mtpdate") String mtpdate,
             @Field("DBPrefix") String dbprefix
     );

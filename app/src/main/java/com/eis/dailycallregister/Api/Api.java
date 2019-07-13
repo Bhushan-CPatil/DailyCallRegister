@@ -631,6 +631,7 @@ public interface Api {
             @Field("cntcd") String cntcd,
             @Field("netid") String netid,
             @Field("yrmth") String yrmth,
+            @Field("d1d2") String d1d2,
             @Field("DBPrefix") String dbprefix
     );
 

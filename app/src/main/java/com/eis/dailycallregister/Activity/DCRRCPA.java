@@ -82,7 +82,7 @@ public class DCRRCPA extends AppCompatActivity {
     public List<String> arrayList = new ArrayList<>();
     public List<String> arrayListB = new ArrayList<>();
     boolean chemonchangeacc = false, brandonchangeacc = false;
-    String scntcd="";
+    String scntcd="",d1d2="";
     ConstraintLayout contl;
 
     @Override
@@ -94,6 +94,15 @@ public class DCRRCPA extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_black);
         doccntcd = getIntent().getStringExtra("cntcd");
         doctorname = getIntent().getStringExtra("drname");
+        if (Global.hname.contains("(A)")) {
+            d1d2 = "A";
+        } else if (Global.hname.contains("(B)")) {
+            d1d2 = "B";
+        } else if (Global.hname.contains("(C)")) {
+            d1d2 = "C";
+        } else if (Global.hname.contains("(D)")) {
+            d1d2 = "D";
+        }
         progressDialoge = new ViewDialog(DCRRCPA.this);
         docname = findViewById(R.id.docname);
         pulsechemist = findViewById(R.id.pulsechemist);
@@ -337,7 +346,7 @@ public class DCRRCPA extends AppCompatActivity {
         arrayListB.clear();
         progressDialoge.show();
         retrofit2.Call<GetRCPABrandListRes> call = RetrofitClient.getInstance().getApi().rcpa_brands(scntcd, Global.netid,
-                Global.dcrdateyear+""+Global.dcrdatemonth, Global.dbprefix);
+                Global.dcrdateyear+""+Global.dcrdatemonth, d1d2, Global.dbprefix);
         call.enqueue(new Callback<GetRCPABrandListRes>() {
             @Override
             public void onResponse(Call<GetRCPABrandListRes> call, Response<GetRCPABrandListRes> response) {

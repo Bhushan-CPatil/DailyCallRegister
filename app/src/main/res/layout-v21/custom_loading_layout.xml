@@ -13,11 +13,12 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:adjustViewBounds="true"
+        android:layout_gravity="center"
         android:src="@drawable/loader2"
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="Please Wait.."
         android:gravity="center"

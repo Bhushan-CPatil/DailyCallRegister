@@ -65,7 +65,10 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -816,6 +819,18 @@ public class DoctorsData extends AppCompatActivity {
                                            remarks = itemView.findViewById(R.id.remarks);
                                            deletedoc = itemView.findViewById(R.id.deletedoc);
                                            rcpa = itemView.findViewById(R.id.rcpa);
+                                           SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                           try {
+                                               Date loggedin = sdf.parse(Global.date);
+                                               Date given = sdf.parse("2019-07-31");
+                                               if(loggedin.after(given)){
+                                                   rcpa.setVisibility(View.VISIBLE);
+                                               }else{
+                                                   rcpa.setVisibility(View.GONE);
+                                               }
+                                           } catch (ParseException e) {
+                                               e.printStackTrace();
+                                           }
                                        }
                                    }
                                }

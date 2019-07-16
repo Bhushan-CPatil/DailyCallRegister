@@ -96,7 +96,7 @@
                     android:textStyle="bold"
                     android:textColor="@color/textcolorwhite"
                     android:layout_gravity="center"
-                    android:text="HOME"/>
+                    android:text="BACK"/>
 
             </android.support.v7.widget.CardView>
         </LinearLayout>

@@ -518,6 +518,15 @@ public class DCRRCPA extends AppCompatActivity {
 
                 if (!jobj.getBoolean("error")) {
                     //onBackPressed();
+                    String hkey = brandlst.getSelectedItem().toString().trim();
+                    String RX;
+                    for(int j=0;j<brandlist.size();j++){
+                        RcpabrandlistItem temp = brandlist.get(j);
+                        if(temp.getPname().equalsIgnoreCase(hkey)){
+                            RX = brandrx.getText().toString().trim();
+                            temp.setRX(Integer.toString(Integer.parseInt(RX)));
+                        }
+                    }
                     Toast.makeText(DCRRCPA.this, jobj.getString("errormsg"), Toast.LENGTH_SHORT).show();
                 }
 

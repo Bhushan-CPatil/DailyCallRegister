@@ -27,11 +27,14 @@ import com.eis.dailycallregister.Fragment.VisitPlanDocLst;
 import com.eis.dailycallregister.Others.Global;
 import com.eis.dailycallregister.R;
 
+import java.util.ArrayList;
+
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     TextView ename, hqname, wdate;
     String whichmth = "";
+    ArrayList<String> empacc = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,55 @@ public class HomeActivity extends AppCompatActivity
         ename.setText(Global.ename);
         hqname.setText("HQ : " + Global.hname);
         wdate.setText("WRK DATE : " + Global.date);
+        empacc.clear();
+        //CD
+        empacc.add("02680");
+        empacc.add("02684");
+        empacc.add("02957");
+        empacc.add("03069");
+        empacc.add("01804");
+        empacc.add("02274");
+        empacc.add("02681");
+        empacc.add("02956");
+        empacc.add("01652");
+        empacc.add("02706");
+        empacc.add("02944");
+        empacc.add("03196");
+        empacc.add("03340");
+        empacc.add("03358");
+        empacc.add("01973");
+        empacc.add("02901");
+        empacc.add("03239");
+        empacc.add("03260");
+        empacc.add("03339");
+
+        //AB
+        empacc.add("02654");
+        empacc.add("02663");
+        empacc.add("02672");
+        empacc.add("02782");
+        empacc.add("03286");
+        empacc.add("01637");
+        empacc.add("00475");
+        empacc.add("01941");
+        empacc.add("02364");
+        empacc.add("02366");
+        empacc.add("03293");
+        empacc.add("00431");
+        empacc.add("01575");
+        empacc.add("02985");
+        empacc.add("03118");
+        empacc.add("03151");
+        empacc.add("03202");
+        empacc.add("03303");
+
+        //kol team
+        empacc.add("01349");
+        empacc.add("01511");
+        empacc.add("01723");
+        empacc.add("01809");
+        empacc.add("02042");
+        empacc.add("02712");
 
         //NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -138,7 +190,7 @@ public class HomeActivity extends AppCompatActivity
             case R.id.nav_dcr:
 
                 //new Global().notAllowed(HomeActivity.this);
-                if (Global.ecode.equalsIgnoreCase("01349") || Global.ecode.equalsIgnoreCase("01511") || Global.ecode.equalsIgnoreCase("01723") || Global.ecode.equalsIgnoreCase("01809") || Global.ecode.equalsIgnoreCase("02042") || Global.ecode.equalsIgnoreCase("02712")) {
+                if (empacc.contains(Global.ecode)) {
                     fragment = new DCREntry();
                 } else {
                     new Global().notAllowed(HomeActivity.this);
@@ -149,7 +201,7 @@ public class HomeActivity extends AppCompatActivity
                 break;
             case R.id.nav_mtp:
                 //new Global().notAllowed(HomeActivity.this);
-                if (Global.ecode.equalsIgnoreCase("01349") || Global.ecode.equalsIgnoreCase("01511") || Global.ecode.equalsIgnoreCase("01723") || Global.ecode.equalsIgnoreCase("01809") || Global.ecode.equalsIgnoreCase("02042") || Global.ecode.equalsIgnoreCase("02712")) {
+                if (empacc.contains(Global.ecode)) {
                     fragment = new MTPConfirmation();
                 } else {
                     new Global().notAllowed(HomeActivity.this);

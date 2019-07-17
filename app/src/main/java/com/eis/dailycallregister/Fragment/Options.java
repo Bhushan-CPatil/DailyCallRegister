@@ -60,6 +60,7 @@ public class Options extends Fragment {
     String[][] misseddr;
     View view;
     String checkmtp = "";
+    ArrayList<String> empacc = new ArrayList<>();
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -80,9 +81,59 @@ public class Options extends Fragment {
         progressDialoge = new ViewDialog(getActivity());
         mTableLayout = view.findViewById(R.id.tableLayout);
         uploadcard = view.findViewById(R.id.uploadcard);
+        empacc.clear();
+        //CD
+        empacc.add("02680");
+        empacc.add("02684");
+        empacc.add("02957");
+        empacc.add("03069");
+        empacc.add("01804");
+        empacc.add("02274");
+        empacc.add("02681");
+        empacc.add("02956");
+        empacc.add("01652");
+        empacc.add("02706");
+        empacc.add("02944");
+        empacc.add("03196");
+        empacc.add("03340");
+        empacc.add("03358");
+        empacc.add("01973");
+        empacc.add("02901");
+        empacc.add("03239");
+        empacc.add("03260");
+        empacc.add("03339");
+
+        //AB
+        empacc.add("02654");
+        empacc.add("02663");
+        empacc.add("02672");
+        empacc.add("02782");
+        empacc.add("03286");
+        empacc.add("01637");
+        empacc.add("00475");
+        empacc.add("01941");
+        empacc.add("02364");
+        empacc.add("02366");
+        empacc.add("03293");
+        empacc.add("00431");
+        empacc.add("01575");
+        empacc.add("02985");
+        empacc.add("03118");
+        empacc.add("03151");
+        empacc.add("03202");
+        empacc.add("03303");
+
+        //kol team
+        empacc.add("01349");
+        empacc.add("01511");
+        empacc.add("01723");
+        empacc.add("01809");
+        empacc.add("02042");
+        empacc.add("02712");
+
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP){
             // Do something for lollipop and above versions
-            if (Global.ecode.equalsIgnoreCase("01349") || Global.ecode.equalsIgnoreCase("01511") || Global.ecode.equalsIgnoreCase("01723") || Global.ecode.equalsIgnoreCase("01809") || Global.ecode.equalsIgnoreCase("02042") || Global.ecode.equalsIgnoreCase("02712")) {
+            if (empacc.contains(Global.ecode)) {
 
             }else{
                 dcr.setBackgroundTintList(getActivity().getResources().getColorStateList(R.color.textcolorgray));
@@ -90,7 +141,7 @@ public class Options extends Fragment {
             }
         } else{
             // do something for phones running an SDK before lollipop
-            if (Global.ecode.equalsIgnoreCase("01349") || Global.ecode.equalsIgnoreCase("01511") || Global.ecode.equalsIgnoreCase("01723") || Global.ecode.equalsIgnoreCase("01809") || Global.ecode.equalsIgnoreCase("02042") || Global.ecode.equalsIgnoreCase("02712")) {
+            if (empacc.contains(Global.ecode)) {
 
             }else{
                 dcr.setRippleColor(getActivity().getResources().getColorStateList(R.color.textcolorgray));
@@ -102,7 +153,7 @@ public class Options extends Fragment {
             @Override
             public void onClick(View v) {
                 //new Global().notAllowed(getActivity());
-                if (Global.ecode.equalsIgnoreCase("01349") || Global.ecode.equalsIgnoreCase("01511") || Global.ecode.equalsIgnoreCase("01723") || Global.ecode.equalsIgnoreCase("01809") || Global.ecode.equalsIgnoreCase("02042") || Global.ecode.equalsIgnoreCase("02712")) {
+                if (empacc.contains(Global.ecode)) {
                     Intent intent = new Intent(getActivity(), HomeActivity.class);
                     intent.putExtra("ecode", Global.ecode);
                     intent.putExtra("date", Global.date);
@@ -183,7 +234,7 @@ public class Options extends Fragment {
                 });
                 AlertDialog dialog2 = builder.create();
                 dialog2.show();*/
-                if (Global.ecode.equalsIgnoreCase("01349") || Global.ecode.equalsIgnoreCase("01511") || Global.ecode.equalsIgnoreCase("01723") || Global.ecode.equalsIgnoreCase("01809") || Global.ecode.equalsIgnoreCase("02042") || Global.ecode.equalsIgnoreCase("02712")) {
+                if (empacc.contains(Global.ecode)) {
                     Intent intent = new Intent(getActivity(), HomeActivity.class);
                     intent.putExtra("ecode", Global.ecode);
                     intent.putExtra("date", Global.date);
@@ -283,7 +334,7 @@ public class Options extends Fragment {
                 MissCallDocsRes res = response.body();
                 Global.misscallpopup = 1;
                 // && (Global.ecode.equalsIgnoreCase("01349") || Global.ecode.equalsIgnoreCase("01511") || Global.ecode.equalsIgnoreCase("01723") || Global.ecode.equalsIgnoreCase("01809") || Global.ecode.equalsIgnoreCase("02042") || Global.ecode.equalsIgnoreCase("02712"))
-                if (res.isMtpflg() && (Global.ecode.equalsIgnoreCase("01349") || Global.ecode.equalsIgnoreCase("01511") || Global.ecode.equalsIgnoreCase("01723") || Global.ecode.equalsIgnoreCase("01809") || Global.ecode.equalsIgnoreCase("02042") || Global.ecode.equalsIgnoreCase("02712"))) {
+                if (res.isMtpflg() && (empacc.contains(Global.ecode))) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setCancelable(true);
                     builder.setMessage("Next month MTP is ready to view.");

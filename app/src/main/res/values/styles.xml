@@ -16,6 +16,7 @@
         <item name="colorAccent">@color/colorPrimaryDark</item>
         <item name="drawerArrowStyle">@style/DrawerIconStyle</item>
         <item name="android:textColorSecondary">@color/colorPrimaryDark</item>
+        <item name="android:fontFamily">@font/whitneybook</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

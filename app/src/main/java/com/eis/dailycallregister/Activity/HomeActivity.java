@@ -81,6 +81,7 @@ public class HomeActivity extends AppCompatActivity
         empacc.add("03239");
         empacc.add("03260");
         empacc.add("03339");
+        empacc.add("03402");
 
         //AB
         empacc.add("02654");

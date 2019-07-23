@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:id="@+id/sv"
+android:layout_height="match_parent"
+tools:context=".Fragment.Elearning">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <android.support.design.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#E6E6E6"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:text="TEST AVAILABLE"
+                android:textSize="18sp"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                tools:listitem="@layout/test_list_adapter"
+                android:id="@+id/testavaillst">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+
+    </android.support.design.card.MaterialCardView>
+    <android.support.design.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="#E6E6E6"
+            android:layout_margin="16dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="FORTH COMMING TEST"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="#424242"
+                android:textSize="18sp"/>
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/test_list_adapter"
+                android:id="@+id/testforthllst">
+
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+    </android.support.design.card.MaterialCardView>
+
+    <android.support.design.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="#E6E6E6"
+            android:layout_margin="16dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TEST RESULTS"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="#424242"
+                android:textSize="18sp"/>
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                tools:listitem="@layout/test_result_adapter"
+                android:id="@+id/testresult">
+
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+    </android.support.design.card.MaterialCardView>
+</LinearLayout>
+</android.support.v4.widget.NestedScrollView>

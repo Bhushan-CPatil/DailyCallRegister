@@ -92,6 +92,7 @@
                 android:hint="RX QTY"
                 android:digits="1234567890"
                 android:maxLength="6"
+                android:inputType="number"
                 android:id="@+id/brandrx"
                 android:textColor="@color/textcolordarkgray"
                 android:layout_weight="1.5"/>

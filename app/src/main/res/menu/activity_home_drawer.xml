@@ -26,6 +26,10 @@
             android:icon="@drawable/ic_vps"
             android:title="Visit Plan Summary" />
         <item
+            android:id="@+id/nav_eln"
+            android:icon="@drawable/ic_school"
+            android:title="E-Learning" />
+        <item
             android:id="@+id/nav_help"
             android:icon="@drawable/ic_help"
             android:title="Help Center" />

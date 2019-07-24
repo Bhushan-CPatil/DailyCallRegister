@@ -21,7 +21,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.DCRRCPA"></activity>
+        <activity android:name=".Activity.Quiz"></activity>
+        <activity android:name=".Activity.DCRRCPA" />
         <activity
             android:name=".Activity.CheckDCRSummary"
             android:screenOrientation="portrait" />

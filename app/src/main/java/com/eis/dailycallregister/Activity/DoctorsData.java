@@ -911,8 +911,8 @@ public class DoctorsData extends AppCompatActivity {
                     for (int z = 0; z < dcrdlst.size(); z++) {
                         seldraw.add(dcrdlst.get(z).getCntCD());
                     }
-                    doctorslist.setVisibility(View.VISIBLE);
 
+                    doctorslist.setVisibility(View.VISIBLE);
                     doctorslist.getAdapter().notifyDataSetChanged();
 
                     if (dcrdlst.size() > 0) {

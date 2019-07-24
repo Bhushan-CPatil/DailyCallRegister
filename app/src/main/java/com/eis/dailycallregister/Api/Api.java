@@ -13,6 +13,7 @@ import com.eis.dailycallregister.Pojo.DCRProdListRes;
 import com.eis.dailycallregister.Pojo.DefaultResponse;
 import com.eis.dailycallregister.Pojo.DoctorListAWRes;
 import com.eis.dailycallregister.Pojo.EditMtpFormResponse;
+import com.eis.dailycallregister.Pojo.EleaningMainRes;
 import com.eis.dailycallregister.Pojo.EpidermPopUpRes;
 import com.eis.dailycallregister.Pojo.ErrorBooleanResponce;
 import com.eis.dailycallregister.Pojo.FetchExpdtRes;
@@ -29,6 +30,7 @@ import com.eis.dailycallregister.Pojo.NewNonFliedWrkRes;
 import com.eis.dailycallregister.Pojo.NextMTPListRes;
 import com.eis.dailycallregister.Pojo.NonFieldWrkRes;
 import com.eis.dailycallregister.Pojo.QseraPopUpRes;
+import com.eis.dailycallregister.Pojo.QuizMainRes;
 import com.eis.dailycallregister.Pojo.RedicnePopUpRes;
 import com.eis.dailycallregister.Pojo.SampleAndGiftReceiptRes;
 import com.eis.dailycallregister.Pojo.VstCardDrLstRes;
@@ -642,6 +644,20 @@ public interface Api {
             @Field("netid") String netid,
             @Field("yrmth") String yrmth,
             @Field("prodid") String prodid,
+            @Field("DBPrefix") String dbprefix
+    );
+
+    @FormUrlEncoded
+    @POST("elearning_first_api.php")
+    Call<EleaningMainRes> getElearningData(
+            @Field("ecode") String ecode,
+            @Field("DBPrefix") String dbprefix
+    );
+
+    @FormUrlEncoded
+    @POST("fetch_questions_list.php")
+    Call<QuizMainRes> getQuesData(
+            @Field("testid") String testid,
             @Field("DBPrefix") String dbprefix
     );
 

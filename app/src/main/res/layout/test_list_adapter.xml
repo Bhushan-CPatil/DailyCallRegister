@@ -22,7 +22,7 @@
             android:gravity="center"
             android:text="REZOXY RENEW"
             android:textStyle="bold"
-            android:textColor="@color/textcolorred"
+            android:textColor="@color/design_default_color_primary_dark"
             android:singleLine="true"
             android:ellipsize="end"
             android:textSize="18sp"/>

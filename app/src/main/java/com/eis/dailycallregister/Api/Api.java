@@ -661,5 +661,17 @@ public interface Api {
             @Field("DBPrefix") String dbprefix
     );
 
+    @FormUrlEncoded
+    @POST("saveTestResult.php")
+    Call<DefaultResponse> saveTestResult(
+            @Field("testid") String testid,
+            @Field("ecode") String ecode,
+            @Field("percentage") String percentage,
+            @Field("TotalCorrect") String TotalCorrect,
+            @Field("NoOfQuestions") String NoOfQuestions,
+            @Field("TimeTaken") String TimeTaken,
+            @Field("DBPrefix") String dbprefix
+    );
+
 
 }

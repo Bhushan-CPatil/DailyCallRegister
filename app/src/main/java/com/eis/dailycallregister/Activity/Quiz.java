@@ -280,8 +280,8 @@ public class Quiz extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(Quiz.this);
             builder.setCancelable(false);
             builder.setTitle("Submit ?");
-            builder.setMessage("Are you sure want to submit ?");
-            builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            builder.setMessage("Do you wish to recheck ?\nNot required, Submit.");
+            builder.setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     double totalmarks = 0.0;
@@ -315,7 +315,7 @@ public class Quiz extends AppCompatActivity {
                 }
             });
 
-            builder.setNeutralButton("NO", new DialogInterface.OnClickListener() {
+            builder.setNeutralButton("RECHECK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
@@ -331,7 +331,7 @@ public class Quiz extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(Quiz.this);
             builder.setCancelable(false);
             builder.setTitle("TIME OUT ?");
-            builder.setMessage("Are you want to submit ? OR Want to quit ?");
+            builder.setMessage("Do you want to quit the test ? OR Submit the test ?");
             builder.setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

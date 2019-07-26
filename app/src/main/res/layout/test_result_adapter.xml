@@ -36,7 +36,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:id="@+id/testnamead"
-                android:textColor="@color/textcolordarkgray"
+                android:textStyle="bold"
+                android:textColor="@color/textcolorred"
                 android:textSize="15sp"
                 android:gravity="right"
                 android:layout_marginRight="8dp"/>

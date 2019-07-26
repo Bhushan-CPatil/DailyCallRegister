@@ -38,7 +38,7 @@ public class Global {
     public static boolean dcrdatestatus;
     public static boolean executedcrchecks;
     public static String finyear = null;
-    public static String emplevel = "1";
+    public static String emplevel = null;
     public static int misscallpopup = 0;
     public static String whichmth = null;
 
@@ -62,7 +62,7 @@ public class Global {
             wrktype = null;
             dcrno = null;
             finyear = null;
-            emplevel = "1";
+            emplevel = null;
             misscallpopup = 0;
             whichmth = null;
         } else if (mode.equalsIgnoreCase("DCR")) {
@@ -76,7 +76,6 @@ public class Global {
             wrktype = null;
             dcrno = null;
             finyear = null;
-            emplevel = "1";
             whichmth = null;
         }
     }
@@ -110,6 +109,22 @@ public class Global {
         builder.setCancelable(true);
         builder.setTitle("Coming soon....");
         builder.setMessage("This feature is currently under construction !");
+        builder.setPositiveButton("OK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void afmNotAllowed(final Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(true);
+        builder.setMessage("Only PSR can access this feature !");
         builder.setPositiveButton("OK",
                 new DialogInterface.OnClickListener() {
                     @Override

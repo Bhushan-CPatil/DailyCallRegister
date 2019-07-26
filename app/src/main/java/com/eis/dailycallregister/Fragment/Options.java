@@ -135,19 +135,46 @@ public class Options extends Fragment {
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP){
             // Do something for lollipop and above versions
-            if (empacc.contains(Global.ecode)) {
+            if (Global.emplevel.equalsIgnoreCase("1")) {
+                if (empacc.contains(Global.ecode)) {
 
+                }else{
+                    /*dcr.setBackgroundTintList(getActivity().getResources().getColorStateList(R.color.textcolorgray));
+                    mtp.setBackgroundTintList(getActivity().getResources().getColorStateList(R.color.textcolorgray));*/
+                    dcr.setVisibility(View.GONE);
+                    mtp.setVisibility(View.GONE);
+                }
             }else{
-                dcr.setBackgroundTintList(getActivity().getResources().getColorStateList(R.color.textcolorgray));
+                /*dcr.setBackgroundTintList(getActivity().getResources().getColorStateList(R.color.textcolorgray));
                 mtp.setBackgroundTintList(getActivity().getResources().getColorStateList(R.color.textcolorgray));
+                uploadcard.setBackgroundTintList(getActivity().getResources().getColorStateList(R.color.textcolorgray));
+                vps.setBackgroundTintList(getActivity().getResources().getColorStateList(R.color.textcolorgray));*/
+                dcr.setVisibility(View.GONE);
+                mtp.setVisibility(View.GONE);
+                uploadcard.setVisibility(View.GONE);
+                vps.setVisibility(View.GONE);
             }
+
         } else{
             // do something for phones running an SDK before lollipop
-            if (empacc.contains(Global.ecode)) {
+            if (Global.emplevel.equalsIgnoreCase("1")) {
+                if (empacc.contains(Global.ecode)) {
 
+                }else{
+                    /*dcr.setRippleColor(getActivity().getResources().getColorStateList(R.color.textcolorgray));
+                    mtp.setRippleColor(getActivity().getResources().getColorStateList(R.color.textcolorgray));*/
+                    dcr.setVisibility(View.GONE);
+                    mtp.setVisibility(View.GONE);
+                }
             }else{
-                dcr.setRippleColor(getActivity().getResources().getColorStateList(R.color.textcolorgray));
+                /*dcr.setRippleColor(getActivity().getResources().getColorStateList(R.color.textcolorgray));
                 mtp.setRippleColor(getActivity().getResources().getColorStateList(R.color.textcolorgray));
+                uploadcard.setRippleColor(getActivity().getResources().getColorStateList(R.color.textcolorgray));
+                vps.setRippleColor(getActivity().getResources().getColorStateList(R.color.textcolorgray));*/
+                dcr.setVisibility(View.GONE);
+                mtp.setVisibility(View.GONE);
+                uploadcard.setVisibility(View.GONE);
+                vps.setVisibility(View.GONE);
             }
         }
         Global.whichmth = null;
@@ -155,17 +182,21 @@ public class Options extends Fragment {
             @Override
             public void onClick(View v) {
                 //new Global().notAllowed(getActivity());
-                if (empacc.contains(Global.ecode)) {
-                    Intent intent = new Intent(getActivity(), HomeActivity.class);
-                    intent.putExtra("ecode", Global.ecode);
-                    intent.putExtra("date", Global.date);
-                    intent.putExtra("dbprefix", Global.dbprefix);
-                    intent.putExtra("openfrag", "dcr");
-                    Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
-                    startActivity(intent, bndlanimation);
-                    getActivity().finish();
+                if (Global.emplevel.equalsIgnoreCase("1")) {
+                    if(empacc.contains(Global.ecode)) {
+                        Intent intent = new Intent(getActivity(), HomeActivity.class);
+                        intent.putExtra("ecode", Global.ecode);
+                        intent.putExtra("date", Global.date);
+                        intent.putExtra("dbprefix", Global.dbprefix);
+                        intent.putExtra("openfrag", "dcr");
+                        Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
+                        startActivity(intent, bndlanimation);
+                        getActivity().finish();
+                    }else{
+                        new Global().notAllowed(getActivity());
+                    }
                 } else {
-                    new Global().notAllowed(getActivity());
+                    new Global().afmNotAllowed(getActivity());
                 }
             }
         });
@@ -173,28 +204,38 @@ public class Options extends Fragment {
         uploadcard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), HomeActivity.class);
-                intent.putExtra("ecode", Global.ecode);
-                intent.putExtra("date", Global.date);
-                intent.putExtra("dbprefix", Global.dbprefix);
-                intent.putExtra("openfrag", "visitingcard");
-                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
-                startActivity(intent, bndlanimation);
-                getActivity().finish();
+                if (Global.emplevel.equalsIgnoreCase("1")) {
+                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                    intent.putExtra("ecode", Global.ecode);
+                    intent.putExtra("date", Global.date);
+                    intent.putExtra("dbprefix", Global.dbprefix);
+                    intent.putExtra("openfrag", "visitingcard");
+                    Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
+                    startActivity(intent, bndlanimation);
+                    getActivity().finish();
+                } else {
+                    new Global().afmNotAllowed(getActivity());
+                }
+
             }
         });
 
         vps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), HomeActivity.class);
-                intent.putExtra("ecode", Global.ecode);
-                intent.putExtra("date", Global.date);
-                intent.putExtra("dbprefix", Global.dbprefix);
-                intent.putExtra("openfrag", "visitplansum");
-                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
-                startActivity(intent, bndlanimation);
-                getActivity().finish();
+                if (Global.emplevel.equalsIgnoreCase("1")) {
+                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                    intent.putExtra("ecode", Global.ecode);
+                    intent.putExtra("date", Global.date);
+                    intent.putExtra("dbprefix", Global.dbprefix);
+                    intent.putExtra("openfrag", "visitplansum");
+                    Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
+                    startActivity(intent, bndlanimation);
+                    getActivity().finish();
+                } else {
+                    new Global().afmNotAllowed(getActivity());
+                }
+
             }
         });
 
@@ -250,17 +291,21 @@ public class Options extends Fragment {
                 });
                 AlertDialog dialog2 = builder.create();
                 dialog2.show();*/
-                if (empacc.contains(Global.ecode)) {
-                    Intent intent = new Intent(getActivity(), HomeActivity.class);
-                    intent.putExtra("ecode", Global.ecode);
-                    intent.putExtra("date", Global.date);
-                    intent.putExtra("dbprefix", Global.dbprefix);
-                    intent.putExtra("openfrag", "mtp");
-                    Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
-                    startActivity(intent, bndlanimation);
-                    getActivity().finish();
+                if (Global.emplevel.equalsIgnoreCase("1")) {
+                    if (empacc.contains(Global.ecode)) {
+                        Intent intent = new Intent(getActivity(), HomeActivity.class);
+                        intent.putExtra("ecode", Global.ecode);
+                        intent.putExtra("date", Global.date);
+                        intent.putExtra("dbprefix", Global.dbprefix);
+                        intent.putExtra("openfrag", "mtp");
+                        Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
+                        startActivity(intent, bndlanimation);
+                        getActivity().finish();
+                    } else {
+                        new Global().notAllowed(getActivity());
+                    }
                 } else {
-                    new Global().notAllowed(getActivity());
+                    new Global().afmNotAllowed(getActivity());
                 }
             }
         });
@@ -318,7 +363,10 @@ public class Options extends Fragment {
                 AlertDialog dialog2 = builder.create();
                 dialog2.show();*/
             }
-            getMissCalls();
+            if (Global.emplevel.equalsIgnoreCase("1")) {
+                getMissCalls();
+            }
+
         }
 
         /*String valid_until = "19";

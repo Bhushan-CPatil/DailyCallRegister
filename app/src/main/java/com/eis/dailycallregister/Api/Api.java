@@ -54,7 +54,7 @@ public interface Api {
 
     //to login
     @FormUrlEncoded
-    @POST("userloginnew.php")
+    @POST("userloginupdated.php")
     Call<DefaultResponse> login(
             @Field("ecode") String ecode,
             @Field("password") String password,

@@ -38,7 +38,9 @@
         android:autoSizeMaxTextSize="18sp"
         android:autoSizeStepGranularity="1sp"
         android:id="@+id/dcr"
-        android:layout_margin="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
         app:cornerRadius="8dp"
         android:textColor="@color/textcolorwhite"
         app:rippleColor="@color/colorPrimaryDark"/>
@@ -55,7 +57,7 @@
         android:id="@+id/uploadcard"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
         app:cornerRadius="8dp"
         android:textColor="@color/textcolorwhite"
         app:rippleColor="@color/colorPrimaryDark"/>
@@ -92,7 +94,7 @@
         android:id="@+id/mtp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
         app:cornerRadius="8dp"
         android:textColor="@color/textcolorwhite"
         app:rippleColor="@color/colorPrimary"/>
@@ -108,7 +110,7 @@
         android:id="@+id/vps"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
         app:cornerRadius="8dp"
         android:textColor="@color/textcolorwhite"
         app:rippleColor="@color/colorPrimary"/>
@@ -124,7 +126,7 @@
         android:id="@+id/elearn"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
         app:cornerRadius="8dp"
         android:textColor="@color/textcolorwhite"
         app:rippleColor="@color/colorPrimary"/>

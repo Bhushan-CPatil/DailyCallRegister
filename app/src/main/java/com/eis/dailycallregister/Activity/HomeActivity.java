@@ -192,27 +192,41 @@ public class HomeActivity extends AppCompatActivity
                 fragment = new Options();
                 break;
             case R.id.nav_dcr:
-
-                //new Global().notAllowed(HomeActivity.this);
-                if (empacc.contains(Global.ecode)) {
-                    fragment = new DCREntry();
+                if (Global.emplevel.equalsIgnoreCase("1")) {
+                    if(empacc.contains(Global.ecode)) {
+                        fragment = new DCREntry();
+                    }else{
+                        new Global().notAllowed(HomeActivity.this);
+                    }
                 } else {
-                    new Global().notAllowed(HomeActivity.this);
+                    new Global().afmNotAllowed(HomeActivity.this);
                 }
                 break;
             case R.id.nav_file_upload:
-                fragment = new UploadVisitingCard();
+                if(Global.emplevel.equalsIgnoreCase("1")) {
+                    fragment = new UploadVisitingCard();
+                }else{
+                    new Global().afmNotAllowed(HomeActivity.this);
+                }
                 break;
             case R.id.nav_mtp:
                 //new Global().notAllowed(HomeActivity.this);
-                if (empacc.contains(Global.ecode)) {
-                    fragment = new MTPConfirmation();
+                if (Global.emplevel.equalsIgnoreCase("1")) {
+                    if(empacc.contains(Global.ecode)) {
+                        fragment = new MTPConfirmation();
+                    }else{
+                        new Global().notAllowed(HomeActivity.this);
+                    }
                 } else {
-                    new Global().notAllowed(HomeActivity.this);
+                    new Global().afmNotAllowed(HomeActivity.this);
                 }
                 break;
             case R.id.nav_vps:
-                fragment = new VisitPlanDocLst();
+                if(Global.emplevel.equalsIgnoreCase("1")) {
+                    fragment = new VisitPlanDocLst();
+                }else{
+                    new Global().afmNotAllowed(HomeActivity.this);
+                }
                 break;
             case R.id.nav_eln:
                 fragment = new Elearning();

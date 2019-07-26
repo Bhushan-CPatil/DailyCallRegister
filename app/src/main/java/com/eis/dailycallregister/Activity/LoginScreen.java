@@ -283,6 +283,7 @@ public class LoginScreen extends AppCompatActivity {
                                         Global.hname = msgsplt[1];
                                         Global.ename = msgsplt[2];
                                         Global.ecode = msgsplt[3];
+                                        Global.emplevel = msgsplt[4];
                                         intent.putExtra("openfrag", "home");
                                         Bundle bndlanimation = ActivityOptions.makeCustomAnimation(LoginScreen.this, R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
                                         startActivity(intent, bndlanimation);

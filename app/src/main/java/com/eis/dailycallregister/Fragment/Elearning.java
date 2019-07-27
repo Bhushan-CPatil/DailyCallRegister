@@ -45,6 +45,8 @@ public class Elearning extends Fragment {
     List<ForthtestlstItem> forthtestlst = new ArrayList<>();
     List<TestresultlstItem> testresultlst = new ArrayList<>();
 
+    String d1d2 = "";
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -67,6 +69,19 @@ public class Elearning extends Fragment {
         testListAdapter();
         ForthTestListAdapter();
         testResultAdapter();
+        if (Global.hname.contains("(A)")) {
+            d1d2 = "A";
+        } else if (Global.hname.contains("(B)")) {
+            d1d2 = "B";
+        } else if (Global.hname.contains("(C)")) {
+            d1d2 = "C";
+        } else if (Global.hname.contains("(D)")) {
+            d1d2 = "D";
+        } else if (Global.hname.contains("(AB)")) {
+            d1d2 = "AB";
+        } else if (Global.hname.contains("(CD)")) {
+            d1d2 = "CD";
+        }
         callApi();
         return view;
     }
@@ -242,7 +257,7 @@ public class Elearning extends Fragment {
     private void callApi() {
         progressDialoge.show();
         retrofit2.Call<EleaningMainRes> call1 = RetrofitClient
-                .getInstance().getApi().getElearningData(Global.ecode, Global.dbprefix);
+                .getInstance().getApi().getElearningData(Global.ecode, d1d2, Global.dbprefix);
         call1.enqueue(new Callback<EleaningMainRes>() {
             @Override
             public void onResponse(retrofit2.Call<EleaningMainRes> call1, Response<EleaningMainRes> response) {

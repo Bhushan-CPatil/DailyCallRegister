@@ -651,6 +651,7 @@ public interface Api {
     @POST("elearning_first_api.php")
     Call<EleaningMainRes> getElearningData(
             @Field("ecode") String ecode,
+            @Field("d1d2") String d1d2,
             @Field("DBPrefix") String dbprefix
     );
 

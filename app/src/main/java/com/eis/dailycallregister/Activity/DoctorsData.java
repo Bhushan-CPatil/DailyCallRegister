@@ -819,7 +819,7 @@ public class DoctorsData extends AppCompatActivity {
                                            remarks = itemView.findViewById(R.id.remarks);
                                            deletedoc = itemView.findViewById(R.id.deletedoc);
                                            rcpa = itemView.findViewById(R.id.rcpa);
-                                           SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                           /*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                                            try {
                                                Date loggedin = sdf.parse(Global.date);
                                                Date given = sdf.parse("2019-07-31");
@@ -830,7 +830,7 @@ public class DoctorsData extends AppCompatActivity {
                                                }
                                            } catch (ParseException e) {
                                                e.printStackTrace();
-                                           }
+                                           }*/
                                        }
                                    }
                                }

@@ -60,7 +60,7 @@ public class Options extends Fragment {
     String[][] misseddr;
     View view;
     String checkmtp = "";
-    ArrayList<String> empacc = new ArrayList<>();
+    //ArrayList<String> empacc = new ArrayList<>();
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -82,7 +82,7 @@ public class Options extends Fragment {
         mTableLayout = view.findViewById(R.id.tableLayout);
         uploadcard = view.findViewById(R.id.uploadcard);
         elearn = view.findViewById(R.id.elearn);
-        empacc.clear();
+        /*empacc.clear();
         //CD
         empacc.add("02680");
         empacc.add("02684");
@@ -131,19 +131,19 @@ public class Options extends Fragment {
         empacc.add("01723");
         empacc.add("01809");
         empacc.add("02042");
-        empacc.add("02712");
+        empacc.add("02712");*/
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP){
             // Do something for lollipop and above versions
             if (Global.emplevel.equalsIgnoreCase("1")) {
-                if (empacc.contains(Global.ecode)) {
+                /*if (empacc.contains(Global.ecode)) {
 
                 }else{
-                    /*dcr.setBackgroundTintList(getActivity().getResources().getColorStateList(R.color.textcolorgray));
-                    mtp.setBackgroundTintList(getActivity().getResources().getColorStateList(R.color.textcolorgray));*/
+                    *//*dcr.setBackgroundTintList(getActivity().getResources().getColorStateList(R.color.textcolorgray));
+                    mtp.setBackgroundTintList(getActivity().getResources().getColorStateList(R.color.textcolorgray));*//*
                     dcr.setVisibility(View.GONE);
                     mtp.setVisibility(View.GONE);
-                }
+                }*/
             }else{
                 /*dcr.setBackgroundTintList(getActivity().getResources().getColorStateList(R.color.textcolorgray));
                 mtp.setBackgroundTintList(getActivity().getResources().getColorStateList(R.color.textcolorgray));
@@ -158,14 +158,14 @@ public class Options extends Fragment {
         } else{
             // do something for phones running an SDK before lollipop
             if (Global.emplevel.equalsIgnoreCase("1")) {
-                if (empacc.contains(Global.ecode)) {
+                /*if (empacc.contains(Global.ecode)) {
 
                 }else{
-                    /*dcr.setRippleColor(getActivity().getResources().getColorStateList(R.color.textcolorgray));
-                    mtp.setRippleColor(getActivity().getResources().getColorStateList(R.color.textcolorgray));*/
+                    *//*dcr.setRippleColor(getActivity().getResources().getColorStateList(R.color.textcolorgray));
+                    mtp.setRippleColor(getActivity().getResources().getColorStateList(R.color.textcolorgray));*//*
                     dcr.setVisibility(View.GONE);
                     mtp.setVisibility(View.GONE);
-                }
+                }*/
             }else{
                 /*dcr.setRippleColor(getActivity().getResources().getColorStateList(R.color.textcolorgray));
                 mtp.setRippleColor(getActivity().getResources().getColorStateList(R.color.textcolorgray));
@@ -183,7 +183,7 @@ public class Options extends Fragment {
             public void onClick(View v) {
                 //new Global().notAllowed(getActivity());
                 if (Global.emplevel.equalsIgnoreCase("1")) {
-                    if(empacc.contains(Global.ecode)) {
+                    //if(empacc.contains(Global.ecode)) {
                         Intent intent = new Intent(getActivity(), HomeActivity.class);
                         intent.putExtra("ecode", Global.ecode);
                         intent.putExtra("date", Global.date);
@@ -192,9 +192,9 @@ public class Options extends Fragment {
                         Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
                         startActivity(intent, bndlanimation);
                         getActivity().finish();
-                    }else{
+                    /*}else{
                         new Global().notAllowed(getActivity());
-                    }
+                    }*/
                 } else {
                     new Global().afmNotAllowed(getActivity());
                 }
@@ -292,7 +292,7 @@ public class Options extends Fragment {
                 AlertDialog dialog2 = builder.create();
                 dialog2.show();*/
                 if (Global.emplevel.equalsIgnoreCase("1")) {
-                    if (empacc.contains(Global.ecode)) {
+                    //if (empacc.contains(Global.ecode)) {
                         Intent intent = new Intent(getActivity(), HomeActivity.class);
                         intent.putExtra("ecode", Global.ecode);
                         intent.putExtra("date", Global.date);
@@ -301,9 +301,9 @@ public class Options extends Fragment {
                         Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getActivity(), R.anim.trans_left_in, R.anim.trans_left_out).toBundle();
                         startActivity(intent, bndlanimation);
                         getActivity().finish();
-                    } else {
+                    /*} else {
                         new Global().notAllowed(getActivity());
-                    }
+                    }*/
                 } else {
                     new Global().afmNotAllowed(getActivity());
                 }
@@ -398,7 +398,7 @@ public class Options extends Fragment {
                 MissCallDocsRes res = response.body();
                 Global.misscallpopup = 1;
                 // && (Global.ecode.equalsIgnoreCase("01349") || Global.ecode.equalsIgnoreCase("01511") || Global.ecode.equalsIgnoreCase("01723") || Global.ecode.equalsIgnoreCase("01809") || Global.ecode.equalsIgnoreCase("02042") || Global.ecode.equalsIgnoreCase("02712"))
-                if (res.isMtpflg() && (empacc.contains(Global.ecode))) {
+                if (res.isMtpflg()) {// && (empacc.contains(Global.ecode)
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setCancelable(true);
                     builder.setMessage("Next month MTP is ready to view.");

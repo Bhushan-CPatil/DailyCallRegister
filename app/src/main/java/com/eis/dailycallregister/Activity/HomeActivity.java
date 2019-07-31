@@ -35,7 +35,7 @@ public class HomeActivity extends AppCompatActivity
 
     TextView ename, hqname, wdate;
     String whichmth = "";
-    ArrayList<String> empacc = new ArrayList<>();
+    //ArrayList<String> empacc = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,7 @@ public class HomeActivity extends AppCompatActivity
         ename.setText(Global.ename);
         hqname.setText("HQ : " + Global.hname);
         wdate.setText("WRK DATE : " + Global.date);
-        empacc.clear();
+        /*empacc.clear();
         //CD
         empacc.add("02680");
         empacc.add("02684");
@@ -110,7 +110,7 @@ public class HomeActivity extends AppCompatActivity
         empacc.add("01723");
         empacc.add("01809");
         empacc.add("02042");
-        empacc.add("02712");
+        empacc.add("02712");*/
 
         //NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -193,11 +193,11 @@ public class HomeActivity extends AppCompatActivity
                 break;
             case R.id.nav_dcr:
                 if (Global.emplevel.equalsIgnoreCase("1")) {
-                    if(empacc.contains(Global.ecode)) {
+                    //if(empacc.contains(Global.ecode)) {
                         fragment = new DCREntry();
-                    }else{
+                    /*}else{
                         new Global().notAllowed(HomeActivity.this);
-                    }
+                    }*/
                 } else {
                     new Global().afmNotAllowed(HomeActivity.this);
                 }
@@ -212,11 +212,11 @@ public class HomeActivity extends AppCompatActivity
             case R.id.nav_mtp:
                 //new Global().notAllowed(HomeActivity.this);
                 if (Global.emplevel.equalsIgnoreCase("1")) {
-                    if(empacc.contains(Global.ecode)) {
+                    //if(empacc.contains(Global.ecode)) {
                         fragment = new MTPConfirmation();
-                    }else{
+                    /*}else{
                         new Global().notAllowed(HomeActivity.this);
-                    }
+                    }*/
                 } else {
                     new Global().afmNotAllowed(HomeActivity.this);
                 }

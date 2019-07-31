@@ -135,7 +135,7 @@ public class Options extends Fragment {
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP){
             // Do something for lollipop and above versions
-            if (Global.emplevel.equalsIgnoreCase("1")) {
+            if (!Global.emplevel.equalsIgnoreCase("1")) {
                 /*if (empacc.contains(Global.ecode)) {
 
                 }else{
@@ -143,8 +143,8 @@ public class Options extends Fragment {
                     mtp.setBackgroundTintList(getActivity().getResources().getColorStateList(R.color.textcolorgray));*//*
                     dcr.setVisibility(View.GONE);
                     mtp.setVisibility(View.GONE);
-                }*/
-            }else{
+                }
+            }else{*/
                 /*dcr.setBackgroundTintList(getActivity().getResources().getColorStateList(R.color.textcolorgray));
                 mtp.setBackgroundTintList(getActivity().getResources().getColorStateList(R.color.textcolorgray));
                 uploadcard.setBackgroundTintList(getActivity().getResources().getColorStateList(R.color.textcolorgray));
@@ -157,7 +157,7 @@ public class Options extends Fragment {
 
         } else{
             // do something for phones running an SDK before lollipop
-            if (Global.emplevel.equalsIgnoreCase("1")) {
+            if (!Global.emplevel.equalsIgnoreCase("1")) {
                 /*if (empacc.contains(Global.ecode)) {
 
                 }else{
@@ -165,8 +165,8 @@ public class Options extends Fragment {
                     mtp.setRippleColor(getActivity().getResources().getColorStateList(R.color.textcolorgray));*//*
                     dcr.setVisibility(View.GONE);
                     mtp.setVisibility(View.GONE);
-                }*/
-            }else{
+                }
+            }else{*/
                 /*dcr.setRippleColor(getActivity().getResources().getColorStateList(R.color.textcolorgray));
                 mtp.setRippleColor(getActivity().getResources().getColorStateList(R.color.textcolorgray));
                 uploadcard.setRippleColor(getActivity().getResources().getColorStateList(R.color.textcolorgray));

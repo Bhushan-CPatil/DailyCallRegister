@@ -703,7 +703,18 @@ public class DCREntry extends Fragment {
                                         return holder;
                                     }
 
-                                    @Override
+            @Override
+            public long getItemId(int position) {
+                return position;
+            }
+
+            @Override
+            public int getItemViewType(int position) {
+                return position;
+            }
+
+
+            @Override
                                     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
                                         final Holder rowViewHolder = (Holder) viewHolder;
                 /*int rowPos = rowViewHolder.getAdapterPosition();
@@ -838,7 +849,7 @@ public class DCREntry extends Fragment {
 
                                                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(context.INPUT_METHOD_SERVICE);
                                                     imm.hideSoftInputFromWindow(sv.getWindowToken(), 0);
-                                                    recyclerView.getAdapter().notifyDataSetChanged();
+                                                    //recyclerView.getAdapter().notifyDataSetChanged();
                                                 }
                                             }
                                         });
@@ -913,7 +924,7 @@ public class DCREntry extends Fragment {
                                                                 }
                                                             }, mYear, mMonth, mDay);
                                                     datePickerDialog.show();
-                                                    recyclerView.getAdapter().notifyDataSetChanged();
+                                                    //recyclerView.getAdapter().notifyDataSetChanged();
                                                 }
                                             }
                                         });
